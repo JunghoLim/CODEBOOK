@@ -1,6 +1,6 @@
 package com.codebook.service;
 
-import com.codebook.dto.Member;
+import com.codebook.domain.MemberDTO;
 import com.codebook.mapper.MemberMapper;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +16,10 @@ public class MemberService {
     }
 
     public void signUp(Map<String, String> param){
-        Member member = new Member();
-        member.setEmail(param.get("email"));
-        member.setName(param.get("name"));
-        member.setPassword(param.get("password"));
-        memberMapper.memberSignUp(member);
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setEmail(param.get("email"));
+        memberDTO.setName(param.get("name"));
+        memberDTO.setPassword(param.get("password"));
+        memberMapper.memberSignUp(memberDTO);
     }
 }
