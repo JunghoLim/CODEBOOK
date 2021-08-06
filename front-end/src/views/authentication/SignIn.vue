@@ -8,13 +8,13 @@
               로그인
             </div>
             <validation-observer
-              v-slot="{invalid}"
+              v-slot="{ invalid }"
               ref="observer"
             >
               <v-form @submit.prevent="signIn">
                 <validation-provider
                   v-slot="{ errors }"
-                  :rules="{ email: 30, required:true }"
+                  :rules="{ email: 30, required: true }"
                   name="Email"
                 >
                   <v-text-field
@@ -29,7 +29,7 @@
 
                 <validation-provider
                   v-slot="{ errors }"
-                  :rules="{ required:true, password }"
+                  :rules="{ required: true, password }"
                   name="Email"
                 >
                   <v-text-field
@@ -87,7 +87,17 @@ export default {
     signIn() {
       this.$refs.observer.validate().then(result => {
         if (result) {
-          alert("로그직 로직");
+          axios
+            .post("http://localhost:3000/sign-in", {
+              email: this.email,
+              password: this.password
+            })
+            .then(res => {
+              console.log(res.data.email);
+            })
+            .catch(err => {
+              console.log(err);
+            });
         }
       });
     }
