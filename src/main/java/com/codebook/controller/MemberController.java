@@ -1,15 +1,13 @@
 package com.codebook.controller;
 
 import com.codebook.service.MemberService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @RestController
 @CrossOrigin("http://localhost:8090")
+@RequestMapping("/api")
 public class MemberController {
 
     private final MemberService memberService;
@@ -18,7 +16,7 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @PostMapping("/api/member/new")
+    @PostMapping("/member/new")
     public void memberSignUp(@RequestParam Map<String, String> param){
         memberService.signUp(param);
     }
