@@ -33,7 +33,7 @@ export default {
     items: ["자유", "테크", "?"]
   }),
   computed: {
-    ...mapState("board", ["headers", "desserts"]),
+    ...mapState("board", ["headers", "boardData"]),
     headers: {
       get() {
         return this.$store.getters["board/getHeaders"];
