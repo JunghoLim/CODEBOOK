@@ -7,6 +7,7 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin("http://localhost:8090")
+@RequestMapping("/api")
 public class MemberController {
 
     private final MemberService memberService;
@@ -15,7 +16,7 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @PostMapping("/api/member/new")
+    @PostMapping("/member/new")
     public void memberSignUp(@RequestParam Map<String, String> param){
         memberService.signUp(param);
     }

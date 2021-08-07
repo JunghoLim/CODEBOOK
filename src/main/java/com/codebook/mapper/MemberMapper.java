@@ -8,5 +8,4 @@ import org.apache.ibatis.annotations.Param;
 public interface MemberMapper {
 
     void memberSignUp(@Param("member") Member member);
-    int login(String email,String password);
 }

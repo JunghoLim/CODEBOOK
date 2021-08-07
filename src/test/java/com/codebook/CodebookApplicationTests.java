@@ -1,6 +1,6 @@
 package com.codebook;
 
-import com.codebook.dto.Member;
+import com.codebook.domain.MemberDTO;
 import com.codebook.mapper.MemberMapper;
 import com.codebook.service.MemberService;
 import org.junit.jupiter.api.Test;
@@ -26,11 +26,11 @@ class CodebookApplicationTests {
 
 /*    @Test
     void memberInsertTest(){
-        Member member = new Member();
-        member.setEmail("asd@asd.com");
-        member.setName("jungho");
-        member.setPassword("12345");
-        membermapper.memberSignUp(member);
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setEmail("asd@asd.com");
+        memberDTO.setName("jungho");
+        memberDTO.setPassword("12345");
+        membermapper.memberSignUp(memberDTO);
     }
 
     @Test
