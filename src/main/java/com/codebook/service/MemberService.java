@@ -22,4 +22,11 @@ public class MemberService {
         member.setPassword(param.get("password"));
         memberMapper.memberSignUp(member);
     }
+    public int login(Map<String,String> param){
+        if(memberMapper.login(param.get("email"),param.get("password"))==1){
+
+            return 1;
+        }
+        return 0;
+    }
 }

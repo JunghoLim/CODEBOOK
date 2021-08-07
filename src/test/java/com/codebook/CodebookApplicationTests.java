@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @SpringBootTest
 class CodebookApplicationTests {
 
@@ -23,7 +24,7 @@ class CodebookApplicationTests {
     void contextLoads() {
     }
 
-    @Test
+/*    @Test
     void memberInsertTest(){
         Member member = new Member();
         member.setEmail("asd@asd.com");
@@ -39,6 +40,13 @@ class CodebookApplicationTests {
         testJson.put("name", "jungho");
         testJson.put("password", "1234");
         memberService.signUp(testJson);
+    }*/
+    @Test
+    void loginTest(){
+        Map<String,String> param = new HashMap<>();
+        param.put("email","a@naver.com");
+        param.put("password","1234");
+        memberService.login(param);
     }
 
 }

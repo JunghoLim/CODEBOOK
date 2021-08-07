@@ -11,7 +11,9 @@
               v-slot="{ invalid }"
               ref="observer"
             >
-              <v-form @submit.prevent="signIn">
+              <v-form
+                @submit.prevent="signIn({ email: email, password: password })"
+              >
                 <validation-provider
                   v-slot="{ errors }"
                   :rules="{ email: 30, required: true }"
@@ -77,6 +79,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "SignIn",
   data: () => ({
@@ -84,22 +88,9 @@ export default {
     password: null
   }),
   methods: {
-    signIn() {
-      this.$refs.observer.validate().then(result => {
-        if (result) {
-          axios
-            .post("http://localhost:3000/sign-in", {
-              email: this.email,
-              password: this.password
-            })
-            .then(res => {
-              console.log(res.data.email);
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        }
-      });
+    signIn(data) {
+      this.$store.dispatch("app/signIn", data);
+      this.$router.push("/");
     }
   }
 };

@@ -29,9 +29,7 @@
 import { mapState } from "vuex";
 export default {
   name: "BoardList",
-  data: () => ({
-    items: ["자유", "테크", "?"]
-  }),
+
   computed: {
     ...mapState("board", ["headers", "boardData"]),
     headers: {

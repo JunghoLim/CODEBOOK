@@ -3,6 +3,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codebook.mapper.MemberMapper">
     <insert id="memberSignUp">
-        INSERT INTO MEMBER VALUES(#{member.email}, #{member.name}, #{member.password})
+        INSERT INTTO MEMBER VALUES(#{member.email}, #{member.name}, #{member.password})
     </insert>
+    <select id="login" resultType="int">
+        SELECT COUNT(*) FROM MEMBER WHERE EMAIL = #{email} AND PASSWORD = #{password}
+    </select>
 </mapper>
