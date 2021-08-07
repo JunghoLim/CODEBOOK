@@ -31,8 +31,8 @@
 
                 <validation-provider
                   v-slot="{ errors }"
-                  :rules="{ required: true, password }"
-                  name="Email"
+                  :rules="{ required: true }"
+                  name="Password"
                 >
                   <v-text-field
                     v-model="password"
@@ -90,7 +90,6 @@ export default {
   methods: {
     signIn(data) {
       this.$store.dispatch("app/signIn", data);
-      this.$router.push("/");
     }
   }
 };
