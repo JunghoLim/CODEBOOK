@@ -64,14 +64,17 @@ const actions = {
         //성공하면 토큰이 서버에서 나오는 부분
         //토큰을 헤더에 저장시켜서 유저 정보 요청
         // axios
-        //   .get("http://localhost:3000/api/member/userinfo", config)
-        //   .then(response => {})
-        //   .catch(error => {});
+        // .get("http://localhost:3000/api/member/userinfo", config)
+        // .then(response => {})
+        // .catch(error => {});
+        this.$router.push("/");
+        //틀리면
       })
       .catch(err => {
         console.log(err);
       });
     //로그인 토큰 받는 방법
+    commit;
   }
 };
 export default {

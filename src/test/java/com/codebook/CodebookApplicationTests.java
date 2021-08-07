@@ -24,7 +24,7 @@ class CodebookApplicationTests {
     void contextLoads() {
     }
 
-/*    @Test
+    @Test
     void memberInsertTest(){
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setEmail("asd@asd.com");
@@ -40,13 +40,6 @@ class CodebookApplicationTests {
         testJson.put("name", "jungho");
         testJson.put("password", "1234");
         memberService.signUp(testJson);
-    }*/
-    @Test
-    void loginTest(){
-        Map<String,String> param = new HashMap<>();
-        param.put("email","a@naver.com");
-        param.put("password","1234");
-        memberService.login(param);
     }
 
 }

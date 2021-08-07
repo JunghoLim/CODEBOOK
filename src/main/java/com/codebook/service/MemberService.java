@@ -22,11 +22,5 @@ public class MemberService {
         memberDTO.setPassword(param.get("password"));
         memberMapper.memberSignUp(memberDTO);
     }
-    public int login(Map<String,String> param){
-        if(memberMapper.login(param.get("email"),param.get("password"))==1){
-
-            return 1;
-        }
-        return 0;
-    }
+    
 }
