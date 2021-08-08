@@ -5,4 +5,12 @@
     <insert id="memberSignUp">
         INSERT INTO MEMBER VALUES(#{memberDTO.email}, #{memberDTO.name}, #{memberDTO.password})
     </insert>
+
+    <select id="duplicateCheck" resultType="int" parameterType="string">
+        SELECT COUNT(*) FROM MEMBER WHERE EMAIL = #{ email }
+    </select>
+
+    <select id="findMemberByEmail" resultType="com.codebook.domain.MemberDTO">
+        SELECT * FROM MEMBER WHERE EMAIL = #{ email }
+    </select>
 </mapper>
