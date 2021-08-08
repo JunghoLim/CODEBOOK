@@ -42,4 +42,10 @@ class CodebookApplicationTests {
         memberService.signUp(testJson);
     }
 
+    @Test
+    void findMemberByEmailTest(){
+        MemberDTO member = membermapper.findMemberByEmail("asd@asd.com");
+        System.out.println(member.getEmail());
+    }
+
 }
