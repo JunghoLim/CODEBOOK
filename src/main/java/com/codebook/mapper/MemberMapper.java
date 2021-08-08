@@ -8,4 +8,6 @@ import org.apache.ibatis.annotations.Param;
 public interface MemberMapper {
 
     void memberSignUp(@Param("member") MemberDTO memberDTO);
+    int duplicateCheck(String email);
+    MemberDTO findMemberByEmail(String email);
 }
