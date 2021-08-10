@@ -31,7 +31,7 @@ public class MemberController {
 
     //로그인
     @GetMapping( "/member")
-    public Map<String,String> memberLogin(@RequestBody Map<String,String> param){
+    public Map<String,String> memberLogin(@RequestParam Map<String,String> param){
         return param;
     }
 
