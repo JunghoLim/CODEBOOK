@@ -27,18 +27,22 @@ class CodebookApplicationTests {
     @Test
     void memberInsertTest(){
         MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setEmail("asd@asd.com");
+        String testEmail = ((int)(Math.random()*10000)+1) + "@testemail.com";
+        memberDTO.setEmail(testEmail);
         memberDTO.setName("jungho");
         memberDTO.setPassword("12345");
+        memberDTO.setNickname("test");
         membermapper.memberSignUp(memberDTO);
     }
 
     @Test
     void serviceMemberSignUpTest(){
         Map<String, String> testJson = new HashMap<>();
-        testJson.put("email", "zxc@zxc.com");
+        String testEmail = ((int)(Math.random()*10000)+1) + "@testemail.com";
+        testJson.put("email", testEmail);
         testJson.put("name", "jungho");
         testJson.put("password", "1234");
+        testJson.put("nickname", "test");
         memberService.signUp(testJson);
     }
 
