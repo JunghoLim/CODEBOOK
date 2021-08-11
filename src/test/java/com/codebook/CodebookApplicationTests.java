@@ -1,5 +1,6 @@
 package com.codebook;
 
+import com.codebook.controller.BoardController;
 import com.codebook.domain.MemberDTO;
 import com.codebook.mapper.BoardMapper;
 import com.codebook.mapper.MemberMapper;
@@ -28,6 +29,9 @@ class CodebookApplicationTests {
 
     @Autowired
     private BoardService boardService;
+
+    @Autowired
+    private BoardController boardController;
 
     @Test
     void contextLoads() {
@@ -65,4 +69,5 @@ class CodebookApplicationTests {
     void 보드서비스리스트테스트(){
         System.out.println(boardService.board_list());
     }
+
 }

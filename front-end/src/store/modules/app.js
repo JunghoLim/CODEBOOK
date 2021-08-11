@@ -26,7 +26,7 @@ const state = {
         {
           title: "공지",
           icon: "",
-          to: "/login"
+          to: "/board-list"
         },
         {
           title: "일상",

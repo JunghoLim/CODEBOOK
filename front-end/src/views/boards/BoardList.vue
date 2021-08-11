@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "BoardList",
 
@@ -37,8 +37,10 @@ export default {
         return this.$store.getters["board/getHeaders"];
       }
     },
+
     boardData: {
       get() {
+        this.$store.dispatch("board/changeBoardData");
         return this.$store.getters["board/getBoardData"];
       }
     }
