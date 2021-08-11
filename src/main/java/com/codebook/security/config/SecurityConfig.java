@@ -2,7 +2,7 @@ package com.codebook.security.config;
 
 import com.codebook.security.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -18,37 +18,63 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsServiceImpl userDetailsService;
+    @Value("${jwt.header-name}")
+    private final String HEADER_NAME;
 
+    private static final String[] ANONYMOUS = new String[]{
+            "/api/member/new","/api/member"
+    };
     private static final String[] PUBLIC = new String[]{
             "/resources/**","/api/member/duplicate","/api/test"
     };
-
     private static final String[] ADMIN = new String[]{
             "/admin/**"
     };
 
-    private static final String[] ANONYMOUS = new String[]{
-            "/api/member/new","/api/1member"
-    };
+    private final UserDetailsServiceImpl userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        /*
+        * [환경 설정]
+        * cors 필터 활성화
+        * csrf 보안 비활성화 (개발 편의성을 위해)
+        * session 생성과 사용을 사용하지 않음
+        * */
         http
-                .cors()                      //cors 필터 활성화
+                .cors()
                 .and()
                 .csrf()
-                .disable()                   //csrf 사용하지 않음
+                .disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()                       //REST API 구현을 위해 session을 disable
-                .authorizeRequests()
-                .antMatchers(ANONYMOUS).anonymous()              //해당 요청 user와 admin을 제외한 anonymous에게만 허용
-                .antMatchers(PUBLIC).permitAll()                 //해당 요청 권한 전체 해제
-                .antMatchers(ADMIN).hasRole("ADMIN")        //해당 요청 admin에게만 권한 부여
-                .anyRequest().authenticated()                  //이외의 모든 요청 spring security context 내 인증 필수
                 .and()
-                .httpBasic();
+                .formLogin()
+                .disable();
 
+        /*
+        * [요청에 대한 권한 설정]
+        * */
+        http
+                .authorizeRequests()
+                .antMatchers(ANONYMOUS).anonymous()
+                .antMatchers(PUBLIC).permitAll()
+                .antMatchers(ADMIN).hasRole("ADMIN")
+                .anyRequest().authenticated();
+
+        /*
+        * [로그아웃 설정]
+        * 인증 정보 삭제, 세션 무효화
+        * */
+        http
+                .logout().logoutUrl("/logout").permitAll()
+                .deleteCookies("JSESSIONID")
+                .deleteCookies(HEADER_NAME)
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true);
+
+        /*
+        * [인증 관련 설정]
+        * */
     }
 
     @Override
