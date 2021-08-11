@@ -1,11 +1,12 @@
 package com.codebook.domain;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter @Setter
 public class MemberDTO {
     private String email;
     private String password;
     private String name;
-    private String nickName;
+    private String nickname;
 }
