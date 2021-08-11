@@ -19,13 +19,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${jwt.header-name}")
-    private final String HEADER_NAME;
+    private String HEADER_NAME;
 
     private static final String[] ANONYMOUS = new String[]{
             "/api/member/new","/api/member"
     };
     private static final String[] PUBLIC = new String[]{
-            "/resources/**","/api/member/duplicate","/api/test"
+            "/resources/**","/api/member/duplicate","/api/test","/logout"
     };
     private static final String[] ADMIN = new String[]{
             "/admin/**"
@@ -66,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         * 인증 정보 삭제, 세션 무효화
         * */
         http
-                .logout().logoutUrl("/logout").permitAll()
+                .logout().logoutUrl("/logout")
                 .deleteCookies("JSESSIONID")
                 .deleteCookies(HEADER_NAME)
                 .logoutSuccessUrl("/")
