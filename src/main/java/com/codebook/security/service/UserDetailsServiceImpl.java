@@ -18,6 +18,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         MemberDTO member = memberMapper.findMemberByEmail(email);
+
+        if (member == null) {
+            throw new UsernameNotFoundException("ID : '" + email + "' not found");
+        }
+
         return new UserDetailsImpl(member);
     }
 

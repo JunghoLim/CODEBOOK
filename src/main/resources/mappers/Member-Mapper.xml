@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codebook.mapper.MemberMapper">
     <insert id="memberSignUp">
-        INSERT INTO MEMBER VALUES(#{memberDTO.email}, #{memberDTO.name}, #{memberDTO.password})
+        INSERT INTO MEMBER VALUES(#{email}, #{name}, #{password}, #{nickname})
     </insert>
 
     <select id="duplicateCheck" resultType="int" parameterType="string">

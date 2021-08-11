@@ -1,17 +1,21 @@
 package com.codebook.security.user;
 
 import com.codebook.domain.MemberDTO;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Data
-public class UserDetailsImpl implements UserDetails {
+@Setter
+public class UserDetailsImpl implements Serializable,UserDetails {
+
+    private static final long serialVersionUID = 521395021292444263L;
 
     private String username;
     private String password;
@@ -30,12 +34,12 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.getPassword();
+        return this.username;
     }
 
     @Override
     public String getUsername() {
-        return this.getUsername();
+        return this.password;
     }
 
     @Override

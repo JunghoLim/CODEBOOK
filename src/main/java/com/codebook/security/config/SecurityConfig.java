@@ -21,7 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsServiceImpl userDetailsService;
 
     private static final String[] PUBLIC = new String[]{
-            "/resources/**","/api/member/duplicate","/api/test","/board"
+            "/resources/**","/api/member/duplicate","/api/test"
     };
 
     private static final String[] ADMIN = new String[]{

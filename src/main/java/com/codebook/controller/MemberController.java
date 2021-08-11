@@ -2,8 +2,6 @@ package com.codebook.controller;
 
 import com.codebook.service.MemberService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
