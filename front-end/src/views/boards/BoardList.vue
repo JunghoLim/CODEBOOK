@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "BoardList",
 
@@ -37,13 +37,20 @@ export default {
         return this.$store.getters["board/getHeaders"];
       }
     },
-
     boardData: {
       get() {
-        this.$store.dispatch("board/changeBoardData");
         return this.$store.getters["board/getBoardData"];
       }
     }
+  },
+  created: function() {
+    axios
+      .get("http://localhost:3000/board")
+      .then(res => {
+        var result = res.data.board_list;
+        this.$store.dispatch("board/changeBoardData", result);
+      })
+      .catch(err => {});
   }
 };
 </script>
