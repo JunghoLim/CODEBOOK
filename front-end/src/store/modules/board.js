@@ -23,22 +23,14 @@ const getters = {
   getBoardData: state => state.boardData
 };
 const mutations = {
-  setBoardData: function(result) {
+  setBoardData: function(state, result) {
+    state.boardData = result;
     console.log(result);
-
-    // state.boardData = result;
   }
 };
 const actions = {
-  changeBoardData({ commit }) {
-    axios
-      .get("http://localhost:3000/board")
-      .then(res => {
-        var result = res.data.board_list;
-        console.log(result);
-        commit("setBoardData", result);
-      })
-      .catch(err => {});
+  changeBoardData({ commit }, result) {
+    commit("setBoardData", result);
   }
 };
 
