@@ -8,13 +8,9 @@ import java.util.List;
 
 @Service
 public class BoardService {
-
     private final BoardMapper boardMapper;
 
-    public BoardService(BoardMapper boardMapper){
-        this.boardMapper = boardMapper;
-    }
-
+    public BoardService(BoardMapper boardMapper){this.boardMapper = boardMapper;}
     public List<BoardDTO> board_list(){return boardMapper.board_list();}
-
+    public BoardDTO board_detail(int bno){return boardMapper.board_detail(bno);}
 }

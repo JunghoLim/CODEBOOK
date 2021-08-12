@@ -13,5 +13,4 @@ public class BoardDTO {
     private int recommend;//추천수
     private int comment_c;//댓글 수를 comment_count하면 길어서 c로 줄였습니다.
     private int report_c;
-
 }

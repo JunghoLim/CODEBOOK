@@ -10,4 +10,5 @@ import java.util.List;
 @Mapper
 public interface BoardMapper {
     List<BoardDTO> board_list();
+    BoardDTO board_detail(int bno);
 }

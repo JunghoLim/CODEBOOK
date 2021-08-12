@@ -73,5 +73,9 @@ class CodebookApplicationTests {
     void 보드서비스리스트테스트(){
         System.out.println(boardService.board_list());
     }
-
+    @Test
+    void 보드디테일테스트(){
+        int bno = 1;
+        boardService.board_detail(bno);
+    }
 }
