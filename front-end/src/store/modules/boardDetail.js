@@ -6,8 +6,7 @@ const getters = {
 };
 const mutations = {
   setBoardDetailData(state, result) {
-    console.log(result);
-    state.boardDetailData = result;
+    state.boardDetailData = result.board_detail;
   }
 };
 const actions = {

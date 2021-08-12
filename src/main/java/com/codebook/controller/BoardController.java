@@ -29,7 +29,7 @@ public class BoardController {//게시판 정보 가져오는....
     @GetMapping("/board-detail")
     public Map<String,BoardDTO> board_detail(@Param("bno")int bno){
         Map<String,BoardDTO> board_detail = new HashMap<>();
-        
+
         board_detail.put("board_detail",boardService.board_detail(bno));
 
         return board_detail;
