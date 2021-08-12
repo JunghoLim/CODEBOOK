@@ -5,7 +5,9 @@
     <select id="board_list" resultType="com.codebook.domain.BoardDTO">
         SELECT ROWNUM, A.* FROM (SELECT * FROM BOARD ORDER BY WRITE_DATE) A
     </select>
-
+<select id="board_detail" resultType="com.codebook.domain.BoardDTO">
+    SELECT * FROM BOARD WHERE BNO = #{bno}
+</select>
 
 
 </mapper>

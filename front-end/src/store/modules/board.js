@@ -25,7 +25,6 @@ const getters = {
 const mutations = {
   setBoardData: function(state, result) {
     state.boardData = result;
-    console.log(result);
   }
 };
 const actions = {
