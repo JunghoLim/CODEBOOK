@@ -20,6 +20,7 @@
         :items="boardData"
         :items-per-page="5"
         class="elevation-1"
+        @click:row="show_detail"
       />
     </v-card>
   </v-container>
@@ -51,6 +52,11 @@ export default {
         this.$store.dispatch("board/changeBoardData", result);
       })
       .catch(err => {});
+  },
+  methods: {
+    show_detail(value) {
+      this.$router.push("/board-detail?bno=" + value.bno);
+    }
   }
 };
 </script>
