@@ -19,11 +19,15 @@
                   </p>
                 </div>
                 <div>
-                  <v-row>
+                  <v-row class="text-caption">
                     <v-col cols="auto">
                       {{ boardDetailData.email }}
                     </v-col>
-                    <v-col>
+                    <v-spacer />
+                    <v-col
+                      cols="auto"
+                      style="color:#adb5bd;"
+                    >
                       {{ boardDetailData.write_date }}
                     </v-col>
                   </v-row>
