@@ -1,7 +1,13 @@
 <template>
   <v-container>
     <v-row class="text-center">
-      <v-col class="mr-5">
+      <v-col
+        cols="4"
+        sm="3"
+        offset-sm="1"
+        md="3"
+        offset-md="1"
+      >
         <v-data-table
           :headers="headers"
           :items="boardData"
@@ -9,7 +15,13 @@
           class="elevation-1 mb-10"
         />
       </v-col>
-      <v-col>
+      <v-col
+        cols="4"
+        sm="3"
+        offset-sm="1"
+        md="3"
+        offset-md="1"
+      >
         <v-data-table
           :headers="headers"
           :items="boardData"
@@ -17,7 +29,13 @@
           class="elevation-1 mb-10"
         />
       </v-col>
-      <v-col>
+      <v-col
+        cols="4"
+        sm="3"
+        offset-sm="1"
+        md="3"
+        offset-md="1"
+      >
         <v-data-table
           :headers="headers"
           :items="boardData"
@@ -26,8 +44,14 @@
         />
       </v-col>
     </v-row>
-    <v-row class="text-center">
-      <v-col class="mr-5">
+    <v-row class="text-center mt-6">
+      <v-col
+        cols="4"
+        sm="3"
+        offset-sm="1"
+        md="3"
+        offset-md="1"
+      >
         <v-data-table
           :headers="headers"
           :items="boardData"
@@ -35,7 +59,13 @@
           class="elevation-1 mb-10"
         />
       </v-col>
-      <v-col>
+      <v-col
+        cols="4"
+        sm="3"
+        offset-sm="1"
+        md="3"
+        offset-md="1"
+      >
         <v-data-table
           :headers="headers"
           :items="boardData"
@@ -43,7 +73,13 @@
           class="elevation-1 mb-10"
         />
       </v-col>
-      <v-col>
+      <v-col
+        cols="4"
+        sm="3"
+        offset-sm="1"
+        md="3"
+        offset-md="1"
+      >
         <v-data-table
           :headers="headers"
           :items="boardData"
