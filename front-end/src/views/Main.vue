@@ -1,7 +1,10 @@
 <template>
   <v-container>
-    <v-row class="text-center">
-      <v-col class="mr-5">
+    <v-row
+      no-gutters
+      class="text-center"
+    >
+      <v-col>
         <v-data-table
           :headers="headers"
           :items="boardData"
@@ -9,7 +12,7 @@
           class="elevation-1 mb-10"
         />
       </v-col>
-      <v-col>
+      <v-col class="ml-3">
         <v-data-table
           :headers="headers"
           :items="boardData"
@@ -26,7 +29,10 @@
         />
       </v-col>
     </v-row>
-    <v-row class="text-center">
+    <v-row
+      class="text-center"
+      no-gutters
+    >
       <v-col class="mr-5">
         <v-data-table
           :headers="headers"
