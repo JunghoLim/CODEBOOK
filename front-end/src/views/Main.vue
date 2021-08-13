@@ -8,35 +8,46 @@
           :items-per-page="5"
           class="elevation-1 mb-10"
         />
+      </v-col>
+      <v-col>
         <v-data-table
           :headers="headers"
           :items="boardData"
           :items-per-page="5"
           class="elevation-1 mb-10"
         />
+      </v-col>
+      <v-col>
         <v-data-table
           :headers="headers"
           :items="boardData"
           :items-per-page="5"
           class="elevation-1 mb-10"
         />
-
+      </v-col>
+    </v-row>
+    <v-row class="text-center">
+      <v-col class="mr-5">
         <v-data-table
           :headers="headers"
           :items="boardData"
           :items-per-page="5"
           class="elevation-1 mb-10"
         />
+      </v-col>
+      <v-col>
         <v-data-table
           :headers="headers"
           :items="boardData"
           :items-per-page="5"
           class="elevation-1 mb-10"
         />
+      </v-col>
+      <v-col>
         <v-data-table
           :headers="headers"
           :items="boardData"
-          hide-default-footer
+          :items-per-page="5"
           class="elevation-1 mb-10"
         />
       </v-col>
