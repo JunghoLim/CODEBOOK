@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Getter @Setter
+@Setter
 public class UserDetailsImpl implements Serializable,UserDetails {
 
     private static final long serialVersionUID = 521395021292444263L;
@@ -34,12 +34,12 @@ public class UserDetailsImpl implements Serializable,UserDetails {
 
     @Override
     public String getPassword() {
-        return this.getPassword();
+        return this.username;
     }
 
     @Override
     public String getUsername() {
-        return this.getUsername();
+        return this.password;
     }
 
     @Override

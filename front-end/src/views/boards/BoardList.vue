@@ -20,13 +20,14 @@
         :items="boardData"
         :items-per-page="5"
         class="elevation-1"
+        @click:row="show_detail"
       />
     </v-card>
   </v-container>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "BoardList",
 
@@ -41,6 +42,20 @@ export default {
       get() {
         return this.$store.getters["board/getBoardData"];
       }
+    }
+  },
+  created: function() {
+    axios
+      .get("http://localhost:3000/board")
+      .then(res => {
+        var result = res.data.board_list;
+        this.$store.dispatch("board/changeBoardData", result);
+      })
+      .catch(err => {});
+  },
+  methods: {
+    show_detail(value) {
+      this.$router.push("/board-detail?bno=" + value.bno);
     }
   }
 };
