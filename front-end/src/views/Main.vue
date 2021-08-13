@@ -1,19 +1,43 @@
 <template>
   <v-container>
     <v-row class="text-center">
-      <v-col
-        v-for="count in 6"
-        :key="count"
-        cols="12"
-        sm="6"
-        md="4"
-        lg="4"
-      >
+      <v-col class="mr-5">
         <v-data-table
           :headers="headers"
-          :items="desserts"
+          :items="boardData"
           :items-per-page="5"
-          class="elevation-1"
+          class="elevation-1 mb-10"
+        />
+        <v-data-table
+          :headers="headers"
+          :items="boardData"
+          :items-per-page="5"
+          class="elevation-1 mb-10"
+        />
+        <v-data-table
+          :headers="headers"
+          :items="boardData"
+          :items-per-page="5"
+          class="elevation-1 mb-10"
+        />
+
+        <v-data-table
+          :headers="headers"
+          :items="boardData"
+          :items-per-page="5"
+          class="elevation-1 mb-10"
+        />
+        <v-data-table
+          :headers="headers"
+          :items="boardData"
+          :items-per-page="5"
+          class="elevation-1 mb-10"
+        />
+        <v-data-table
+          :headers="headers"
+          :items="boardData"
+          hide-default-footer
+          class="elevation-1 mb-10"
         />
       </v-col>
     </v-row>
@@ -21,74 +45,45 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "Main",
-  data() {
-    return {
-      headers: [
-        {
-          text: "Dessert (100g serving)",
-          align: "start",
-          sortable: false,
-          value: "name"
-        },
-        { text: "Calories", value: "calories" },
-        { text: "Fat (g)", value: "fat" },
-        { text: "Carbs (g)", value: "carbs" },
-        { text: "Protein (g)", value: "protein" },
-        { text: "Iron (%)", value: "iron" }
-      ],
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: "1%"
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: "1%"
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: "7%"
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: "8%"
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: "16%"
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: "0%"
-        }
-      ]
-    };
+  computed: {
+    ...mapState("board", ["headers", "boardData"]),
+    headers: {
+      get() {
+        return this.$store.getters["board/getHeaders"];
+      }
+    },
+    boardData: {
+      get() {
+        return this.$store.getters["board/getBoardData"];
+      }
+    },
+    width() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return 50;
+        case "sm":
+          return 100;
+        case "md":
+          return 500;
+        case "lg":
+          return 600;
+        case "xl":
+          return 800;
+      }
+      return 0;
+    }
+  },
+  created: function() {
+    axios
+      .get("http://localhost:3000/board")
+      .then(res => {
+        var result = res.data.board_list;
+        this.$store.dispatch("board/changeBoardData", result);
+      })
+      .catch(err => {});
   }
 };
 </script>

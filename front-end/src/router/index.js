@@ -59,6 +59,14 @@ const routes = [
           import(
             /*webpackChunkName : "boards-board-list-detail" */ "@/views/boards/BoardDetail"
           )
+      },
+      {
+        path: "/daily-board",
+        name: "DailyBoard",
+        component: () =>
+          import(
+            /*webpackChunkName : "boards-daliy-board" */ "@/views/boards/DailyBoard"
+          )
       }
     ]
   }

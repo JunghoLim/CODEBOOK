@@ -21,19 +21,17 @@
 
 <script>
 import DrawerListItem from "./DrawerListItem";
-import DrawerListGroup from './DrawerListGroup'
+import DrawerListGroup from "./DrawerListGroup";
 export default {
-name: "DrawerList",
+  name: "DrawerList",
   components: { DrawerListItem, DrawerListGroup },
   props: {
     items: {
       type: Array,
-      default: () => [],
-    },
-  },
-}
+      default: () => []
+    }
+  }
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

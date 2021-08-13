@@ -20,23 +20,27 @@ const state = {
       ]
     },
     {
-      title: "자유게시판",
-      icon: "mdi-account-group",
+      title: "커뮤니티",
+      icon: "mdi-google-circles-communities",
       items: [
         {
-          title: "공지",
+          title: "자유게시판",
           icon: "",
-          to: "/board-list"
+          items: [
+            {
+              title: "일상",
+              to: "/daily-board"
+            }
+          ]
         },
         {
-          title: "일상",
-          icon: "",
-          to: "/login"
-        },
-        {
-          title: "tech",
-          icon: "",
-          to: "/login"
+          title: "기술",
+          items: [
+            {
+              title: "Tips",
+              to: "/tip"
+            }
+          ]
         }
       ]
     }
