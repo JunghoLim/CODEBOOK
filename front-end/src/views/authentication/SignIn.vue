@@ -12,7 +12,7 @@
               ref="observer"
             >
               <v-form
-                @submit.prevent="signIn({ email: email, password: password })"
+                @submit.prevent="signIn({ 'email': email, 'password': password })"
               >
                 <validation-provider
                   v-slot="{ errors }"
@@ -88,8 +88,8 @@ export default {
     password: null
   }),
   methods: {
-    signIn(data) {
-      this.$store.dispatch("app/signIn", data);
+    signIn(userInfo) {
+      this.$store.dispatch("app/signIn", userInfo);
     }
   }
 };
