@@ -12,34 +12,40 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Setter
+@Setter @Getter
 public class UserDetailsImpl implements Serializable,UserDetails {
 
     private static final long serialVersionUID = 521395021292444263L;
 
     private String username;
     private String password;
+    private String role;
+    private String status;
+    private String token;
 
     public UserDetailsImpl(MemberDTO memberDTO){
         this.setUsername(memberDTO.getEmail());
         this.setPassword(memberDTO.getPassword());
+        this.setRole(memberDTO.getRole());
+        this.setStatus(memberDTO.getStatus());
+        this.setToken(memberDTO.getToken());
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+            authorities.add(new SimpleGrantedAuthority(this.getRole()));
         return authorities;
     }
 
     @Override
     public String getPassword() {
-        return this.username;
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return this.password;
+        return this.username;
     }
 
     @Override
@@ -49,7 +55,7 @@ public class UserDetailsImpl implements Serializable,UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !this.getStatus().equals(Status.BLOCKED.name());
     }
 
     @Override
@@ -59,6 +65,6 @@ public class UserDetailsImpl implements Serializable,UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return !this.getStatus().equals(Status.BLOCKED.name());
     }
 }
