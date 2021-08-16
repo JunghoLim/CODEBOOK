@@ -4,11 +4,15 @@ import com.codebook.controller.BoardController;
 import com.codebook.domain.MemberDTO;
 import com.codebook.mapper.BoardMapper;
 import com.codebook.mapper.MemberMapper;
+import com.codebook.security.user.Role;
+import com.codebook.security.user.Status;
 import com.codebook.service.BoardService;
 import com.codebook.service.MemberService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.HashMap;
@@ -33,30 +37,24 @@ class CodebookApplicationTests {
     @Autowired
     private BoardController boardController;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Test
     void contextLoads() {
     }
 
     @Test
-    void memberInsertTest(){
-        MemberDTO memberDTO = new MemberDTO();
-        String testEmail = ((int)(Math.random()*10000)+1) + "@testemail.com";
-        memberDTO.setEmail(testEmail);
-        memberDTO.setName("jungho");
-        memberDTO.setPassword("12345");
-        memberDTO.setNickname("test");
-        membermapper.memberSignUp(memberDTO);
-    }
-
-    @Test
     void serviceMemberSignUpTest(){
-        Map<String, String> testJson = new HashMap<>();
+        MemberDTO member = new MemberDTO();
         String testEmail = ((int)(Math.random()*10000)+1) + "@testemail.com";
-        testJson.put("email", testEmail);
-        testJson.put("name", "jungho");
-        testJson.put("password", "1234");
-        testJson.put("nickname", "test");
-        memberService.signUp(testJson);
+        member.setEmail(testEmail);
+        member.setPassword(passwordEncoder.encode("1234"));
+        member.setNickname("testnickname");
+        member.setRole(Role.USER.name());
+        member.setStatus(Status.NONBLOCKED.name());
+        member.setToken("");
+        memberService.signUp(member);
     }
 
     @Test
