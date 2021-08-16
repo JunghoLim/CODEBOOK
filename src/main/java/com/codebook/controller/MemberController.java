@@ -1,11 +1,11 @@
 package com.codebook.controller;
 
+import com.codebook.domain.MemberDTO;
 import com.codebook.service.MemberService;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@CrossOrigin("http://localhost:8090")
 @RequestMapping("/api")
 public class MemberController {
 
@@ -17,20 +17,14 @@ public class MemberController {
 
     //서버 컨넥팅 테스트용
     @GetMapping("/test")
-    public String connectTest(@RequestParam("req") String req){
+    public String connectTest(Map<String, Object> req){
         return "connecting success your request is" + req;
     }
 
     //회원가입
     @PostMapping("/member/new")
-    public void memberSignUp(@RequestParam Map<String, String> param){
-        memberService.signUp(param);
-    }
-
-    //로그인
-    @GetMapping( "/member")
-    public Map<String,String> memberLogin(@RequestParam Map<String,String> param){
-        return param;
+    public void memberSignUp(@RequestBody MemberDTO member){
+        memberService.signUp(member);
     }
 
     //아이디 중복 검사
@@ -39,4 +33,5 @@ public class MemberController {
         //반환값이 1이라면 중복 0이면 중복 아님.
         return memberService.duplicateCheck(email);
     }
+
 }
