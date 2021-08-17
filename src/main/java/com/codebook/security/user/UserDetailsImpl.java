@@ -22,6 +22,7 @@ public class UserDetailsImpl implements Serializable,UserDetails {
     private String role;
     private String status;
     private String token;
+    private String nickname;
 
     public UserDetailsImpl(MemberDTO memberDTO){
         this.setUsername(memberDTO.getEmail());
@@ -29,6 +30,7 @@ public class UserDetailsImpl implements Serializable,UserDetails {
         this.setRole(memberDTO.getRole());
         this.setStatus(memberDTO.getStatus());
         this.setToken(memberDTO.getToken());
+        this.setNickname(memberDTO.getNickname());
     }
 
     @Override
