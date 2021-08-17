@@ -7,7 +7,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
-public class CorsConfig {
+public class CorsConfig{
 
     /*
     * 응답 JSON 자바스크립트 처리 허용.
@@ -22,8 +22,10 @@ public class CorsConfig {
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://localhost:8090");
         config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        source.registerCorsConfiguration("/api/**", config);
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("GET");
+        source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
+
 }
