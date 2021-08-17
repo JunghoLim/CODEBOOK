@@ -4,7 +4,6 @@ import com.codebook.security.service.UserDetailsServiceImpl;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -70,7 +69,6 @@ public class JwtTokenProvider {
 
     //토큰 발급
     private String generateToken(Map<String, Object> claims, Date now, Date expirationDate) {
-        System.out.println(this.SECRET_KEY+"here");
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
@@ -91,7 +89,7 @@ public class JwtTokenProvider {
 
     //토큰을 헤더에 저장
     public void saveToken(HttpServletResponse response, String token) {
-        response.setHeader(HEADER_NAME, token);
+        response.addHeader(HEADER_NAME, token);
     }
 
     //헤더의 토큰 분석
@@ -128,7 +126,7 @@ public class JwtTokenProvider {
 
     //시큐리티에서 토큰을 검증
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getClaims(token, "sub"));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getClaims(token, "aud"));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
