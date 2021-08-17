@@ -1,6 +1,8 @@
 package com.codebook.security.config;
 
+import com.codebook.mapper.MemberMapper;
 import com.codebook.security.authentication.JwtAuthenticationFilter;
+import com.codebook.security.authentication.JwtTokenFilter;
 import com.codebook.security.authentication.JwtTokenProvider;
 import com.codebook.security.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -25,17 +27,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private String HEADER_NAME;
 
     private static final String[] PUBLIC = new String[]{
-            "/resources/**","/api/member/duplicate","/api/test","/logout","/api/member/new"
+            "/resources/**","/api/member/duplicate","/logout","/api/member/new"
     };
     private static final String[] ADMIN = new String[]{
-            "/admin/**"
+            "/api/admin/**"
     };
     private static final String[] USER = new String[]{
-            "/api/member/**"
+            "/api/member/**","/api/test"
     };
 
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final MemberMapper memberMapper;
     private final CorsFilter corsFilter;
 
     @Override
@@ -48,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         * */
         http
                 .cors()
-                .disable()
+                .and()
                 .csrf()
                 .disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -64,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(PUBLIC).permitAll()
-                .antMatchers(USER).access("hasRole('ROLE_USER')")
+                .antMatchers(USER).hasRole("USER")
                 .antMatchers(ADMIN).hasRole("ADMIN")
                 .anyRequest().authenticated();
 
@@ -81,13 +84,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         /*
         * [필터]
-        * Cors 필터 등록.
         * UsernamePasswordAuthenticationFilter 를 커스터마이징한 UsernamePasswordAuthenticationFilter 등록,
         * 파라미터는 WebSecurityConfigurerAdapter 의 기본 authenticationManager 메서드 사용.
         * */
         http
                 .addFilter(corsFilter)
-                .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtTokenProvider));
+                .addFilter(new JwtTokenFilter(authenticationManager(), jwtTokenProvider, memberMapper))
+                .addFilter(getJWTAuthenticationFilter(jwtTokenProvider));
     }
 
     @Override
@@ -95,6 +98,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth
                 .authenticationProvider(authenticationProvider());
     }
+
     private DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
@@ -105,5 +109,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public static BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    public JwtAuthenticationFilter getJWTAuthenticationFilter(JwtTokenProvider jwtTokenProvider) throws Exception {
+        final JwtAuthenticationFilter filter = new JwtAuthenticationFilter(authenticationManager(), jwtTokenProvider);
+        filter.setFilterProcessesUrl("/api/member");
+        return filter;
     }
 }
