@@ -86,8 +86,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         * 파라미터는 WebSecurityConfigurerAdapter 의 기본 authenticationManager 메서드 사용.
         * */
         http
-                .addFilter(corsFilter)
-                .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtTokenProvider));
+                .addFilter(corsFilter)//교차 출처 리소스
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtTokenProvider));//제이슨 웹 토큰을 필터에 넣는다.
     }
 
     @Override
