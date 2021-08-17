@@ -114,17 +114,7 @@ public class JwtTokenProvider {
         response.addHeader("Set-Cookie", cookie.toString());
     }
 
-    //쿠키의 토큰 분석
-    public String resolveCookie(HttpServletRequest request) {
-        final Cookie[] cookies = request.getCookies();
-        if (cookies == null) return null;
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals(HEADER_NAME)) {
-                return cookie.getValue();
-            }
-        }
-        return null;
-    }
+  
 
     //시큐리티에서 토큰을 검증
     public Authentication getAuthentication(String token) {
