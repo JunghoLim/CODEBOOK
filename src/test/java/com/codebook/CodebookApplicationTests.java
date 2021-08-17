@@ -51,7 +51,7 @@ class CodebookApplicationTests {
         member.setEmail(testEmail);
         member.setPassword(passwordEncoder.encode("1234"));
         member.setNickname("testnickname");
-        member.setRole(Role.USER.name());
+        member.setRole(Role.ROLE_USER.name());
         member.setStatus(Status.NONBLOCKED.name());
         member.setToken("");
         memberService.signUp(member);
