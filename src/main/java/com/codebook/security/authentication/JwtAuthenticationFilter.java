@@ -4,6 +4,7 @@ import com.codebook.security.user.UserDetailsImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -21,16 +22,17 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
 
-
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
         ObjectMapper om = new ObjectMapper();
         try {
             Map userJson = om.readValue(req.getInputStream(), Map.class);
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userJson.get("username"), userJson.get("password"));
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userJson.get("email"), userJson.get("password"));
             return authenticationManager.authenticate(token);
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (LockedException e){
+            res.setStatus(e.hashCode());
         }
         return null;
     }
