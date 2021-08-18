@@ -39,7 +39,7 @@ public class MemberController {
     }
 
     //토큰을 통해 유저의 정보를 추출 후 반환
-    @GetMapping("/member/data")
+    @GetMapping("/member")
     public Map<String, Object> extractMemberDataFromToken(HttpServletRequest req, HttpServletResponse res) throws IOException {
         return memberService.extractMemberData(req, res);
     }
