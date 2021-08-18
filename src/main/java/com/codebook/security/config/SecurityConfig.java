@@ -112,8 +112,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     public JwtAuthenticationFilter getJWTAuthenticationFilter(JwtTokenProvider jwtTokenProvider) throws Exception {
-        final JwtAuthenticationFilter filter = new JwtAuthenticationFilter(authenticationManager(), jwtTokenProvider);
-        filter.setFilterProcessesUrl("/api/member");
+        final JwtAuthenticationFilter filter = new JwtAuthenticationFilter(authenticationManager(), jwtTokenProvider, userDetailsService);
+        filter.setFilterProcessesUrl("/api/auth/member");
         return filter;
     }
 }
