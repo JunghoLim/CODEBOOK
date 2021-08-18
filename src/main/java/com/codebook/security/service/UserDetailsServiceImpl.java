@@ -24,4 +24,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new UserDetailsImpl(member);
     }
 
+    public void issuedRefreshToken(String token, String email){
+        memberMapper.updateToken(token, email);
+    }
+
 }
