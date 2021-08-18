@@ -48,7 +48,8 @@ public class JwtTokenFilter extends BasicAuthenticationFilter {
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         }catch (ExpiredJwtException e){
-            UserDetailsImpl member = new UserDetailsImpl(memberMapper.findMemberByEmail(e.getClaims().getSubject()));
+            //토큰의 만료기간이 지난 경우의 예외에서 claims 를 추출 후 username 으로 토큰 재발급.
+            UserDetailsImpl member = new UserDetailsImpl(memberMapper.findMemberByEmail(e.getClaims().getAudience()));
             if (ObjectUtils.isNotEmpty(member)){
                 refreshToken = member.getToken();
             }
@@ -64,8 +65,8 @@ public class JwtTokenFilter extends BasicAuthenticationFilter {
                         Authentication auth = jwtTokenProvider.getAuthentication(refreshToken);
                         SecurityContextHolder.getContext().setAuthentication(auth);
                         // 새로운 access 토큰 발급
-                        String newAccessToken = jwtTokenProvider.createToken(jwtTokenProvider.getClaims(refreshToken, "sub")).getAccessToken();
-                        jwtTokenProvider.createCookie(res, newAccessToken);
+                        String newAccessToken = jwtTokenProvider.createToken(jwtTokenProvider.getClaims(refreshToken, "aud")).getAccessToken();
+                        jwtTokenProvider.saveToken(res, newAccessToken);
                     }
                 } catch (Exception e){
                     //워의 과정에서 예외가 발생했을시 해당 스레드의 security context 를 비움
