@@ -28,7 +28,7 @@ const actions = {
     },
     signIn({ dispatch }, memberInfo) {
         axios
-            .post("/api/member", memberInfo)
+            .post("/api/auth/member", memberInfo)
             .then(response => {
                 let token = response.headers["codebook-bearer"];
                 localStorage.setItem("codebook-bearer", token);
@@ -41,8 +41,11 @@ const actions = {
     getMemberInfo({ commit, state }) {
         let token = localStorage.getItem("codebook-bearer");
         let config = { headers: { "codebook-bearer": token } };
+        if (!token) {
+            return;
+        }
         axios
-            .get("/api/member/data", config)
+            .get("/api/member", config)
             .then(res => {
                 state.token = token;
                 state.isLogin = true;
@@ -51,7 +54,8 @@ const actions = {
                 router.push('/');
             })
             .catch(() => {
-                alert("로그인 기한이 만료되었습니다. 다시 로그인 해주세요.");
+                localStorage.removeItem('codebook-bearer');
+                alert("로그인 기한이 만료되었습니다.\n 다시 로그인 해주세요.");
             });
         commit;
     },
