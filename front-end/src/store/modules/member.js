@@ -58,7 +58,7 @@ const actions = {
     axios
       .post("/api/member/new", userData)
       .then(res => {
-        console.log(res);
+        this.$router.push("/sign-in");
       })
       .catch(err => {});
   }
