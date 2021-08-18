@@ -22,8 +22,7 @@ public class CorsConfig{
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://localhost:8090");
         config.addAllowedHeader("*");
-        config.addAllowedMethod("POST");
-        config.addAllowedMethod("GET");
+        config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
