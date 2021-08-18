@@ -12,41 +12,42 @@ const state = {
 };
 const getters = {
     getAgreement: state => state.agreement,
-    getMemberInfo: state => state.member,
-    getToken: state => state.token
+    getMember: state => state.member,
+    getToken: state => state.token,
+    getStatus: state => state.isLogin
 };
 const mutations = {
     setAgreement(state, data) {
         state.agreement = data;
     },
-    setMemberInfo(state, data) {
-        state.member.email = data.member;
-        state.member.nickname = data.nickname;
-    },
-    setToken(state, data) {
-        state.token = data.token;
-    }
 };
 const actions = {
     matchAgreement({ commit }, value) {
         commit("setAgreement", value);
     },
-    signIn({ commit }, memberInfo) {
+    signIn({ dispatch }, memberInfo) {
         axios
-            .post("/member", memberInfo)
+            .post("/api/member", memberInfo)
             .then(response => {
                 let token = response.headers['codebook-bearer'];
-                let config = { headers: { 'codebook-bearer': token } }
-                console.log("here1");
-                axios.get("/member/data", config).then(res => {
-                    console.log(res.data.email);
-                }).catch(() => {
-                    alert('로그인 기한이 만료되었습니다. 다시 로그인 해주세요.');
-                })
+                localStorage.setItem('codebook-bearer', token);
+                dispatch('getMemberInfo');
             })
-            .catch(err => {
+            .catch(() => {
                 alert('아이디 혹은 비밀번호가 잘못 되었습니다.')
             });
+    },
+    getMemberInfo({ commit, state }) {
+        let token = localStorage.getItem('codebook-bearer');
+        let config = { headers: { 'codebook-bearer': token } }
+        axios.get("/api/member/data", config).then(res => {
+            state.token = token;
+            state.isLogin = true;
+            state.member.email = res.data.email;
+            state.member.nickname = res.data.nickname;
+        }).catch(() => {
+            alert('로그인 기한이 만료되었습니다. 다시 로그인 해주세요.');
+        });
         commit;
     }
 };
