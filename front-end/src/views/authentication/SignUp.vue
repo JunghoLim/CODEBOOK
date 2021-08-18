@@ -1,7 +1,5 @@
 <template>
-  <v-container
-    app
-  >
+  <v-container app>
     <v-row justify="center">
       <v-col cols="auto">
         <v-card width="460">
@@ -10,13 +8,21 @@
               회원가입
             </div>
             <validation-observer
-              v-slot="{invalid}"
+              v-slot="{ invalid }"
               ref="observer"
             >
-              <v-form>
+              <v-form
+                @submit.prevent="
+                  signUp({
+                    email: email,
+                    nickname: nickname,
+                    password: password
+                  })
+                "
+              >
                 <validation-provider
-                  v-slot="{errors}"
-                  :rules="{ required: true, email: true, max: 40}"
+                  v-slot="{ errors }"
+                  :rules="{ required: true, email: true, max: 40 }"
                   name="Email"
                 >
                   <v-text-field
@@ -30,11 +36,11 @@
 
                 <validation-provider
                   v-slot="{ errors }"
-                  :rules="{ required: true}"
+                  :rules="{ required: true }"
                   name="Name"
                 >
                   <v-text-field
-                    v-model="name"
+                    v-model="nickname"
                     label="Name"
                     clearable
                     prepend-icon="mdi-account-circle"
@@ -44,7 +50,7 @@
                 <validation-provider
                   v-slot="{ errors }"
                   name="Password"
-                  :rules="{ required: true, min:10, password }"
+                  :rules="{ required: true, min: 10, password }"
                 >
                   <v-text-field
                     v-model="password"
@@ -92,14 +98,19 @@
 
 <script>
 export default {
-  name:'SignUp',
+  name: "SignUp",
   data: () => ({
     email: null,
-    name: null,
+    nickname: null,
     password: null,
-    password_confirm: null,
-  })
-}
+    password_confirm: null
+  }),
+  methods: {
+    signUp(userData) {
+      this.$store.dispatch("member/signUp", userData);
+    }
+  }
+};
 </script>
 
 <style>
