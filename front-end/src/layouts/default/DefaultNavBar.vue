@@ -22,7 +22,10 @@ export default {
     ...mapState("app", ["items"]),
     items:{
       get(){
-        return this.$store.getters["app/getItems"]
+        if(this.$store.getters["member/getStatus"]){
+          return this.$store.getters["app/getMemberItems"]
+        }
+        return this.$store.getters["app/getPublicItems"]
       }
     }
   }
