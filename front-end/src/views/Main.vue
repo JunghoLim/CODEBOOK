@@ -123,15 +123,15 @@ export default {
       return 0;
     }
   },
-  created: function() {
-    axios
-      .get("http://localhost:3000/board")
-      .then(res => {
-        var result = res.data.board_list;
-        this.$store.dispatch("board/changeBoardData", result);
-      })
-      .catch(err => {});
-  }
+  // created: function() {
+  //   // axios
+  //   //   .get("http://localhost:3000/board")
+  //   //   .then(res => {
+  //   //     var result = res.data.board_list;
+  //   //     this.$store.dispatch("board/changeBoardData", result);
+  //   //   })
+  //   //   .catch(err => {});
+  // }
 };
 </script>
 
