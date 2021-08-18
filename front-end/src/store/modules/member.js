@@ -1,4 +1,5 @@
 import Vue from "vue";
+import router from "@/router"
 
 const state = {
     agreement: false,
@@ -45,6 +46,7 @@ const actions = {
             state.isLogin = true;
             state.member.email = res.data.email;
             state.member.nickname = res.data.nickname;
+            router.push('/');
         }).catch(() => {
             alert('로그인 기한이 만료되었습니다. 다시 로그인 해주세요.');
         });
