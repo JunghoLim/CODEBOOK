@@ -1,6 +1,8 @@
 package com.codebook.security.authentication;
 
+import com.codebook.security.service.UserDetailsServiceImpl;
 import com.codebook.security.user.UserDetailsImpl;
+import com.codebook.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +23,7 @@ import java.util.Map;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
+    private final UserDetailsServiceImpl userDetailsService;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
@@ -41,6 +44,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         UserDetailsImpl userDetails = (UserDetailsImpl) authResult.getPrincipal();
         JwtModel jwtToken = jwtTokenProvider.createToken(userDetails.getUsername());
+        //응답 해더에 토큰을 담아 응답.
         jwtTokenProvider.saveToken(res, jwtToken.getAccessToken());
+        //DB에 refresh token 저장
+        userDetailsService.issuedRefreshToken(jwtToken.getRefreshToken(), userDetails.getUsername());
     }
 }
