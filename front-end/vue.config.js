@@ -2,10 +2,10 @@ module.exports = {
     outputDir: "../src/main/resources/static",
     indexPath: "../static/index.html",
     devServer: {
+        port: 8090,
         proxy: {
-            '/': {
-                "target": 'http://localhost:3000/api',
-                "pathRewrite": { '^/': '' },
+            '/api': {
+                "target": 'http://localhost:3000',
                 "changeOrigin": true,
                 "secure": false
             }
