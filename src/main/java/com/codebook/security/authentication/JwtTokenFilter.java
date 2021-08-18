@@ -38,7 +38,6 @@ public class JwtTokenFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
         String accessToken = jwtTokenProvider.resolveToken(req);
-        System.out.println(accessToken);
         String refreshToken = null;
 
         //access 토큰 검증
