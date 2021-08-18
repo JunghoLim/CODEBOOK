@@ -6,6 +6,10 @@
         INSERT INTO MEMBER VALUES(#{email}, #{password}, #{nickname}, #{role}, #{status}, #{token})
     </insert>
 
+    <update id="updateToken">
+        UPDATE MEMBER SET TOKEN = #{token} WHERE EMAIL = #{email}
+    </update>
+
     <select id="duplicateCheck" resultType="int" parameterType="string">
         SELECT COUNT(*) FROM MEMBER WHERE EMAIL = #{ email }
     </select>
