@@ -5,14 +5,12 @@ import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
@@ -48,30 +46,31 @@ public class JwtTokenProvider {
     //토큰 초기 생성
     public JwtModel createToken(String username) {
         Date now = new Date();
-
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("sub", HEADER_NAME);
-        claims.put("aud", username);
-        claims.put("iat", now.getTime());
-
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Date accessDate = new Date(now.getTime() + ACCESS_VALIDITY_IN_MILLISECONDS);
         Date refreshDate = new Date(now.getTime() + REFRESH_VALIDITY_IN_MILLISECONDS);
 
+        Map<String, Object> claims = new HashMap<>();
+        //토큰 이름
+        claims.put("sub", HEADER_NAME);
+        //토큰 대상자
+        claims.put("aud", username);
+
         return JwtModel.builder()
-                .accessToken(this.generateToken(claims, now, accessDate))
-                .refreshToken(this.generateToken(claims, now, refreshDate))
+                .accessToken(this.generateToken(username, claims, now, accessDate))
+                .refreshToken(this.generateToken(username, claims, now, refreshDate))
                 .accessTokenExpirationDate(sdf.format(accessDate))
                 .refreshTokenExpirationDate(sdf.format(refreshDate))
                 .build();
     }
 
     //토큰 발급
-    private String generateToken(Map<String, Object> claims, Date now, Date expirationDate) {
+    private String generateToken(String username, Map<String, Object> claims, Date now, Date expirationDate) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
+                .setAudience(username)
                 .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .compact();
@@ -100,19 +99,6 @@ public class JwtTokenProvider {
         }
         return null;
     }
-
-    //쿠키에 토큰 저장
-    public void createCookie(HttpServletResponse response, String token) {
-        ResponseCookie cookie = ResponseCookie.from(HEADER_NAME, token)
-                .httpOnly(true)
-                .sameSite("lax")
-                .maxAge(ACCESS_VALIDITY_IN_MILLISECONDS)
-                .path("/")
-                .build();
-        response.addHeader("Set-Cookie", cookie.toString());
-    }
-
-  
 
     //시큐리티에서 토큰을 검증
     public Authentication getAuthentication(String token) {
