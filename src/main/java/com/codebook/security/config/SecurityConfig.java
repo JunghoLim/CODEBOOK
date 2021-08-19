@@ -44,11 +44,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         /*
-        * [환경 설정]
-        * csrf 보안 비활성화 (개발 편의성을 위해).
-        * session 생성과 사용을 사용하지 않음.
-        * httpBasic 사용하지 않음.
-        * */
+         * [환경 설정]
+         * csrf 보안 비활성화 (개발 편의성을 위해).
+         * session 생성과 사용을 사용하지 않음.
+         * httpBasic 사용하지 않음.
+         * */
         http
                 .cors()
                 .and()
@@ -62,8 +62,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable();
 
         /*
-        * [요청에 대한 권한 설정]
-        * */
+         * [요청에 대한 권한 설정]
+         * */
         http
                 .authorizeRequests()
                 .antMatchers(PUBLIC).permitAll()
@@ -72,9 +72,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
 
         /*
-        * [로그아웃 설정]
-        * 인증 정보 삭제, 세션 무효화.
-        * */
+         * [로그아웃 설정]
+         * 인증 정보 삭제, 세션 무효화.
+         * */
         http
                 .logout().logoutUrl("/logout")
                 .deleteCookies("JSESSIONID")
@@ -83,10 +83,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true);
 
         /*
-        * [필터]
-        * UsernamePasswordAuthenticationFilter 를 커스터마이징한 UsernamePasswordAuthenticationFilter 등록,
-        * 파라미터는 WebSecurityConfigurerAdapter 의 기본 authenticationManager 메서드 사용.
-        * */
+         * [필터]
+         * UsernamePasswordAuthenticationFilter 를 커스터마이징한 UsernamePasswordAuthenticationFilter 등록,
+         * 파라미터는 WebSecurityConfigurerAdapter 의 기본 authenticationManager 메서드 사용.
+         * */
         http
                 .addFilter(corsFilter)
                 .addFilter(new JwtTokenFilter(authenticationManager(), jwtTokenProvider, memberMapper))
