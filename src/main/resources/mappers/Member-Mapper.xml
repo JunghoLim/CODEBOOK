@@ -7,7 +7,7 @@
     </insert>
 
     <update id="updateToken">
-        UPDATE MEMBER SET TOKEN = #{token} WHERE EMAIL = #{email}
+        UPDATE MEMBER SET TOKEN = #{token, jdbcType=VARCHAR} WHERE EMAIL = #{email}
     </update>
 
     <select id="duplicateCheck" resultType="int" parameterType="string">
