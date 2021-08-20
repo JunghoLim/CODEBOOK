@@ -29,22 +29,9 @@ export default {
     }
   },
   methods: {
-    showItems(i) {
-      let token = localStorage.getItem("codebook-bearer");
-      let config = {
-        headers: {
-          "codebook-bearer": token
-        }
-      };
-      if (!token) {
-        return;
-      }
-
-      if (i == "로그아웃") {
-        axios
-          .post("/api/logout", config)
-          .then(res => {})
-          .catch(err => {});
+    showItems(title) {
+      if (title == "로그아웃") {
+        this.$store.dispatch("member/logout");
       }
     }
   }
