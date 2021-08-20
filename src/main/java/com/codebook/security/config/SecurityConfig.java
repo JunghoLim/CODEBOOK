@@ -16,8 +16,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.filter.CorsFilter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -28,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private String HEADER_NAME;
 
     private static final String[] PUBLIC = new String[]{
-            "/resources/**","/api/member/duplicate","/logout","/api/member/new"
+            "/resources/**","/api/member/duplicate","/api/logout","/api/member/new","/api/member"
     };
     private static final String[] ADMIN = new String[]{
             "/api/admin/**"
@@ -41,6 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberMapper memberMapper;
     private final CorsFilter corsFilter;
+    private final CustomLogoutFilter customLogoutFilter;
+    private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -77,10 +87,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          * 인증 정보 삭제, 세션 무효화.
          * */
         http
-                .logout().logoutUrl("/logout")
-                .deleteCookies("JSESSIONID")
-                .deleteCookies(HEADER_NAME)
-                .logoutSuccessUrl("/")
+                .logout().logoutUrl("/api/logout")
+                .logoutSuccessHandler(customLogoutSuccessHandler)
                 .invalidateHttpSession(true);
 
         /*
@@ -91,7 +99,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .addFilter(corsFilter)
                 .addFilter(new JwtTokenFilter(authenticationManager(), jwtTokenProvider, memberMapper))
-                .addFilter(getJWTAuthenticationFilter(jwtTokenProvider));
+                .addFilter(getJWTAuthenticationFilter(jwtTokenProvider))
+                .addFilter(customLogoutFilter);
     }
 
     @Override
