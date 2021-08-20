@@ -67,7 +67,22 @@ const actions = {
             })
             .catch(err => {});
         commit;
-    }
+    },
+    logout({ commit }) {
+        let token = localStorage.getItem("codebook-bearer");
+        let config = { headers: { "codebook-bearer": token } };
+        axios
+            .delete("/api/member", config)
+            .then(() => {
+                localStorage.removeItem('codebook-bearer');
+                router.push('/');
+                router.go();
+            })
+            .catch(() => {
+                alert("에러 발생으로 인해 로그아웃에 실패 하였습니다.");
+            });
+        commit;
+    },
 };
 export default {
     namespaced: true,
