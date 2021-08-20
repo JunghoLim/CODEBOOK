@@ -1,8 +1,9 @@
-package com.codebook.security.authentication;
+package com.codebook.security.authentication.filter;
 
+import com.codebook.security.authentication.token.JwtModel;
+import com.codebook.security.authentication.token.JwtTokenProvider;
 import com.codebook.security.service.UserDetailsServiceImpl;
 import com.codebook.security.user.UserDetailsImpl;
-import com.codebook.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,7 +11,6 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 

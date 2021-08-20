@@ -1,4 +1,4 @@
-package com.codebook.security.authentication;
+package com.codebook.security.authentication.token;
 
 import com.codebook.security.service.UserDetailsServiceImpl;
 import io.jsonwebtoken.*;

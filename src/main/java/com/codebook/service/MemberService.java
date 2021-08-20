@@ -2,8 +2,7 @@ package com.codebook.service;
 
 import com.codebook.domain.MemberDTO;
 import com.codebook.mapper.MemberMapper;
-import com.codebook.security.authentication.JwtTokenProvider;
-import com.codebook.security.service.UserDetailsServiceImpl;
+import com.codebook.security.authentication.token.JwtTokenProvider;
 import com.codebook.security.user.Role;
 import com.codebook.security.user.Status;
 import com.codebook.security.user.UserDetailsImpl;

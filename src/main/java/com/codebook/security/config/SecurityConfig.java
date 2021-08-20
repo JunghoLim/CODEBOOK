@@ -1,9 +1,11 @@
 package com.codebook.security.config;
 
 import com.codebook.mapper.MemberMapper;
-import com.codebook.security.authentication.JwtAuthenticationFilter;
-import com.codebook.security.authentication.JwtTokenFilter;
-import com.codebook.security.authentication.JwtTokenProvider;
+import com.codebook.security.authentication.filter.JwtAuthenticationFilter;
+import com.codebook.security.authentication.filter.JwtTokenFilter;
+import com.codebook.security.authentication.token.JwtTokenProvider;
+import com.codebook.security.authentication.handler.CustomLogoutHandler;
+import com.codebook.security.authentication.handler.CustomLogoutSuccessHandler;
 import com.codebook.security.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +20,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AndRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.CorsFilter;
 

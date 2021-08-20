@@ -1,15 +1,14 @@
-package com.codebook.security.authentication;
+package com.codebook.security.authentication.filter;
 
 import com.codebook.mapper.MemberMapper;
+import com.codebook.security.authentication.token.JwtTokenProvider;
 import com.codebook.security.user.UserDetailsImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;

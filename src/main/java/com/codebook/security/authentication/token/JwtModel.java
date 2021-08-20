@@ -1,4 +1,4 @@
-package com.codebook.security.authentication;
+package com.codebook.security.authentication.token;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

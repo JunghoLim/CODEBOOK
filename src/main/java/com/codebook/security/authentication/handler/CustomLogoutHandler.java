@@ -1,6 +1,6 @@
-package com.codebook.security.config;
+package com.codebook.security.authentication.handler;
 
-import com.codebook.security.authentication.JwtTokenProvider;
+import com.codebook.security.authentication.token.JwtTokenProvider;
 import com.codebook.security.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
