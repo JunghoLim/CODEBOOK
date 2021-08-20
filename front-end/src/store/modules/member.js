@@ -72,7 +72,7 @@ const actions = {
         let token = localStorage.getItem("codebook-bearer");
         let config = { headers: { "codebook-bearer": token } };
         axios
-            .delete("/api/member", config)
+            .delete("/api/auth/member", config)
             .then(() => {
                 localStorage.removeItem('codebook-bearer');
                 router.push('/');
