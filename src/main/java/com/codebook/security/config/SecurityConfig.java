@@ -96,6 +96,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(customLogoutFilter);
     }
 
+
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception{
         auth
