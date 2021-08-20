@@ -1,6 +1,7 @@
 package com.codebook.security.config;
 
 import com.codebook.mapper.MemberMapper;
+import com.codebook.security.authentication.CustomLogoutFilter;
 import com.codebook.security.authentication.JwtAuthenticationFilter;
 import com.codebook.security.authentication.JwtTokenFilter;
 import com.codebook.security.authentication.JwtTokenProvider;
