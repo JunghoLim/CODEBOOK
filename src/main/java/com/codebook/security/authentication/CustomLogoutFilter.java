@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -31,12 +33,15 @@ public class CustomLogoutFilter extends LogoutFilter {
         String token = jwtTokenProvider.resolveToken(request);
         Authentication auth = jwtTokenProvider.getAuthentication(token);
         System.out.println(auth);
-//        if(jwtTokenProvider.validateToken(token)){
-//
-//        }
-
         customLogoutHandler.logout(request,response,auth);
         customLogoutSuccessHandler.onLogoutSuccess(request,response,auth);
         chain.doFilter(request,response);
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        super.doFilter(request, response, chain);
+        HttpServletRequest req = (HttpServletRequest) request;
+        System.out.println("asdasd");
     }
 }

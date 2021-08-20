@@ -72,8 +72,8 @@ public class JwtTokenFilter extends BasicAuthenticationFilter {
                     //워의 과정에서 예외가 발생했을시 해당 스레드의 security context 를 비움
                     SecurityContextHolder.clearContext();
                 }
-        }
             filterChain.doFilter(req, res);
+        }
     }
 
     @Override
