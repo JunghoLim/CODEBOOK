@@ -41,6 +41,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberMapper memberMapper;
     private final CorsFilter corsFilter;
+    private final CustomLogoutFilter customLogoutFilter;
+    private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

@@ -20,6 +20,8 @@
         :items="boardData"
         :items-per-page="5"
         class="elevation-1"
+        loading
+        loading-text="Loading... Please wait"
         @click:row="show_detail"
       />
     </v-card>
@@ -28,7 +30,10 @@
 
 <script>
 export default {
-  name: "DailyBoard"
+  name: "DailyBoard",
+  data(){
+
+  },
 };
 </script>
 
