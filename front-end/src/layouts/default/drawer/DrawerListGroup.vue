@@ -24,23 +24,21 @@
 </template>
 
 <script>
-import DrawerListGroup from './DrawerListGroup'
-import DrawerListItem from './DrawerListItem'
+import DrawerListGroup from "./DrawerListGroup";
+import DrawerListItem from "./DrawerListItem";
 export default {
-  name:'DrawerListGroup',
-  components:{
+  name: "DrawerListGroup",
+  components: {
     DrawerListGroup,
     DrawerListItem
   },
   props: {
     item: {
       type: Object,
-      default: () => [],
-    },
-  },
-}
+      default: () => []
+    }
+  }
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
