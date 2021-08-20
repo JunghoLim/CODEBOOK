@@ -1,7 +1,6 @@
 package com.codebook.security.config;
 
 import com.codebook.mapper.MemberMapper;
-import com.codebook.security.authentication.CustomLogoutFilter;
 import com.codebook.security.authentication.JwtAuthenticationFilter;
 import com.codebook.security.authentication.JwtTokenFilter;
 import com.codebook.security.authentication.JwtTokenProvider;
@@ -17,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private String HEADER_NAME;
 
     private static final String[] PUBLIC = new String[]{
-            "/resources/**","/api/member/duplicate","/logout","/api/member/new"
+            "/resources/**","/api/member/duplicate","/logout","/api/member/new","/api/auth/member"
     };
     private static final String[] ADMIN = new String[]{
             "/api/admin/**"
@@ -60,6 +60,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .disable()
                 .httpBasic()
+                .disable()
+                .headers()
+                .httpStrictTransportSecurity()
                 .disable();
 
         /*
@@ -78,8 +81,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          * */
         http
                 .logout().logoutUrl("/logout")
-                .deleteCookies("JSESSIONID")
-                .deleteCookies(HEADER_NAME)
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true);
 
@@ -90,7 +91,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          * */
         http
                 .addFilter(corsFilter)
-                .addFilter(new JwtTokenFilter(authenticationManager(), jwtTokenProvider, memberMapper))
+                .addFilterBefore(new JwtTokenFilter(jwtTokenProvider, memberMapper), UsernamePasswordAuthenticationFilter.class)
                 .addFilter(getJWTAuthenticationFilter(jwtTokenProvider));
     }
 
@@ -102,8 +103,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         return daoAuthenticationProvider;
     }
 
@@ -113,7 +114,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     public JwtAuthenticationFilter getJWTAuthenticationFilter(JwtTokenProvider jwtTokenProvider) throws Exception {
-        final JwtAuthenticationFilter filter = new JwtAuthenticationFilter(authenticationManager(), jwtTokenProvider, userDetailsService);
+        final JwtAuthenticationFilter filter = new JwtAuthenticationFilter(authenticationManager(), jwtTokenProvider, userDetailsService, passwordEncoder());
         filter.setFilterProcessesUrl("/api/auth/member");
         return filter;
     }

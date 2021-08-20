@@ -3,13 +3,16 @@ package com.codebook.security.authentication;
 import com.codebook.mapper.MemberMapper;
 import com.codebook.security.user.UserDetailsImpl;
 import io.jsonwebtoken.ExpiredJwtException;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -20,26 +23,21 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
-public class JwtTokenFilter extends BasicAuthenticationFilter {
+@Component
+@RequiredArgsConstructor
+public class JwtTokenFilter extends OncePerRequestFilter {
 
     private static final String[] excludeUrl =  new String[]{
-            "/resources/**","/api/member/duplicate","/logout","/api/member/new","/api/member"
+            "/resources/**","/api/member/duplicate","/api/auth/member","/api/member/new"
     };
 
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberMapper memberMapper;
 
-    public JwtTokenFilter(AuthenticationManager authenticationManager,JwtTokenProvider jwtTokenProvider,MemberMapper memberMapper) {
-        super(authenticationManager);
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.memberMapper = memberMapper;
-    }
-
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
         String accessToken = jwtTokenProvider.resolveToken(req);
         String refreshToken = null;
-
         //access 토큰 검증
         try{
             //발급된 토근이 존재하고 검증을 마쳤을때의 조건식
@@ -60,6 +58,7 @@ public class JwtTokenFilter extends BasicAuthenticationFilter {
 
         //refresh 토큰을 통해 access 토큰 재 발급
         if(StringUtils.isNotBlank(refreshToken)){
+            try{
                 try{
                     if(jwtTokenProvider.validateToken(refreshToken)){
                         Authentication auth = jwtTokenProvider.getAuthentication(refreshToken);
@@ -68,10 +67,14 @@ public class JwtTokenFilter extends BasicAuthenticationFilter {
                         String newAccessToken = jwtTokenProvider.createToken(jwtTokenProvider.getClaims(refreshToken, "aud")).getAccessToken();
                         jwtTokenProvider.saveToken(res, newAccessToken);
                     }
-                } catch (Exception e){
-                    //워의 과정에서 예외가 발생했을시 해당 스레드의 security context 를 비움
+                }catch (ExpiredJwtException e) {
                     SecurityContextHolder.clearContext();
                 }
+            } catch (Exception e){
+                //워의 과정에서 예외가 발생했을시 해당 스레드의 security context 를 비움
+                SecurityContextHolder.clearContext();
+                return;
+            }
         }
             filterChain.doFilter(req, res);
     }

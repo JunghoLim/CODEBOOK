@@ -4,20 +4,12 @@ import com.codebook.controller.BoardController;
 import com.codebook.domain.MemberDTO;
 import com.codebook.mapper.BoardMapper;
 import com.codebook.mapper.MemberMapper;
-import com.codebook.security.user.Role;
-import com.codebook.security.user.Status;
 import com.codebook.service.BoardService;
 import com.codebook.service.MemberService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-import java.util.HashMap;
-import java.util.Map;
-
 
 @SpringBootTest
 class CodebookApplicationTests {
@@ -38,7 +30,7 @@ class CodebookApplicationTests {
     private BoardController boardController;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Test
     void contextLoads() {
@@ -49,11 +41,8 @@ class CodebookApplicationTests {
         MemberDTO member = new MemberDTO();
         String testEmail = ((int)(Math.random()*10000)+1) + "@testemail.com";
         member.setEmail(testEmail);
-        member.setPassword(passwordEncoder.encode("1234"));
+        member.setPassword("1234");
         member.setNickname("testnickname");
-        member.setRole(Role.ROLE_USER.name());
-        member.setStatus(Status.NONBLOCKED.name());
-        member.setToken("");
         memberService.signUp(member);
     }
 

@@ -10,6 +10,8 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -24,18 +26,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserDetailsServiceImpl userDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
         ObjectMapper om = new ObjectMapper();
         try {
             Map userJson = om.readValue(req.getInputStream(), Map.class);
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userJson.get("email"), userJson.get("password"));
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userJson.get("email"),userJson.get("password"));
             return authenticationManager.authenticate(token);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (LockedException e){
+        }catch (LockedException e){
             res.setStatus(e.hashCode());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
