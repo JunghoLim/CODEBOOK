@@ -54,7 +54,7 @@ const state = {
                 {
                     title: "프로필",
                     icon: "mdi-account-multiple-plus",
-                    to: "/agreement"
+                    to: "/profile"
                 }
             ]
         },
