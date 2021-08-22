@@ -7,7 +7,8 @@ import org.apache.ibatis.annotations.Mapper;
 public interface MemberMapper {
 
     void insert_member(MemberDTO memberDTO);
-    int duplicateCheck(String email);
+    void insert_profile(MemberDTO memberDTO);
+    int duplicateCheckMemberEmail(String email);
     MemberDTO findMemberByEmail(String email);
-    void updateToken(String token, String email);
+    void update_Token(String token, String email);
 }
