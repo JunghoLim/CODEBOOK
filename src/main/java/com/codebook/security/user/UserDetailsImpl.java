@@ -30,7 +30,6 @@ public class UserDetailsImpl implements Serializable,UserDetails {
         this.setRole(memberDTO.getRole());
         this.setStatus(memberDTO.getStatus());
         this.setToken(memberDTO.getToken());
-        this.setNickname(memberDTO.getNickname());
     }
 
     @Override
