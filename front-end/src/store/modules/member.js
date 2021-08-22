@@ -9,13 +9,15 @@ const state = {
         email: "",
         nickname: ""
     },
-    token: ""
+    token: "",
+    duplicatedEmail: false
 };
 const getters = {
     getAgreement: state => state.agreement,
     getMember: state => state.member,
     getToken: state => state.token,
-    getStatus: state => state.isLogin
+    getStatus: state => state.isLogin,
+    getDuplicatedEmail: state => state.duplicatedEmail
 };
 const mutations = {
     setAgreement(state, data) {
@@ -47,6 +49,9 @@ const actions = {
         axios
             .get("/api/member", config)
             .then(res => {
+                if (res.headers['codebook-bearer']) {
+                    localStorage['codebook-bearer'] = res.headers['codebook-bearer'];
+                }
                 state.token = token;
                 state.isLogin = true;
                 state.member.email = res.data.email;
@@ -55,20 +60,30 @@ const actions = {
             })
             .catch(() => {
                 localStorage.removeItem('codebook-bearer');
-                alert("로그인 기한이 만료되었습니다.\n 다시 로그인 해주세요.");
+                alert("로그인 기한이 만료되어 로그아웃 처리 되었습니다.\n다시 로그인 해주세요.");
             });
         commit;
     },
-    signUp({ commit }, userData) {
-        axios
-            .post("/api/member/new", userData)
-            .then(res => {
-                console.log(res);
-            })
-            .catch(err => {});
+    signUp({ commit, dispatch, state }, userData) {
+        dispatch('emailDuplicateCheck', userData.email)
+            .then(() => {
+                if (state.duplicatedEmail) {
+                    axios
+                        .post("/api/member/new", userData)
+                        .then(() => {
+                            alert('회원가입에 성공했습니다.\n로그인 해주세요.');
+                            router.push('/sign-in');
+                        })
+                        .catch(() => {
+                            alert('회원가입에 실패했습니다.\n다시 시도해 주세요.');
+                            router.go();
+                        });
+                }
+            });
         commit;
     },
-    logout({ commit }) {
+    logout({ commit, dispatch }) {
+        dispatch('getMemberInfo');
         let token = localStorage.getItem("codebook-bearer");
         let config = { headers: { "codebook-bearer": token } };
         axios
@@ -79,10 +94,26 @@ const actions = {
                 router.go();
             })
             .catch(() => {
-                alert("에러 발생으로 인해 로그아웃에 실패 하였습니다.");
+                console.log('로그아웃 오류!\n다시 시도해 주세요.');
+                router.go();
             });
         commit;
     },
+    emailDuplicateCheck({ commit, state }, email) {
+        axios
+            .get('/api/member/duplicate', { params: { 'email': email } })
+            .then(res => {
+                let result = res.data;
+                if (result == 0) {
+                    state.duplicatedEmail = true;
+                }
+            })
+            .catch(() => {
+                alert('아이디 중복체크에 실패했습니다.\n다시 시도해 주세요.');
+                router.go();
+            });
+        commit;
+    }
 };
 export default {
     namespaced: true,
