@@ -91,9 +91,18 @@ public class JwtTokenProvider {
         response.addHeader(HEADER_NAME, token);
     }
 
-    //헤더의 토큰 분석
-    public String resolveToken(HttpServletRequest request) {
+    //request 헤더의 토큰 분석
+    public String resolveTokenFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader(HEADER_NAME);
+        if (StringUtils.isNotBlank(bearerToken)) {
+            return bearerToken;
+        }
+        return null;
+    }
+
+    //response 헤더의 토큰 분석
+    public String resolveTokenFromResponse(HttpServletResponse response) {
+        String bearerToken = response.getHeader(HEADER_NAME);
         if (StringUtils.isNotBlank(bearerToken)) {
             return bearerToken;
         }
@@ -106,9 +115,9 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    //토큰의 claims 검증
-    public Jws<Claims> extractAllClaims(String token) throws ExpiredJwtException {
-        return Jwts.parser()
+    //토큰의 claims 검증,추출
+    public Jws<Claims> extractAllClaims(String token) throws ExpiredJwtException{
+             return Jwts.parser()
                 .setSigningKey(SECRET_KEY)
                 .parseClaimsJws(token);
     }
