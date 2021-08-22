@@ -47,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CorsFilter corsFilter;
     private final CustomLogoutHandler customLogoutHandler;
     private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
+    private final JwtTokenFilter jwtTokenFilter;
 
 
     @Override
@@ -100,7 +101,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          * */
         http
                 .addFilter(corsFilter)
-                .addFilterBefore(new JwtTokenFilter(jwtTokenProvider, memberMapper), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilter(getJWTAuthenticationFilter(jwtTokenProvider));
     }
 
