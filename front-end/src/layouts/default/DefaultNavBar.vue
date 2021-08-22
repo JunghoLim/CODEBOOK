@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
 import DrawerHeader from "./drawer/DrawerHeader";
 import DrawerList from "./drawer/DrawerList";
 export default {
@@ -19,7 +18,6 @@ export default {
     DrawerList
   },
   computed:{
-    ...mapState("app", ["items"]),
     items:{
       get(){
         if(this.$store.getters["member/getStatus"]){
