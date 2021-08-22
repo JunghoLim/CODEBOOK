@@ -18,7 +18,7 @@ public class CustomLogoutHandler implements LogoutHandler {
 
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        String token = jwtTokenProvider.resolveToken(request);
+        String token = jwtTokenProvider.resolveTokenFromRequest(request);
         String username = jwtTokenProvider.getClaims(token, "aud");
         userDetailsService.issuedRefreshToken(null, username);
     }
