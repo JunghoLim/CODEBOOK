@@ -3,14 +3,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codebook.mapper.MemberMapper">
     <insert id="insert_member">
-        INSERT INTO MEMBER VALUES(#{email}, #{password}, #{nickname}, #{role}, #{status}, #{token})
+        INSERT INTO MEMBER(EMAIL, PASSWORD, ROLE, STATUS, TOKEN) VALUES(#{email}, #{password}, #{role}, #{status}, #{token})
     </insert>
 
-    <update id="updateToken">
+    <insert id="insert_profile">
+        INSERT INTO PROFILE(EMAIL, NICKNAME) VALUES(#{email}, #{nickname})
+    </insert>
+
+    <update id="update_Token">
         UPDATE MEMBER SET TOKEN = #{token, jdbcType=VARCHAR} WHERE EMAIL = #{email}
     </update>
 
-    <select id="duplicateCheck" resultType="int" parameterType="string">
+    <select id="duplicateCheckMemberEmail" resultType="int" parameterType="string">
         SELECT COUNT(*) FROM MEMBER WHERE EMAIL = #{ email }
     </select>
 
