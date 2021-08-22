@@ -7,6 +7,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -33,9 +36,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberMapper memberMapper;
 
+    @Value("${jwt.header-name}")
+    private String HEADER_NAME;
+
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
-        String accessToken = jwtTokenProvider.resolveToken(req);
+        String accessToken = jwtTokenProvider.resolveTokenFromRequest(req);
         String refreshToken = null;
         //access 토큰 검증
         try{
@@ -52,7 +58,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             }
         }catch (Exception e){
             SecurityContextHolder.clearContext();
-            e.printStackTrace();
         }
 
         //refresh 토큰을 통해 access 토큰 재 발급
@@ -64,7 +69,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                         SecurityContextHolder.getContext().setAuthentication(auth);
                         // 새로운 access 토큰 발급
                         String newAccessToken = jwtTokenProvider.createToken(jwtTokenProvider.getClaims(refreshToken, "aud")).getAccessToken();
+                        if(StringUtils.isEmpty(res.getHeader(HEADER_NAME))){
                         jwtTokenProvider.saveToken(res, newAccessToken);
+                        }
                     }
                 }catch (ExpiredJwtException e) {
                     SecurityContextHolder.clearContext();
