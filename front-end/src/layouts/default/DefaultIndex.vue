@@ -8,8 +8,8 @@
 
 <script>
 import DefaultView from "./DefaultView";
-import DefaultAppBar from "./DefaultAppBar.vue";
-import DefaultNavBar from "./DefaultNavBar.vue";
+import DefaultAppBar from "./DefaultAppBar";
+import DefaultNavBar from "./DefaultNavBar";
 export default {
   name: "DefaultIndex",
   components: {
