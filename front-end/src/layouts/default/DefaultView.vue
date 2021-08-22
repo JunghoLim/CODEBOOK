@@ -1,5 +1,5 @@
 <template>
-  <v-main app>
+  <v-main>
     <v-container
       class="fill-height"
       fluid
