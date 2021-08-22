@@ -3,6 +3,12 @@
     <v-row justify="center">
       <v-col cols="auto">
         <v-card width="460">
+          <v-alert
+            type="error"
+            :value="!alert"
+          >
+            이미 가입된 이메일 입니다.
+          </v-alert>
           <v-card-text class="text-center px-12 py-16">
             <div class="text-h4 font-weight-black mb-13">
               회원가입
@@ -41,7 +47,7 @@
                 >
                   <v-text-field
                     v-model="nickname"
-                    label="Name"
+                    label="Nickname"
                     clearable
                     prepend-icon="mdi-account-circle"
                     :error-messages="errors"
@@ -78,10 +84,11 @@
                   />
                 </validation-provider>
                 <v-btn
+                  class="mt-5"
                   type="submit"
                   block
                   x-large
-                  color="primary mt-6"
+                  color="primary"
                   rounded
                   :disabled="invalid"
                 >
@@ -105,6 +112,13 @@ export default {
     password: null,
     password_confirm: null
   }),
+  computed:{
+    alert:{
+      get(){
+        return this.$store.getters["member/getDuplicatedEmail"];
+      }
+    }
+  },
   methods: {
     signUp(userData) {
       this.$store.dispatch("member/signUp", userData);
