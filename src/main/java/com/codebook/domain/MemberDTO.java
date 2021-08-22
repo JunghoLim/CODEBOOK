@@ -8,8 +8,8 @@ import lombok.ToString;
 public class MemberDTO {
     private String email;
     private String password;
-    private String nickname;
     private String role;
     private String status;
     private String token;
+    private String nickname;
 }
