@@ -5,7 +5,7 @@ import com.codebook.domain.MemberDTO;
 import com.codebook.mapper.BoardMapper;
 import com.codebook.mapper.MemberMapper;
 import com.codebook.service.BoardService;
-import com.codebook.service.MemberService;
+import com.codebook.service.MemberServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,7 +18,7 @@ class CodebookApplicationTests {
     private MemberMapper membermapper;
 
     @Autowired
-    private MemberService memberService;
+    private MemberServiceImpl memberService;
 
     @Autowired
     private BoardMapper boardMapper;
@@ -42,17 +42,16 @@ class CodebookApplicationTests {
         String testEmail = ((int)(Math.random()*10000)+1) + "@testemail.com";
         member.setEmail(testEmail);
         member.setPassword("1234");
-        member.setNickname("testnickname");
         memberService.signUp(member);
     }
 
-    @Test
+    /*@Test
     void findMemberByEmailTest(){
         MemberDTO member = membermapper.findMemberByEmail("asd@asd.com");
         System.out.println(member.getEmail());
-    }
+    }*/
 
-    @Test
+    /*@Test
     void board_list_test(){
         System.out.println(boardMapper.board_list());
     }
@@ -64,5 +63,5 @@ class CodebookApplicationTests {
     void 보드디테일테스트(){
         int bno = 1;
         boardService.board_detail(bno);
-    }
+    }*/
 }
