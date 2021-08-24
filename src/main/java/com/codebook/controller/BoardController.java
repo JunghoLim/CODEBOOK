@@ -22,10 +22,15 @@ public class BoardController {//게시판 정보 가져오는....
     }
 
     @GetMapping("/board")
-    public Map<String, List<BoardDTO>> board_view(){
-        Map<String, List<BoardDTO>> board = new HashMap<>();
-        board.put("board_list",boardService.board_list());
-
+    public Map<String, Object> board_view(@Param("page") int page){
+        System.out.println(page);
+        if(page==0){
+            page = 1;
+        }
+        Map<String,Object> board = new HashMap<>();
+        Integer pagination = boardService.page_per_data();
+        board.put("board_list",boardService.board_list(page));
+        board.put("pagination", pagination);
         return board;
     }
     @GetMapping("/board-detail")
