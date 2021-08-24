@@ -103,9 +103,6 @@ export default {
       .catch(err => {});
   },
   methods: {
-    show_detail(value) {
-      this.$router.push("/board-detail?bno=" + value.bno);
-    },
     next(page) {
       this.$router.push("/board-list?page=" + page);
       axios
@@ -118,7 +115,7 @@ export default {
         .catch(err => {});
     },
     board_detail(bno) {
-      console.log(bno);
+      this.$router.push("/board-detail?bno=" + bno);
     }
   }
 };

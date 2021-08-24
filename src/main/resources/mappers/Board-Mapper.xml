@@ -6,7 +6,7 @@
         SELECT D.*,PROFILE.NICKNAME FROM(SELECT C.* FROM (SELECT B.*,ROWNUM rnum FROM (SELECT A.* FROM BOARD A ORDER BY BNO DESC)B)C WHERE rnum BETWEEN #{start_row} AND #{end_row})D INNER JOIN PROFILE ON D.email = PROFILE.email
     </select>
 <select id="board_detail" resultType="com.codebook.domain.BoardDTO">
-    SELECT * FROM BOARD WHERE BNO = #{bno}
+    SELECT A.*,PROFILE.NICKNAME FROM (SELECT * FROM BOARD WHERE BNO = #{bno})A INNER JOIN PROFILE ON A.EMAIL = PROFILE.EMAIL
 </select>
 <select id="all_board" resultType="int">
     SELECT COUNT(*) FROM BOARD

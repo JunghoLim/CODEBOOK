@@ -21,7 +21,7 @@
                 <div>
                   <v-row class="text-caption">
                     <v-col cols="auto">
-                      {{ boardDetailData.email }}
+                      {{ boardDetailData.nickname }}
                     </v-col>
                     <v-spacer />
                     <v-col
@@ -88,7 +88,7 @@ export default {
   created: function() {
     var bno = this.$route.query.bno;
     axios
-      .get("http://localhost:3000/board-detail", { params: { bno: bno } })
+      .get("/api/board-detail", { params: { bno: bno } })
       .then(res => {
         this.$store.dispatch("boardDetail/changeBoardDetailData", res.data);
       })
