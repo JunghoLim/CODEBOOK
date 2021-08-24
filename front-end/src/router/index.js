@@ -10,6 +10,12 @@ const routes = [{
     path: "/",
     component: DefaultIndex,
     children: [{
+            path: "/",
+            name: "Main",
+            component: () =>
+                import ( /*webpackChunkName : "views-main" */ "@/views/Main")
+        },
+        {
             name: "Agreement",
             path: "/agreement",
             component: () =>
@@ -17,12 +23,6 @@ const routes = [{
                     /* webpackChunkName: "authentication-agreement" */
                     "@/views/authentication/Agreement"
                 )
-        },
-        {
-            path: "/",
-            name: "Main",
-            component: () =>
-                import ( /*webpackChunkName : "views-main" */ "@/views/Main")
         },
         {
             name: "SignUp",
@@ -43,8 +43,8 @@ const routes = [{
                 )
         },
         {
-            path: "/board-list",
             name: "BoardList",
+            path: "/board-list",
             component: () =>
                 import (
                     /*webpackChunkName : "boards-board-list" */
@@ -52,8 +52,8 @@ const routes = [{
                 )
         },
         {
-            path: "/board-detail",
             name: "BoardDetail",
+            path: "/board-detail",
             component: () =>
                 import (
                     /*webpackChunkName : "boards-board-list-detail" */
@@ -61,8 +61,8 @@ const routes = [{
                 )
         },
         {
-            path: "/daily-board",
             name: "DailyBoard",
+            path: "/daily-board",
             component: () =>
                 import (
                     /*webpackChunkName : "boards-daliy-board" */
@@ -70,8 +70,8 @@ const routes = [{
                 )
         },
         {
-            path: "/profile",
             name: "Profile",
+            path: "/profile",
             component: () =>
                 import (
                     /* webpackChunkName : "member-profile" */
@@ -87,7 +87,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.name === "SignUp") {
+    if (to.name == "SignUp") {
         if (store.getters["app/getAgreement"]) {
             next();
         } else {
