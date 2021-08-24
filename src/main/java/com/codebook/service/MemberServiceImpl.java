@@ -1,6 +1,7 @@
 package com.codebook.service;
 
 import com.codebook.domain.MemberDTO;
+import com.codebook.domain.MemberProfileDTO;
 import com.codebook.mapper.MemberMapper;
 import com.codebook.repository.MemberRepository;
 import com.codebook.security.authentication.token.JwtTokenProvider;
@@ -52,9 +53,10 @@ public class MemberServiceImpl implements MemberService {
             auth = jwtTokenProvider.getAuthentication(token);
         }
         UserDetailsImpl member = (UserDetailsImpl) auth.getPrincipal();
+        MemberProfileDTO profile = memberMapper.findProfileByEmail(member.getUsername());
         Map<String, Object> memberData = new HashMap<>();
         memberData.put("email", member.getUsername());
-        memberData.put("nickname", member.getNickname());
+        memberData.put("profile", profile);
         return memberData;
     }
 }

@@ -7,7 +7,9 @@ const state = {
     isLoginError: false,
     member: {
         email: "",
-        nickname: ""
+        nickname: "",
+        follower: 0,
+        aboutMe: ""
     },
     token: "",
     duplicatedEmail: false
@@ -37,6 +39,7 @@ const actions = {
                 dispatch("getMemberInfo");
             })
             .catch(() => {
+                console.log('asd');
                 alert("아이디 혹은 비밀번호가 잘못 되었습니다.");
             });
     },
@@ -55,7 +58,9 @@ const actions = {
                 state.token = token;
                 state.isLogin = true;
                 state.member.email = res.data.email;
-                state.member.nickname = res.data.nickname;
+                state.member.nickname = res.data.profile.nickname;
+                state.member.follower = res.data.profile.follower;
+                state.member.aboutMe = res.data.profile.aboutMe;
                 router.push('/');
             })
             .catch(() => {
