@@ -34,7 +34,9 @@
               class="text-center"
               @click="board_detail(board.bno)"
             >
-              <td>{{ board.bno }}</td>
+              <td>
+                {{ board.bno }}
+              </td>
               <td>{{ board.title }}</td>
               <td>{{ board.nickname }}</td>
               <td>{{ board.views }}</td>
