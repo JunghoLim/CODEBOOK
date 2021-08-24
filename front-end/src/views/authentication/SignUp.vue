@@ -20,11 +20,10 @@
               <v-form
                 @submit.prevent="
                   signUp({
-                    email: email,
-                    nickname: nickname,
-                    password: password
-                  })
-                "
+                    'email': email,
+                    'nickname': nickname,
+                    'password': password
+                  })"
               >
                 <validation-provider
                   v-slot="{ errors }"

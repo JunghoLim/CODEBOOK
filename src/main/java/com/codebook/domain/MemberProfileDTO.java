@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter @Setter
 public class MemberProfileDTO {
+    private String email;
     private String nickname;
     private int follower;
     private String aboutMe;

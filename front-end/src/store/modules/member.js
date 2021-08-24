@@ -1,4 +1,3 @@
-import Vue from "vue";
 import router from "@/router";
 
 const state = {
@@ -37,9 +36,9 @@ const actions = {
                 let token = response.headers["codebook-bearer"];
                 localStorage.setItem("codebook-bearer", token);
                 dispatch("getMemberInfo");
+                router.push('/');
             })
             .catch(() => {
-                console.log('asd');
                 alert("아이디 혹은 비밀번호가 잘못 되었습니다.");
             });
     },
@@ -61,7 +60,6 @@ const actions = {
                 state.member.nickname = res.data.profile.nickname;
                 state.member.follower = res.data.profile.follower;
                 state.member.aboutMe = res.data.profile.aboutMe;
-                router.push('/');
             })
             .catch(() => {
                 localStorage.removeItem('codebook-bearer');
@@ -95,8 +93,7 @@ const actions = {
             .delete("/api/auth/member", config)
             .then(() => {
                 localStorage.removeItem('codebook-bearer');
-                router.push('/');
-                router.go();
+                router.go('/');
             })
             .catch(() => {
                 console.log('로그아웃 오류!\n다시 시도해 주세요.');
@@ -116,6 +113,20 @@ const actions = {
             .catch(() => {
                 alert('아이디 중복체크에 실패했습니다.\n다시 시도해 주세요.');
                 router.go();
+            });
+        commit;
+    },
+    profileUpdate({ commit, dispatch, state }, profileForm) {
+        dispatch('getMemberInfo');
+        let config = { headers: { "codebook-bearer": state.token } };
+        axios
+            .post("/api/member/profile", profileForm, config)
+            .then(() => {
+                alert('프로필이 성공적으로 업데이트 되었습니다.');
+                router.go();
+            })
+            .catch(() => {
+                alert('프로필 업데이트에 실패했습니다.\n다시 시도해 주세요.');
             });
         commit;
     }

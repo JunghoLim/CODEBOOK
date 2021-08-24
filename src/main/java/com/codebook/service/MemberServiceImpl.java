@@ -59,4 +59,9 @@ public class MemberServiceImpl implements MemberService {
         memberData.put("profile", profile);
         return memberData;
     }
+
+    @Override
+    public void updateProfile(MemberProfileDTO profile) {
+        memberMapper.update_Profile(profile);
+    }
 }

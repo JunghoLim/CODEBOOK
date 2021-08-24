@@ -25,4 +25,8 @@
     <select id="findMemberByEmail" resultType="com.codebook.domain.MemberDTO">
         SELECT * FROM MEMBER WHERE EMAIL = #{ email }
     </select>
+
+    <update id="update_Profile" parameterType="com.codebook.domain.MemberProfileDTO">
+        UPDATE PROFILE SET NICKNAME = #{nickname}, ABOUTME = #{aboutMe} WHERE EMAIL = #{email}
+    </update>
 </mapper>
