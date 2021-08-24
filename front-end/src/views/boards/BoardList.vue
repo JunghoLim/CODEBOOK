@@ -35,7 +35,7 @@
             >
               <td>{{ board.bno }}</td>
               <td>{{ board.title }}</td>
-              <td>{{ board.write_date }}</td>
+              <td>{{ board.writedate }}</td>
               <td>{{ board.nickname }}</td>
               <td>{{ board.views }}</td>
               <td>{{ board.recommend }}</td>
@@ -96,7 +96,7 @@ export default {
         let result = res.data.board_list;
 
         let pagination = res.data.pagination;
-
+        console.log(res.data.board_list);
         this.pagination = pagination;
         this.$store.dispatch("board/changeBoardData", result);
       })
