@@ -14,14 +14,6 @@
         </v-col>
       </v-row>
       <v-form class="outline-none " />
-
-      <!-- <v-data-table
-        :headers="headers"
-        :items="boardData"
-        :items-per-page="5"
-        class="elevation-1"
-        @click:row="show_detail"
-      /> -->
       <v-simple-table>
         <template v-slot:default>
           <thead>
@@ -52,6 +44,16 @@
           </tbody>
         </template>
       </v-simple-table>
+      <template class="mt-10">
+        <div class="text-center">
+          <v-pagination
+            v-model="page"
+            :length="5"
+            :total-visible="5"
+            @input="next"
+          />
+        </div>
+      </template>
     </v-card>
   </v-container>
 </template>
@@ -60,7 +62,20 @@
 import { mapState, mapActions } from "vuex";
 export default {
   name: "BoardList",
+  data() {
+    return { page: 1 };
+  },
 
+  // data() {
+  //   return {
+  //     pagination: {
+  //       page: 1,
+  //       total: 2,
+  //       perpage: 3,
+  //       visible: 10
+  //     }
+  //   };
+  // },
   computed: {
     ...mapState("board", ["headers", "boardData"]),
     headers: {
@@ -87,6 +102,9 @@ export default {
   methods: {
     show_detail(value) {
       this.$router.push("/board-detail?bno=" + value.bno);
+    },
+    next(page) {
+      this.$router.push("/board-list?page=" + page);
     }
   }
 };
