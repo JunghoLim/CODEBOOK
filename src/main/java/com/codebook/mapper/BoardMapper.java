@@ -9,6 +9,7 @@ import java.util.List;
 @Repository
 @Mapper
 public interface BoardMapper {
-    List<BoardDTO> board_list();
     BoardDTO board_detail(int bno);
+    List<BoardDTO> page_per_board(int start_row,int end_row);
+    int all_board();
 }
