@@ -13,4 +13,5 @@ public interface MemberMapper {
     MemberDTO findMemberByEmail(String email);
     void update_Token(String token, String email);
     MemberProfileDTO findProfileByEmail(String email);
+    void update_Profile(MemberProfileDTO profile);
 }
