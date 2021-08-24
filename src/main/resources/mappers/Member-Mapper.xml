@@ -10,6 +10,10 @@
         INSERT INTO PROFILE(EMAIL, NICKNAME) VALUES(#{email}, #{nickname})
     </insert>
 
+    <select id="findProfileByEmail" parameterType="string" resultType="com.codebook.domain.MemberProfileDTO">
+        SELECT NICKNAME, FOLLOWER, ABOUTME FROM PROFILE WHERE EMAIL = #{email}
+    </select>
+
     <update id="update_Token">
         UPDATE MEMBER SET TOKEN = #{token, jdbcType=VARCHAR} WHERE EMAIL = #{email}
     </update>
