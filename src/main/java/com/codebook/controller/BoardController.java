@@ -23,7 +23,6 @@ public class BoardController {//게시판 정보 가져오는....
 
     @GetMapping("/board")
     public Map<String, Object> board_view(@Param("page") int page){
-        System.out.println(page);
         if(page==0){
             page = 1;
         }

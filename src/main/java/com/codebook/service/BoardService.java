@@ -18,7 +18,6 @@ public class BoardService {
         if( end_row > all_data){
             end_row = all_data;
         }
-        System.out.println(start_row+" "+end_row);
         return boardMapper.page_per_board(start_row,end_row);
     }
     public int page_per_data(){
