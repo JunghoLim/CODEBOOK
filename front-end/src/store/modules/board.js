@@ -9,12 +9,11 @@ const state = {
       value: "bno"
     },
     { text: "제목", value: "title" },
-    { text: "날짜", value: "write_date" },
     { text: "작성자", value: "email" },
     { text: "조회수", value: "views" },
     { text: "추천수", value: "recommend" },
     { text: "댓글수", value: "comment_c" },
-    { text: "신고수", value: "report_co" }
+    { text: "날짜", value: "writedate" }
   ],
   boardData: []
 };

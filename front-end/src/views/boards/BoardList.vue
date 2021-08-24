@@ -31,16 +31,16 @@
             <tr
               v-for="board in boardData"
               :key="board.name"
+              class="text-center"
               @click="board_detail(board.bno)"
             >
               <td>{{ board.bno }}</td>
               <td>{{ board.title }}</td>
-              <td>{{ board.writedate }}</td>
               <td>{{ board.nickname }}</td>
               <td>{{ board.views }}</td>
               <td>{{ board.recommend }}</td>
               <td>{{ board.comment_c }}</td>
-              <td>{{ board.report_c }}</td>
+              <td>{{ board.writedate }}</td>
             </tr>
           </tbody>
         </template>
