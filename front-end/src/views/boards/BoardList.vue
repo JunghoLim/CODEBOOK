@@ -15,13 +15,43 @@
       </v-row>
       <v-form class="outline-none " />
 
-      <v-data-table
+      <!-- <v-data-table
         :headers="headers"
         :items="boardData"
         :items-per-page="5"
         class="elevation-1"
         @click:row="show_detail"
-      />
+      /> -->
+      <v-simple-table>
+        <template v-slot:default>
+          <thead>
+            <tr>
+              <th
+                v-for="(item, index) in headers"
+                :key="index"
+                class="text-left"
+              >
+                {{ item.text }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="board in boardData"
+              :key="board.name"
+            >
+              <td>{{ board.bno }}</td>
+              <td>{{ board.title }}</td>
+              <td>{{ board.write_date }}</td>
+              <td>{{ board.email }}</td>
+              <td>{{ board.views }}</td>
+              <td>{{ board.recommend }}</td>
+              <td>{{ board.comment_c }}</td>
+              <td>{{ board.report_c }}</td>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
     </v-card>
   </v-container>
 </template>
@@ -46,9 +76,10 @@ export default {
   },
   created: function() {
     axios
-      .get("http://localhost:3000/board")
+      .get("/api/board")
       .then(res => {
         var result = res.data.board_list;
+        console.log(result);
         this.$store.dispatch("board/changeBoardData", result);
       })
       .catch(err => {});

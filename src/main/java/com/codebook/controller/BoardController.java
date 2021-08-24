@@ -12,6 +12,7 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin("http://localhost:8090")
+@RequestMapping("/api")
 public class BoardController {//게시판 정보 가져오는....
 
     private final BoardService boardService;
