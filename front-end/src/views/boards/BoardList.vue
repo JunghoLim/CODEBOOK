@@ -31,11 +31,12 @@
             <tr
               v-for="board in boardData"
               :key="board.name"
+              @click="board_detail(board.bno)"
             >
               <td>{{ board.bno }}</td>
               <td>{{ board.title }}</td>
               <td>{{ board.write_date }}</td>
-              <td>{{ board.email }}</td>
+              <td>{{ board.nickname }}</td>
               <td>{{ board.views }}</td>
               <td>{{ board.recommend }}</td>
               <td>{{ board.comment_c }}</td>
@@ -115,6 +116,9 @@ export default {
           this.$store.dispatch("board/changeBoardData", result);
         })
         .catch(err => {});
+    },
+    board_detail(bno) {
+      console.log(bno);
     }
   }
 };
