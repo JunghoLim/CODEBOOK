@@ -8,6 +8,8 @@
 <select id="board_detail" resultType="com.codebook.domain.BoardDTO">
     SELECT * FROM BOARD WHERE BNO = #{bno}
 </select>
-
+<select id="all_board" resultType="int">
+    SELECT COUNT(*) FROM BOARD
+</select>
 
 </mapper>

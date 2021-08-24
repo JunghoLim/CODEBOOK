@@ -25,6 +25,7 @@ public class BoardController {//게시판 정보 가져오는....
     public Map<String, List<BoardDTO>> board_view(){
         Map<String, List<BoardDTO>> board = new HashMap<>();
         board.put("board_list",boardService.board_list());
+
         return board;
     }
     @GetMapping("/board-detail")
