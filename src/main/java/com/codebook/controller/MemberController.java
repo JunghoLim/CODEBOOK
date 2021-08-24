@@ -1,8 +1,10 @@
 package com.codebook.controller;
 
 import com.codebook.domain.MemberDTO;
+import com.codebook.domain.MemberProfileDTO;
 import com.codebook.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import oracle.ucp.proxy.annotation.Post;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,5 +40,10 @@ public class MemberController {
     @GetMapping("/member")
     public Map<String, Object> extractMemberDataFromToken(HttpServletRequest req, HttpServletResponse res) {
         return memberService.extractMemberData(req, res);
+    }
+
+    @PostMapping("/member/profile")
+    public void updateMemberProfile(@RequestBody MemberProfileDTO profile){
+        memberService.updateProfile(profile);
     }
 }
