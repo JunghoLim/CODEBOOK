@@ -48,8 +48,7 @@
         <div class="text-center">
           <v-pagination
             v-model="page"
-            :length="5"
-            :total-visible="5"
+            :length="pagination"
             @input="next"
           />
         </div>
@@ -63,7 +62,7 @@ import { mapState, mapActions } from "vuex";
 export default {
   name: "BoardList",
   data() {
-    return { page: 1 };
+    return { page: 1, pagination: 1 };
   },
 
   // data() {
@@ -91,10 +90,15 @@ export default {
   },
   created: function() {
     axios
-      .get("/api/board")
+      .get("/api/board", { params: { page: 1 } })
       .then(res => {
-        var result = res.data.board_list;
-        console.log(result);
+        let result = res.data.board_list;
+
+        let pagination = res.data.pagination;
+
+        console.log(pagination);
+
+        this.pagination = pagination;
         this.$store.dispatch("board/changeBoardData", result);
       })
       .catch(err => {});
@@ -105,6 +109,14 @@ export default {
     },
     next(page) {
       this.$router.push("/board-list?page=" + page);
+      axios
+        .get("/api/board", { params: { page: this.page } })
+        .then(res => {
+          var result = res.data.board_list;
+          console.log(result);
+          this.$store.dispatch("board/changeBoardData", result);
+        })
+        .catch(err => {});
     }
   }
 };
