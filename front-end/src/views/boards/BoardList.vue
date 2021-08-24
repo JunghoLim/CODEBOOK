@@ -96,8 +96,6 @@ export default {
 
         let pagination = res.data.pagination;
 
-        console.log(pagination);
-
         this.pagination = pagination;
         this.$store.dispatch("board/changeBoardData", result);
       })
@@ -113,7 +111,7 @@ export default {
         .get("/api/board", { params: { page: this.page } })
         .then(res => {
           var result = res.data.board_list;
-          console.log(result);
+
           this.$store.dispatch("board/changeBoardData", result);
         })
         .catch(err => {});
