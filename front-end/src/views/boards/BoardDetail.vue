@@ -28,7 +28,7 @@
                       cols="auto"
                       style="color:#adb5bd;"
                     >
-                      {{ boardDetailData.write_date }}
+                      {{ boardDetailData.writedate }}
                     </v-col>
                   </v-row>
                 </div>
