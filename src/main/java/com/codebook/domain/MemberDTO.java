@@ -11,5 +11,4 @@ public class MemberDTO {
     private String role;
     private String status;
     private String token;
-    private String nickname;
 }
