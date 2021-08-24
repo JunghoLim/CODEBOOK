@@ -6,6 +6,56 @@
     <v-row justify="center">
       <v-col
         cols="12"
+        md="4"
+      >
+        <material-card
+          class="v-card-profile"
+          avatar="https://demos.creative-tim.com/vue-material-dashboard/img/marc.aba54d65.jpg"
+        >
+          <v-card-text class="text-center">
+            <h4 class="text-h3 font-weight-light mb-3 black--text">
+              {{ memberInfo.nickname }}
+            </h4>
+
+            <!-- eslint-disable vue/no-v-html -->
+            <p
+              class="font-weight-light grey--text"
+              v-html="aboutMe"
+            />
+            <!--eslint-enable-->
+
+            <v-btn
+              color="success"
+              rounded
+              class="mr-0"
+              :loading="isSelecting"
+              @click="onButtonClick"
+            >
+              <v-icon class="mr-3">
+                mdi-camera
+              </v-icon>
+              프로필
+            </v-btn>
+            <input
+              ref="uploader"
+              class="d-none"
+              type="file"
+              accept="image/*"
+              @change="onFileChanged"
+            >
+            <material-stats-card
+              color="info"
+              icon="mdi-star-check"
+              title="Followers"
+              :value="String(memberInfo.follower)"
+              sub-icon="mdi-clock"
+              sub-text="Just Updated"
+            />
+          </v-card-text>
+        </material-card>
+      </v-col>
+      <v-col
+        cols="12"
         md="8"
       >
         <material-card>
@@ -23,7 +73,14 @@
             v-slot="{ invalid }"
             ref="observer"
           >
-            <v-form>
+            <v-form
+              @submit.prevent="
+                profileUpdate({
+                  'email': memberInfo.email,
+                  'nickname': memberInfo.nickname,
+                  'aboutMe': memberInfo.aboutMe
+                })"
+            >
               <v-container class="py-0">
                 <v-row>
                   <v-col
@@ -41,11 +98,20 @@
                     cols="12"
                     md="4"
                   >
-                    <v-text-field
-                      class="purple-input"
-                      label="Nickname"
-                      :placeholder="memberInfo.nickname"
-                    />
+                    <validation-provider
+                      v-slot="{ errors }"
+                      :rules="{ max:20, required:true }"
+                      name="Nickname"
+                    >
+                      <v-text-field
+                        v-model="memberInfo.nickname"
+                        class="purple-input"
+                        label="Nickname"
+                        :value="memberInfo.nickname"
+                        :placeholder="memberInfo.nickname"
+                        :error-messages="errors"
+                      />
+                    </validation-provider>
                   </v-col>
 
                   <v-col
@@ -72,6 +138,7 @@
                   >
                     <v-btn
                       color="success"
+                      type="submit"
                       class="mr-0"
                       :disabled="invalid"
                     >
@@ -83,6 +150,8 @@
             </v-form>
           </validation-observer>
         </material-card>
+      </v-col>
+      <v-col cols="12">
         <material-card
           icon="mdi-clipboard-text"
           title="내 게시물"
@@ -173,54 +242,6 @@
           </v-simple-table>
         </material-card>
       </v-col>
-
-      <v-col
-        cols="12"
-        md="4"
-      >
-        <material-card
-          class="v-card-profile "
-          avatar="https://demos.creative-tim.com/vue-material-dashboard/img/marc.aba54d65.jpg"
-        >
-          <v-card-text class="text-center">
-            <h4 class="text-h3 font-weight-light mb-3 black--text">
-              {{ memberInfo.nickname }}
-            </h4>
-
-            <p class="font-weight-light grey--text">
-              {{ memberInfo.aboutMe }}
-            </p>
-
-            <v-btn
-              color="success"
-              rounded
-              class="mr-0"
-              :loading="isSelecting"
-              @click="onButtonClick"
-            >
-              <v-icon class="mr-3">
-                mdi-camera
-              </v-icon>
-              프로필
-            </v-btn>
-            <input
-              ref="uploader"
-              class="d-none"
-              type="file"
-              accept="image/*"
-              @change="onFileChanged"
-            >
-            <material-stats-card
-              color="info"
-              icon="mdi-star-check"
-              title="Followers"
-              value="+245"
-              sub-icon="mdi-clock"
-              sub-text="Just Updated"
-            />
-          </v-card-text>
-        </material-card>
-      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -237,6 +258,7 @@ export default {
   data: () => ({
     selectedFile: null,
     isSelecting: false,
+    aboutMe:''
   }),
   computed:{
     buttonText() {
@@ -247,6 +269,11 @@ export default {
         return this.$store.getters["member/getMember"]
       }
     }
+  },
+  beforeMount(){
+      this.aboutMe = this.memberInfo.aboutMe;
+      this.aboutMe = this.aboutMe.replace(/(?:\r\n|\r|\n)/g, '<br />');
+      this.aboutMe = this.aboutMe.split('\n').join('<br />');
   },
   methods: {
     onButtonClick() {
@@ -261,11 +288,13 @@ export default {
       this.selectedFile = e.target.files[0]
 
       console.log(this.selectedFile);
+    },
+    profileUpdate(profileForm) {
+      this.$store.dispatch("member/profileUpdate", profileForm);
     }
   }
 }
 </script>
 
 <style>
-
 </style>
