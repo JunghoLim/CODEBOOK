@@ -83,16 +83,94 @@
             </v-form>
           </validation-observer>
         </material-card>
-        <material-card>
-          <template v-slot:heading>
-            <div class="text-h3 font-weight-medium">
-              게시글
-            </div>
+        <material-card
+          icon="mdi-clipboard-text"
+          title="내 게시물"
+          class="px-5 py-3"
+        >
+          <v-simple-table>
+            <thead>
+              <tr>
+                <th class="primary--text">
+                  ID
+                </th>
+                <th class="primary--text">
+                  Name
+                </th>
+                <th class="primary--text">
+                  Country
+                </th>
+                <th class="primary--text">
+                  City
+                </th>
+                <th class="text-right primary--text">
+                  Salary
+                </th>
+              </tr>
+            </thead>
 
-            <div class="text-subtitle-1 font-weight-light">
-              내가 쓴 게시글을 확인해 보세요.
-            </div>
-          </template>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Dakota Rice</td>
+                <td>Niger</td>
+                <td>Oud-Turnhout</td>
+                <td class="text-right">
+                  $36,738
+                </td>
+              </tr>
+
+              <tr>
+                <td>2</td>
+                <td>Minverva Hooper</td>
+                <td>Curaçao</td>
+                <td>Sinaas-Waas</td>
+                <td class="text-right">
+                  $23,789
+                </td>
+              </tr>
+
+              <tr>
+                <td>3</td>
+                <td>Sage Rodriguez</td>
+                <td>Netherlands</td>
+                <td>Baileux</td>
+                <td class="text-right">
+                  $56,142
+                </td>
+              </tr>
+
+              <tr>
+                <td>4</td>
+                <td>Philip Chaney</td>
+                <td>Korea, South</td>
+                <td>Overland Park</td>
+                <td class="text-right">
+                  $38,735
+                </td>
+              </tr>
+
+              <tr>
+                <td>5</td>
+                <td>Doris Greene</td>
+                <td>Malawi</td>
+                <td>Feldkirchen in Kärnten</td>
+                <td class="text-right">
+                  $63,542
+                </td>
+              </tr>
+
+              <tr>
+                <td>6</td>
+                <td>Mason Porter</td>
+                <td>Chile</td>
+                <td>Gloucester</td>
+                <td class="text-right">
+                  $78,615
+                </td>
+              </tr>
+            </tbody>
+          </v-simple-table>
         </material-card>
       </v-col>
 
@@ -120,6 +198,9 @@
               :loading="isSelecting"
               @click="onButtonClick"
             >
+              <v-icon class="mr-3">
+                mdi-camera
+              </v-icon>
               프로필
             </v-btn>
             <input
@@ -129,6 +210,14 @@
               accept="image/*"
               @change="onFileChanged"
             >
+            <material-stats-card
+              color="info"
+              icon="mdi-star-check"
+              title="Followers"
+              value="+245"
+              sub-icon="mdi-clock"
+              sub-text="Just Updated"
+            />
           </v-card-text>
         </material-card>
       </v-col>
@@ -138,10 +227,12 @@
 
 <script>
 import MaterialCard from '@/components/MaterialCard'
+import MaterialStatsCard from '@/components/MaterialStatsCard'
 
 export default {
   components:{
-    MaterialCard
+    MaterialCard,
+    MaterialStatsCard
   },
   data: () => ({
     selectedFile: null,
