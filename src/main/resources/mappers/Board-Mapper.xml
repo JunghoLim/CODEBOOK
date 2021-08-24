@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codebook.mapper.BoardMapper">
     <select id="board_list" resultType="com.codebook.domain.BoardDTO">
-        SELECT ROWNUM, A.* FROM (SELECT * FROM BOARD ORDER BY WRITE_DATE) A
+        SELECT ROWNUM, A.* FROM (SELECT * FROM BOARD ORDER BY WRITEDATE) A
     </select>
 <select id="board_detail" resultType="com.codebook.domain.BoardDTO">
     SELECT * FROM BOARD WHERE BNO = #{bno}
