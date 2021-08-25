@@ -10,7 +10,7 @@
       >
         <material-card
           class="v-card-profile"
-          avatar="https://demos.creative-tim.com/vue-material-dashboard/img/marc.aba54d65.jpg"
+          :avatar="memberInfo.picturePath"
         >
           <v-card-text class="text-center">
             <h4 class="text-h3 font-weight-light mb-3 black--text">
@@ -81,7 +81,7 @@
                   'aboutMe': memberInfo.aboutMe
                 })"
             >
-              <v-container class="py-0">
+              <v-container class="py-3">
                 <v-row>
                   <v-col
                     cols="12"
@@ -161,19 +161,19 @@
             <thead>
               <tr>
                 <th class="primary--text">
-                  ID
+                  카테고리
                 </th>
                 <th class="primary--text">
-                  Name
+                  글 제목
                 </th>
                 <th class="primary--text">
-                  Country
+                  조회수
                 </th>
                 <th class="primary--text">
-                  City
+                  추천수
                 </th>
                 <th class="text-right primary--text">
-                  Salary
+                  작성일
                 </th>
               </tr>
             </thead>
@@ -286,8 +286,7 @@ export default {
     },
     onFileChanged(e) {
       this.selectedFile = e.target.files[0]
-
-      console.log(this.selectedFile);
+      this.$store.dispatch("member/profileImgUpdate", this.selectedFile);
     },
     profileUpdate(profileForm) {
       this.$store.dispatch("member/profileUpdate", profileForm);
