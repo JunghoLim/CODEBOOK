@@ -4,10 +4,13 @@ import com.codebook.domain.MemberDTO;
 import com.codebook.domain.MemberProfileDTO;
 import com.codebook.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import oracle.ucp.proxy.annotation.Post;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Map;
 
 @RestController
@@ -46,4 +49,15 @@ public class MemberController {
     public void updateMemberProfile(@RequestBody MemberProfileDTO profile){
         memberService.updateProfile(profile);
     }
+
+    @PostMapping("/member/profile/img")
+    public void updateProfileImg(HttpServletRequest req, HttpServletResponse res, @RequestParam("file") MultipartFile file) throws IOException {
+        memberService.updateProfileImg(req, res, file);
+    }
+
+    @GetMapping("/member/profile/img/{imgName}")
+    public ResponseEntity<byte[]> getProfileImg(@PathVariable("imgName") String imgName) throws IOException {
+        return memberService.getProfileImg(imgName);
+    }
+
 }
