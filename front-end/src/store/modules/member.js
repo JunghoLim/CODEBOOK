@@ -8,7 +8,8 @@ const state = {
         email: "",
         nickname: "",
         follower: 0,
-        aboutMe: ""
+        aboutMe: "",
+        picturePath: ''
     },
     token: "",
     duplicatedEmail: false
@@ -60,6 +61,7 @@ const actions = {
                 state.member.nickname = res.data.profile.nickname;
                 state.member.follower = res.data.profile.follower;
                 state.member.aboutMe = res.data.profile.aboutMe;
+                state.member.picturePath = '/api/member/profile/img/' + res.data.profile.picturePath;
             })
             .catch(() => {
                 localStorage.removeItem('codebook-bearer');
@@ -127,6 +129,21 @@ const actions = {
             })
             .catch(() => {
                 alert('프로필 업데이트에 실패했습니다.\n다시 시도해 주세요.');
+            });
+        commit;
+    },
+    profileImgUpdate({ commit, state }, file) {
+        let config = { headers: { 'codebook-bearer': state.token, 'Content-Type': 'multipart/form-data' } };
+        const formData = new FormData();
+        formData.append('file', file);
+        axios
+            .post("/api/member/profile/img", formData, config)
+            .then(() => {
+                alert('프로필 사진이 성공적으로 업데이트 되었습니다.');
+                router.go();
+            })
+            .catch(() => {
+                alert('프로필 사진 업데이트에 실패했습니다.\n다시 시도해 주세요.');
             });
         commit;
     }
