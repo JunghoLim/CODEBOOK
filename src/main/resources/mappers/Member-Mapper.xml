@@ -11,7 +11,7 @@
     </insert>
 
     <select id="findProfileByEmail" parameterType="string" resultType="com.codebook.domain.MemberProfileDTO">
-        SELECT NICKNAME, FOLLOWER, ABOUTME FROM PROFILE WHERE EMAIL = #{email}
+        SELECT NICKNAME, FOLLOWER, ABOUTME, PICTUREPATH FROM PROFILE WHERE EMAIL = #{email}
     </select>
 
     <update id="update_Token">
@@ -26,7 +26,15 @@
         SELECT * FROM MEMBER WHERE EMAIL = #{ email }
     </select>
 
-    <update id="update_Profile" parameterType="com.codebook.domain.MemberProfileDTO">
+    <update id="update_ProfileInfo" parameterType="com.codebook.domain.MemberProfileDTO">
         UPDATE PROFILE SET NICKNAME = #{nickname}, ABOUTME = #{aboutMe} WHERE EMAIL = #{email}
+    </update>
+
+    <insert id="insert_picture">
+        INSERT INTO PICTURE(PICTUREPATH, EMAIL, ORIGINALFILENAME, FILESIZE) VALUES(#{storedFilePath}, #{email} ,#{originalFileName}, #{fileSize})
+    </insert>
+
+    <update id="update_ProfileImg" parameterType="com.codebook.domain.UploadImgFileDTO">
+        UPDATE PROFILE SET PICTUREPATH = #{storedFilePath} WHERE EMAIL = #{email}
     </update>
 </mapper>
