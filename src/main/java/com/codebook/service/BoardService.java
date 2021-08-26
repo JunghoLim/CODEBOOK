@@ -1,7 +1,9 @@
 package com.codebook.service;
 
 import com.codebook.domain.BoardDTO;
+import com.codebook.domain.CommentDTO;
 import com.codebook.mapper.BoardMapper;
+import com.codebook.mapper.CommentMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,8 +11,10 @@ import java.util.List;
 @Service
 public class BoardService {
     private final BoardMapper boardMapper;
-
-    public BoardService(BoardMapper boardMapper){this.boardMapper = boardMapper;}
+    private final CommentMapper commentMapper;
+    public BoardService(BoardMapper boardMapper, CommentMapper commentMapper){this.boardMapper = boardMapper;
+        this.commentMapper = commentMapper;
+    }
     public List<BoardDTO> board_list(int page){
         int all_data = boardMapper.all_board();
         int start_row= page*10-9;
@@ -27,4 +31,13 @@ public class BoardService {
     }
     public BoardDTO board_detail(int bno){return boardMapper.board_detail(bno);}
 
+    public List<CommentDTO> comment(int bno){
+        return commentMapper.comment(bno);
+    }
+
+    public int insert_comment(String comment,int bno,String email){
+        int result = boardMapper.insert_comment(comment,bno,email);
+        if(result==1) return result;
+        else return 0;
+    }
 }

@@ -11,5 +11,7 @@
 <select id="all_board" resultType="int">
     SELECT COUNT(*) FROM BOARD
 </select>
-
+    <insert id="insert_comment">
+        INSERT INTO BOARDCOMMENT(CNO,BNO,EMAIL,CONTENT) VALUES (CNO_SEQ.NEXTVAL,#{bno},#{email},#{comment})
+    </insert>
 </mapper>

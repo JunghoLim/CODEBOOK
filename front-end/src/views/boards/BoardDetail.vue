@@ -44,20 +44,42 @@
         </v-container>
       </v-col>
     </v-row>
+
     <v-row justify="center">
-      <div
-        class="text-h5"
-        v-bind="boardDetailData"
-      >
-        총 {{ boardDetailData.comment_c }}개의 댓글이 달렸습니다.
-      </div>
-    </v-row>
-    <v-row justify="center">
-      <v-card
-        height="200px"
-        width="600px"
-      >
-        댓글이다!
+      <v-card width="600px">
+        <v-container style="width: 600px; float:left;">
+          <v-text-field
+            v-model="message"
+            filled
+            rounded
+            dense
+            single-line
+            type="text"
+            :append-outer-icon="'mdi-send'"
+            @click:append-outer="sendMessage"
+          />
+        </v-container>
+        <v-container v-if="isMessage">
+          <v-row
+            v-for="(comment, index) in commentData"
+            :key="index"
+            v-bind="commentData"
+          >
+            <v-col>
+              <div>
+                <div>
+                  <p>
+                    {{ comment.nickname }}
+                  </p>
+                  <p>작성일 : {{ comment.writedate }}</p>
+                </div>
+                <p>
+                  {{ comment.content }}
+                </p>
+              </div>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-card>
     </v-row>
   </v-container>
@@ -69,7 +91,8 @@ export default {
   name: "BoardDetail",
   data() {
     return {
-      items: []
+      items: [],
+      message: null
     };
   },
 
@@ -83,16 +106,50 @@ export default {
       get() {
         return this.$store.getters["boardDetail/getBoardDetailData"];
       }
+    },
+    commentData: {
+      get() {
+        return this.$store.getters["boardDetail/getCommentData"];
+      }
+    },
+    isMessage: {
+      set(result) {
+        this.$store.dispatch("boardDetail/setIsMessage", result);
+      },
+      get() {
+        return this.$store.getters["boardDetail/getIsMessage"];
+      }
     }
   },
   created: function() {
+    //집가서 두개로 합치기
     var bno = this.$route.query.bno;
-    axios
-      .get("/api/board-detail", { params: { bno: bno } })
-      .then(res => {
-        this.$store.dispatch("boardDetail/changeBoardDetailData", res.data);
-      })
-      .catch(err => {});
+    this.$store.dispatch("boardDetail/changeBoardDetailData", bno);
+    this.$store.dispatch("boardDetail/changeCommentData", bno);
+    console.log(this.isMessage);
+  },
+  methods: {
+    sendMessage() {
+      let isLogin = this.$store.getters["member/getStatus"];
+
+      let email = this.$store.getters["member/getEmail"];
+      if (isLogin) {
+        let bno = this.boardDetailData.bno;
+        let comment = this.message;
+        let param = { comment: comment, bno: bno, email: email };
+        axios
+          .post("/api/input-comment", param)
+          .then(res => {
+            let successNumber = res.data;
+            console.log(successNumber);
+            this.isMessage.set(true);
+          })
+          .catch(err => {});
+      } else {
+        alert("로그인을 해주세요!");
+        this.$router.push("/sign-in");
+      }
+    }
   }
 };
 </script>
