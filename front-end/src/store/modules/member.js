@@ -7,6 +7,7 @@ const state = {
     member: {
         email: "",
         nickname: "",
+        role: '',
         follower: 0,
         aboutMe: "",
         picturePath: ''
@@ -19,7 +20,8 @@ const getters = {
     getMember: state => state.member,
     getToken: state => state.token,
     getStatus: state => state.isLogin,
-    getDuplicatedEmail: state => state.duplicatedEmail
+    getDuplicatedEmail: state => state.duplicatedEmail,
+    getRole: state => state.member.role
 };
 const mutations = {
     setAgreement(state, data) {
@@ -30,7 +32,7 @@ const actions = {
     matchAgreement({ commit }, value) {
         commit("setAgreement", value);
     },
-    signIn({ dispatch }, memberInfo) {
+    signIn({ dispatch, state }, memberInfo) {
         axios
             .post("/api/auth/member", memberInfo)
             .then(response => {
@@ -59,6 +61,7 @@ const actions = {
                 state.isLogin = true;
                 state.member.email = res.data.email;
                 state.member.nickname = res.data.profile.nickname;
+                state.member.role = res.data.role;
                 state.member.follower = res.data.profile.follower;
                 state.member.aboutMe = res.data.profile.aboutMe;
                 state.member.picturePath = '/api/member/profile/img/' + res.data.profile.picturePath;
@@ -72,7 +75,7 @@ const actions = {
     signUp({ commit, dispatch, state }, userData) {
         dispatch('emailDuplicateCheck', userData.email)
             .then(() => {
-                if (state.duplicatedEmail) {
+                if (!state.duplicatedEmail) {
                     axios
                         .post("/api/member/new", userData)
                         .then(() => {
@@ -108,7 +111,7 @@ const actions = {
             .get('/api/member/duplicate', { params: { 'email': email } })
             .then(res => {
                 let result = res.data;
-                if (result == 0) {
+                if (result != 0) {
                     state.duplicatedEmail = true;
                 }
             })
