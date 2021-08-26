@@ -49,15 +49,12 @@ public class BoardController {//게시판 정보 가져오는....
         }
 
     @PostMapping("/input-comment")
-    public int input_comment(@RequestBody Map<String,Object> param){
+    public void input_comment(@RequestBody Map<String,Object> param){
         int bno = (int)param.get("bno");
         String email = (String)param.get("email");
         String comment = (String)param.get("comment");
 
         int result = boardService.insert_comment(comment,bno,email);
-
-        if(result==1)return result;
-        else return 0;
      }
     }
 

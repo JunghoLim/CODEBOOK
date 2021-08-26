@@ -13,7 +13,6 @@ const mutations = {
     state.boardDetailData = result;
   },
   setCommentData(state, result) {
-    console.log(result);
     state.comment = result;
   },
   setIsMessage(state, result) {
@@ -34,7 +33,7 @@ const actions = {
       .get("/api/board-comment", { params: { bno: bno } })
       .then(res => {
         let comment = res.data.comment_list;
-        console.log(res);
+
         if (comment == null) commit("setIsMessage", false);
         else commit("setIsMessage", true);
         commit("setCommentData", comment);
