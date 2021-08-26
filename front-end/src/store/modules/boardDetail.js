@@ -1,17 +1,45 @@
 const state = {
-  boardDetailData: []
+  boardDetailData: [],
+  comment: [],
+  isMessage: false
 };
 const getters = {
-  getBoardDetailData: state => state.boardDetailData
+  getBoardDetailData: state => state.boardDetailData,
+  getCommentData: state => state.comment,
+  getIsMessage: statet => state.isMessage
 };
 const mutations = {
   setBoardDetailData(state, result) {
-    state.boardDetailData = result.board_detail;
+    state.boardDetailData = result;
+  },
+  setCommentData(state, result) {
+    console.log(result);
+    state.comment = result;
+  },
+  setIsMessage(state, result) {
+    state.isMessage = result;
   }
 };
 const actions = {
-  changeBoardDetailData({ commit }, result) {
-    commit("setBoardDetailData", result);
+  changeBoardDetailData({ commit }, bno) {
+    axios
+      .get("/api/board-detail", { params: { bno: bno } })
+      .then(res => {
+        commit("setBoardDetailData", res.data.board_detail);
+      })
+      .catch(err => {});
+  },
+  changeCommentData({ commit }, bno) {
+    axios
+      .get("/api/board-comment", { params: { bno: bno } })
+      .then(res => {
+        let comment = res.data.comment_list;
+        console.log(res);
+        if (comment == null) commit("setIsMessage", false);
+        else commit("setIsMessage", true);
+        commit("setCommentData", comment);
+      })
+      .catch(err => {});
   }
 };
 

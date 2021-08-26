@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private String HEADER_NAME;
 
     private static final String[] PUBLIC = new String[]{
-            "/api/member/duplicate","/logout","/api/member/new","/api/auth/member","/api/board","/api/board-detail","/api/member/profile/img/**"
+            "/resources/**","/api/member/duplicate","/logout","/api/member/new","/api/auth/member","/api/board","/api/board-detail","/api/board-comment","/api/input-comment"
     };
     private static final String[] ADMIN = new String[]{
             "/api/admin/**"

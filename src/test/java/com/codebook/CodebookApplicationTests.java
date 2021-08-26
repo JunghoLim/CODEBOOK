@@ -1,8 +1,10 @@
 package com.codebook;
 
 import com.codebook.controller.BoardController;
+import com.codebook.domain.CommentDTO;
 import com.codebook.domain.MemberDTO;
 import com.codebook.mapper.BoardMapper;
+import com.codebook.mapper.CommentMapper;
 import com.codebook.mapper.MemberMapper;
 import com.codebook.service.BoardService;
 import com.codebook.service.MemberService;
@@ -10,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.List;
 
 @SpringBootTest
 class CodebookApplicationTests {
@@ -32,6 +36,8 @@ class CodebookApplicationTests {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private CommentMapper commentMapper;
     @Test
     void contextLoads() {
     }
@@ -45,24 +51,30 @@ class CodebookApplicationTests {
         member.setPassword("1234");
         memberService.signUp(member);
     }
+    @Test
+    void 보드서비스리스트테스트(){
+        System.out.println(boardMapper.page_per_board(1,10));
+    }
 
+    @Test
+    void 댓글가져오기기능(){
+        int bno = 1;
+        List<CommentDTO> comment = commentMapper.comment(bno);
+        System.out.println(comment);
+    }
     /*@Test
     void findMemberByEmailTest(){
         MemberDTO member = membermapper.findMemberByEmail("asd@asd.com");
         System.out.println(member.getEmail());
     }*/
-
-    /*@Test
-    void board_list_test(){
-        System.out.println(boardMapper.board_list());
-    }
-    @Test
-    void 보드서비스리스트테스트(){
-        System.out.println(boardService.board_list());
-    }
-    @Test
-    void 보드디테일테스트(){
-        int bno = 1;
-        boardService.board_detail(bno);
-    }*/
+//
+//    @Test
+//    void board_list_test(){
+//        System.out.println(boardMapper.board_list());
+//    }
+//    @Test
+//    void 보드디테일테스트(){
+//        int bno = 1;
+//        boardService.board_detail(bno);
+//    }
 }

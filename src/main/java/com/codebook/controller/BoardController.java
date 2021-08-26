@@ -33,12 +33,31 @@ public class BoardController {//게시판 정보 가져오는....
         return board;
     }
     @GetMapping("/board-detail")
-    public Map<String,BoardDTO> board_detail(@Param("bno")int bno){
-        Map<String,BoardDTO> board_detail = new HashMap<>();
+    public Map<String,Object> board_detail(@Param("bno")int bno){
+        Map<String,Object> board_detail = new HashMap<>();
 
         board_detail.put("board_detail",boardService.board_detail(bno));
 
         return board_detail;
 
     }
-}
+    @GetMapping("/board-comment")
+        public Map<String,Object> board_comment(@Param("bno")int bno){
+            Map<String,Object> comment = new HashMap<>();
+            comment.put("comment_list",boardService.comment(bno));
+            return comment;
+        }
+
+    @PostMapping("/input-comment")
+    public int input_comment(@RequestBody Map<String,Object> param){
+        int bno = (int)param.get("bno");
+        String email = (String)param.get("email");
+        String comment = (String)param.get("comment");
+
+        int result = boardService.insert_comment(comment,bno,email);
+
+        if(result==1)return result;
+        else return 0;
+     }
+    }
+
