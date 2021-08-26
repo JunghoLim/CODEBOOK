@@ -15,14 +15,11 @@
           class="mr-6"
         />
         <v-btn
+          color="primary"
           :disabled="!checked"
+          @click="agreementCheck(checked)"
         >
-          <div
-            style="text-decoration: none; color: inherit;"
-            @click="agreementCheck(checked)"
-          >
-            다음
-          </div>
+          다음
         </v-btn>
       </v-app-bar>
       <v-sheet

@@ -47,7 +47,7 @@ class CodebookApplicationTests {
         MemberDTO member = new MemberDTO();
         String testEmail = ((int)(Math.random()*10000)+1) + "@testemail.com";
         member.setEmail(testEmail);
-        member.setNickname("test");
+        member.setNickname("testuser");
         member.setPassword("1234");
         memberService.signUp(member);
     }

@@ -5,7 +5,7 @@
         <v-card width="460">
           <v-alert
             type="error"
-            :value="!alert"
+            :value="alert"
           >
             이미 가입된 이메일 입니다.
           </v-alert>

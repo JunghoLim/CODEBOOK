@@ -67,9 +67,11 @@ public class MemberServiceImpl implements MemberService {
         Authentication auth = getAuth(req, res);
         UserDetailsImpl member = (UserDetailsImpl) auth.getPrincipal();
         MemberProfileDTO profile = memberMapper.findProfileByEmail(member.getUsername());
+        String[] role = member.getRole().split("_");
         Map<String, Object> memberData = new HashMap<>();
         memberData.put("email", member.getUsername());
         memberData.put("profile", profile);
+        memberData.put("role", role[1]);
         return memberData;
     }
 
