@@ -21,6 +21,9 @@ export default {
     items:{
       get(){
         if(this.$store.getters["member/getStatus"]){
+          if(this.$store.getters["member/getRole"] == 'ADMIN'){
+            return this.$store.getters["app/getAdminItems"]
+          }
           return this.$store.getters["app/getMemberItems"]
         }
         return this.$store.getters["app/getPublicItems"]
