@@ -18,13 +18,15 @@
         <template v-slot:default>
           <thead>
             <tr>
-              <th
-                v-for="(item, index) in headers"
-                :key="index"
-                class="text-left"
-              >
-                {{ item.text }}
+              <th>번호</th>
+              <th width="500">
+                제목
               </th>
+              <th>작성자</th>
+              <th>조회수</th>
+              <th>추천수</th>
+              <th>댓글수</th>
+              <th>날짜</th>
             </tr>
           </thead>
           <tbody>
@@ -34,10 +36,13 @@
               class="text-center"
               @click="board_detail(board.bno)"
             >
-              <td>
-                {{ board.bno }}
+              <td>{{ board.bno }}</td>
+              <td
+                width="500"
+                class="text-left"
+              >
+                {{ board.title }}
               </td>
-              <td>{{ board.title }}</td>
               <td>{{ board.nickname }}</td>
               <td>{{ board.views }}</td>
               <td>{{ board.recommend }}</td>
