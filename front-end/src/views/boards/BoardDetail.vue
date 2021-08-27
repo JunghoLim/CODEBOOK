@@ -79,6 +79,13 @@
               </div>
             </v-col>
           </v-row>
+          <v-row>
+            <component
+              :is="item"
+              v-for="item in commentComponent"
+              :key="item"
+            />
+          </v-row>
         </v-container>
       </v-card>
     </v-row>
@@ -92,7 +99,8 @@ export default {
   data() {
     return {
       items: [],
-      message: null
+      message: null,
+      commentComponent: []
     };
   },
 
@@ -126,7 +134,6 @@ export default {
     var bno = this.$route.query.bno;
     this.$store.dispatch("boardDetail/changeBoardDetailData", bno);
     this.$store.dispatch("boardDetail/changeCommentData", bno);
-    console.log(this.isMessage);
   },
   methods: {
     sendMessage() {
@@ -137,14 +144,33 @@ export default {
         let bno = this.boardDetailData.bno;
         let comment = this.message;
         let param = { comment: comment, bno: bno, email: email };
-        axios
-          .post("/api/input-comment", param)
-          .then(res => {
-            let successNumber = res.data;
-            console.log(successNumber);
-            this.isMessage.set(true);
-          })
-          .catch(err => {});
+        if (comment == null) {
+          alert("한 글자 이상 써주세요!");
+        } else {
+          axios
+            .post("/api/input-comment", param)
+            .then(res => {
+              this.isMessage.set(true);
+              Vue.component("my-comment", {
+                template: `<v-col>
+           <div>
+                <div>
+                  <p>
+                    {{ comment.nickname }}
+                  </p>
+                  <p>작성일 : {{ comment.writedate }}</p>
+                </div>
+                <p>
+                  {{ comment.content }}
+                </p>
+              </div>
+            </v-col>
+`
+              }),
+                this.commentComponent.push("my-comment");
+            })
+            .catch(err => {});
+        }
       } else {
         alert("로그인을 해주세요!");
         this.$router.push("/sign-in");
