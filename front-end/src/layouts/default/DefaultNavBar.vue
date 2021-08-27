@@ -1,5 +1,6 @@
 <template>
   <v-navigation-drawer
+    v-model="drawer"
     v-bind="$attrs"
     clipped
     app
@@ -25,6 +26,14 @@ export default {
     DrawerList
   },
   computed:{
+    drawer: {
+        get () {
+          return this.$store.state.app.drawer
+        },
+        set (val) {
+          this.$store.commit('app/setDrawer', val)
+        },
+    },
     items:{
       get(){
         if(this.$store.getters["member/getStatus"]){
