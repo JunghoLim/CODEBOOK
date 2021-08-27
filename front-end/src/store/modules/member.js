@@ -32,7 +32,7 @@ const actions = {
     matchAgreement({ commit }, value) {
         commit("setAgreement", value);
     },
-    signIn({ dispatch, state }, memberInfo) {
+    signIn({ dispatch }, memberInfo) {
         axios
             .post("/api/auth/member", memberInfo)
             .then(response => {
