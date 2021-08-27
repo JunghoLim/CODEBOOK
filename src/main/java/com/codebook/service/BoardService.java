@@ -6,7 +6,9 @@ import com.codebook.mapper.BoardMapper;
 import com.codebook.mapper.CommentMapper;
 import org.springframework.stereotype.Service;
 
+import javax.xml.stream.events.Comment;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BoardService {

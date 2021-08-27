@@ -63,39 +63,53 @@
           <v-row
             v-for="(comment, index) in commentData"
             :key="index"
-            v-bind="commentData"
+          >
+            <v-col>
+              <v-col>
+                <div>
+                  <div>
+                    <p>{{ comment.nickname }}</p>
+                    <p>작성일 : {{ comment.writedate }}</p>
+                  </div>
+                  <p>{{ comment.content }}</p>
+                </div>
+              </v-col>
+            </v-col>
+          </v-row>
+          <!-- <v-row
+            :is="item"
+            v-for="item in commentComponent"
+            id="my_comment"
+            :key="item"
+            v-model="commentComponent"
+
           >
             <v-col>
               <div>
                 <div>
-                  <p>
-                    {{ comment.nickname }}
-                  </p>
-                  <p>작성일 : {{ comment.writedate }}</p>
+                  <p>{{ email }}</p>
+                  <p>작성일 : 최신</p>
                 </div>
-                <p>
-                  {{ comment.content }}
-                </p>
+                <p>{{ item.content }}</p>
               </div>
             </v-col>
           </v-row>
-          <v-row>
-            <component
-              :is="item"
-              v-for="item in commentComponent"
-              :key="item"
-            />
-          </v-row>
+        </v-container>
+      </v-card>
+    </v-row> -->
         </v-container>
       </v-card>
     </v-row>
   </v-container>
 </template>
+//
+<v-col><div><div><p>{{ comment.nickname }}</p><p>작성일 : {{ comment.writedate }}</p></div><p>{{ comment.content }}</p></div></v-col>
 
 <script>
 import { mapState } from "vuex";
 export default {
   name: "BoardDetail",
+
   data() {
     return {
       items: [],
@@ -148,26 +162,10 @@ export default {
           alert("한 글자 이상 써주세요!");
         } else {
           axios
-            .post("/api/input-comment", param)
+            .post("/api/comment", param)
             .then(res => {
-              this.isMessage.set(true);
-              Vue.component("my-comment", {
-                template: `<v-col>
-           <div>
-                <div>
-                  <p>
-                    {{ comment.nickname }}
-                  </p>
-                  <p>작성일 : {{ comment.writedate }}</p>
-                </div>
-                <p>
-                  {{ comment.content }}
-                </p>
-              </div>
-            </v-col>
-`
-              }),
-                this.commentComponent.push("my-comment");
+              this.email = email;
+              this.commentComponent = { comment: comment };
             })
             .catch(err => {});
         }
