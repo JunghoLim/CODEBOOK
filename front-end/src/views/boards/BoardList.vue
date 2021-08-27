@@ -103,7 +103,7 @@ export default {
         let result = res.data.board_list;
 
         let pagination = res.data.pagination;
-        console.log(res.data.board_list);
+
         this.pagination = pagination;
         this.$store.dispatch("board/changeBoardData", result);
       })

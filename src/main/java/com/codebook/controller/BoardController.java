@@ -2,6 +2,7 @@ package com.codebook.controller;
 
 
 import com.codebook.domain.BoardDTO;
+import com.codebook.domain.CommentDTO;
 import com.codebook.service.BoardService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class BoardController {//게시판 정보 가져오는....
         this.boardService = boardService;
     }
 
-    @GetMapping("/board")
+    @GetMapping("/board/list")
     public Map<String, Object> board_view(@Param("page") int page){
         if(page==0){
             page = 1;
@@ -32,7 +33,7 @@ public class BoardController {//게시판 정보 가져오는....
         board.put("pagination", pagination);
         return board;
     }
-    @GetMapping("/board-detail")
+    @GetMapping("/board")
     public Map<String,Object> board_detail(@Param("bno")int bno){
         Map<String,Object> board_detail = new HashMap<>();
 
@@ -41,20 +42,21 @@ public class BoardController {//게시판 정보 가져오는....
         return board_detail;
 
     }
-    @GetMapping("/board-comment")
+    @GetMapping("/board/comment")
         public Map<String,Object> board_comment(@Param("bno")int bno){
             Map<String,Object> comment = new HashMap<>();
             comment.put("comment_list",boardService.comment(bno));
             return comment;
         }
 
-    @PostMapping("/input-comment")
-    public void input_comment(@RequestBody Map<String,Object> param){
+    @PostMapping("/comment")
+    public int input_comment(@RequestBody Map<String,Object> param){
         int bno = (int)param.get("bno");
         String email = (String)param.get("email");
         String comment = (String)param.get("comment");
 
         int result = boardService.insert_comment(comment,bno,email);
-     }
+        return result;
+        }
     }
 
