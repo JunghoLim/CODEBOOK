@@ -1,23 +1,43 @@
 <template>
-  <v-list-item>
-    <v-list-item-content>
-      <router-link to="/">
+  <v-list>
+    <v-list-item class="px-2">
+      <v-list-item-avatar
+        size="60"
+      >
         <v-img
-          width="60"
-          class="mx-auto mb-6"
-          :src="require('@/assets/logo.png')"
+          :src="picturePath"
         />
-      </router-link>
-      <v-list-item-title class="text-h6 text-center">
-        CODEBOOK
-      </v-list-item-title>
-    </v-list-item-content>
-  </v-list-item>
+      </v-list-item-avatar>
+    </v-list-item>
+
+    <v-list-item link>
+      <v-list-item-content>
+        <v-list-item-title class="text-h4">
+          {{ nickname }}
+        </v-list-item-title>
+        <v-list-item-subtitle>{{ email }}</v-list-item-subtitle>
+      </v-list-item-content>
+    </v-list-item>
+  </v-list>
 </template>
 
 <script>
 export default {
-  name: 'DrawerHeader'
+  name: 'DrawerHeader',
+  props:{
+    nickname:{
+      type:String,
+      default: ''
+    },
+    email:{
+      type:String,
+      default: ''
+    },
+    picturePath:{
+      type:String,
+      default: ''
+    }
+  }
 }
 </script>
 

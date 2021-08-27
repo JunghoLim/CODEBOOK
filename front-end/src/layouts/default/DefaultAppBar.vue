@@ -1,11 +1,20 @@
 <template>
   <v-app-bar
     app
-    color="indigo"
+    color="blue"
     dark
+    clipped-left
   >
-    <v-app-bar-nav-icon @click.stop="$emit('drawer')" />
-    <v-toolbar-title>{{ $route.name }}</v-toolbar-title>
+    <v-app-bar-nav-icon @click="$emit('drawer')" />
+
+    <v-toolbar-title>
+      <v-icon
+        large
+        color="primary"
+      >
+        mdi-feather
+      </v-icon>CODEBOOK
+    </v-toolbar-title>
   </v-app-bar>
 </template>
 

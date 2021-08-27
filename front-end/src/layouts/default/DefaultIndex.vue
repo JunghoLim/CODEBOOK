@@ -1,5 +1,5 @@
 <template>
-  <v-app class="grey lighten-5">
+  <v-app class="grey lighten-4">
     <default-app-bar @drawer="drawer = !drawer" />
     <default-nav-bar v-model="drawer" />
     <default-view />

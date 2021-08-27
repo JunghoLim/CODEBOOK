@@ -7,16 +7,4 @@ import '@/sass/overrides.sass'
 
 Vue.use(Vuetify);
 
-const theme = {
-    //컬러 커스터마이징 부분
-}
-
-export default new Vuetify({
-    theme: {
-        themes: {
-            // light: theme,
-            // dark: theme
-            // 테마 적용 부분
-        }
-    }
-});
+export default new Vuetify({});

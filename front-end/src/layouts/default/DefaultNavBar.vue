@@ -1,9 +1,16 @@
 <template>
   <v-navigation-drawer
     v-bind="$attrs"
+    clipped
     app
   >
-    <drawer-header />
+    <drawer-header
+      v-if="loginStatus"
+      :picture-path="memberInfo.picturePath"
+      :email="memberInfo.email"
+      :nickname="memberInfo.nickname"
+    />
+    <v-divider />
     <drawer-list :items="items" />
   </v-navigation-drawer>
 </template>
@@ -27,6 +34,16 @@ export default {
           return this.$store.getters["app/getMemberItems"]
         }
         return this.$store.getters["app/getPublicItems"]
+      }
+    },
+    memberInfo:{
+      get(){
+        return this.$store.getters["member/getMember"]
+      }
+    },
+    loginStatus:{
+      get(){
+        return this.$store.getters["member/getStatus"]
       }
     }
   }
