@@ -26,7 +26,7 @@ const state = {
                     icon: "",
                     items: [{
                         title: "일상",
-                        to: "/board-list"
+                        to: "/board-list?category=free"
                     }]
                 },
                 {
@@ -64,7 +64,7 @@ const state = {
                     icon: "",
                     items: [{
                         title: "일상",
-                        to: "/board-list"
+                        to: "/board-list?category=free"
                     }]
                 },
                 {
@@ -102,7 +102,7 @@ const state = {
                     icon: "",
                     items: [{
                         title: "일상",
-                        to: "/board-list"
+                        to: "/board-list?category=free"
                     }]
                 },
                 {
