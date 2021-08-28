@@ -5,6 +5,8 @@ import com.codebook.domain.MemberProfileDTO;
 import com.codebook.domain.UploadImgFileDTO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.ArrayList;
+
 @Mapper
 public interface MemberMapper {
 
@@ -17,4 +19,8 @@ public interface MemberMapper {
     void update_ProfileInfo(MemberProfileDTO profile);
     void insert_picture(UploadImgFileDTO uploadImgFile);
     void update_ProfileImg(UploadImgFileDTO uploadImgFile);
+    ArrayList<MemberProfileDTO> findProfileByNickname(String nickname);
+    void insert_follow(String from, String to);
+    int duplicate_following(String from, String to);
+    void delete_following(String from, String to);
 }
