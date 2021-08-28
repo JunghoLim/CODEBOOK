@@ -63,7 +63,7 @@ public class MemberController {
 
     @GetMapping("/member/profile")
     public Map<String, Object> findMember(@RequestParam("searchText") String searchText){
-        return memberService.findMember(searchText);
+        return memberService.findProfile(searchText);
     }
 
     @PostMapping("/member/follow")
