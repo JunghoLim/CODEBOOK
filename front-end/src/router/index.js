@@ -78,6 +78,13 @@ const routes = [{
                     /* webpackChunkName : "admin-dash-board" */
                     "@/views/admin/AdminDashBoard"
                 )
+        },
+        {
+            name: "Search",
+            path: "/search",
+            component: () =>
+                import ( /* webpackChunkName : "search" */ "@/views/Search")
+
         }
     ]
 }];
