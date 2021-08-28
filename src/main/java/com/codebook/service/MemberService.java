@@ -18,6 +18,6 @@ public interface MemberService {
     void updateProfile(MemberProfileDTO profile);
     void updateProfileImg(HttpServletRequest req, HttpServletResponse res, MultipartFile file) throws IOException;
     ResponseEntity<byte[]> getProfileImg(String imgPath) throws IOException;
-    Map<String, Object> findMember(String nickname);
+    Map<String, Object> findProfile(String nickname);
     int followingMember(String from, String to);
 }
