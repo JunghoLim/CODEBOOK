@@ -1,5 +1,6 @@
 package com.codebook.controller;
 
+import com.codebook.domain.FollowerDTO;
 import com.codebook.domain.MemberDTO;
 import com.codebook.domain.MemberProfileDTO;
 import com.codebook.service.MemberService;
@@ -58,6 +59,16 @@ public class MemberController {
     @GetMapping("/member/profile/img/{imgName}")
     public ResponseEntity<byte[]> getProfileImg(@PathVariable("imgName") String imgName) throws IOException {
         return memberService.getProfileImg(imgName);
+    }
+
+    @GetMapping("/member/profile")
+    public Map<String, Object> findMember(@RequestParam("searchText") String searchText){
+        return memberService.findMember(searchText);
+    }
+
+    @PostMapping("/member/follow")
+    public int followingMember(@RequestBody FollowerDTO follower){
+        return memberService.followingMember(follower.getFrom(), follower.getTo());
     }
 
 }
