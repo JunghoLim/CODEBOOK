@@ -6,7 +6,7 @@ const state = {
 const getters = {
     getBoardDetailData: state => state.boardDetailData,
     getCommentData: state => state.comment,
-    getIsMessage: statet => state.isMessage
+    getIsMessage: state => state.isMessage
 };
 const mutations = {
     setBoardDetailData(state, result) {
