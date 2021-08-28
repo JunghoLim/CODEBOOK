@@ -23,6 +23,7 @@
       v-if="!$vuetify.breakpoint.smAndDown"
     >
       <v-text-field
+        v-model="searchText"
         color="secondary"
         hide-details
         style="max-width: 240px;"
@@ -38,6 +39,7 @@
             fab
             small
             outlined
+            @click="searchBtn(searchText)"
           >
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
@@ -59,27 +61,6 @@
       </v-btn>
     </template>
 
-    <v-menu
-      bottom
-      left
-      offset-y
-      origin="top right"
-      transition="scale-transition"
-    >
-      <v-list
-        :tile="false"
-        nav
-      >
-        <div>
-          <app-bar-item
-            v-for="(n, i) in notifications"
-            :key="`item-${i}`"
-          >
-            <v-list-item-title v-text="n" />
-          </app-bar-item>
-        </div>
-      </v-list>
-    </v-menu>
     <template v-if="loginStatus">
       <v-btn
         class="ml-2"
@@ -117,6 +98,7 @@ export default {
         'Another Notification',
         'Another one',
       ],
+      searchText: ''
   }),
   computed:{
     ...mapState('app',['drawer']),
@@ -132,6 +114,9 @@ export default {
       }),
     logout(){
       this.$store.dispatch("member/logout");
+    },
+    searchBtn(text){
+      this.$router.push('/search?searchText='+text);
     }
   }
 };
