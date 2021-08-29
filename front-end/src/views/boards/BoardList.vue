@@ -98,7 +98,7 @@ export default {
   },
   created: function() {
     axios
-      .get("/api/board", { params: { page: 1 } })
+      .get("/api/board/list", { params: { page: 1 } })
       .then(res => {
         let result = res.data.board_list;
 
@@ -113,7 +113,7 @@ export default {
     next(page) {
       this.$router.push("/board-list?page=" + page);
       axios
-        .get("/api/board", { params: { page: this.page } })
+        .get("/api/board/list", { params: { page: this.page } })
         .then(res => {
           var result = res.data.board_list;
 

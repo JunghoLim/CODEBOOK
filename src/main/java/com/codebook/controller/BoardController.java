@@ -33,7 +33,7 @@ public class BoardController {//게시판 정보 가져오는....
         board.put("pagination", pagination);
         return board;
     }
-    @GetMapping("/board")
+    @GetMapping("/board/detail")
     public Map<String,Object> board_detail(@Param("bno")int bno){
         Map<String,Object> board_detail = new HashMap<>();
 

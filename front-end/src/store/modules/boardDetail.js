@@ -22,7 +22,7 @@ const mutations = {
 const actions = {
   changeBoardDetailData({ commit }, bno) {
     axios
-      .get("/api/board-detail", { params: { bno: bno } })
+      .get("/api/board/detail", { params: { bno: bno } })
       .then(res => {
         commit("setBoardDetailData", res.data.board_detail);
       })
@@ -30,7 +30,7 @@ const actions = {
   },
   changeCommentData({ commit }, bno) {
     axios
-      .get("/api/board-comment", { params: { bno: bno } })
+      .get("/api/board/comment", { params: { bno: bno } })
       .then(res => {
         let comment = res.data.comment_list;
 
