@@ -9,6 +9,9 @@
     <insert id="insert_profile">
         INSERT INTO PROFILE(EMAIL, NICKNAME) VALUES(#{email}, #{nickname})
     </insert>
+    <delete id="delete_following">
+        DELETE FROM FOLLOW WHERE FROMMEMBEREMAIL = #{from} AND TOMEMBEREMAIL = #{to}
+    </delete>
 
     <select id="findProfileByEmail" parameterType="string" resultType="com.codebook.domain.MemberProfileDTO">
         SELECT NICKNAME, FOLLOWER, ABOUTME, PICTUREPATH FROM PROFILE WHERE EMAIL = #{email}
@@ -34,7 +37,20 @@
         INSERT INTO PICTURE(PICTUREPATH, EMAIL, ORIGINALFILENAME, FILESIZE) VALUES(#{storedFilePath}, #{email} ,#{originalFileName}, #{fileSize})
     </insert>
 
+    <insert id="insert_follow">
+        INSERT INTO FOLLOW(FROMMEMBEREMAIL, TOMEMBEREMAIL) VALUES (#{from}, #{to})
+    </insert>
+
+    <select id="duplicate_following" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM FOLLOW WHERE FROMMEMBEREMAIL = #{from} AND TOMEMBEREMAIL = #{to}
+    </select>
+
     <update id="update_ProfileImg" parameterType="com.codebook.domain.UploadImgFileDTO">
         UPDATE PROFILE SET PICTUREPATH = #{storedFilePath} WHERE EMAIL = #{email}
     </update>
+
+    <select id="findProfileByNickname" parameterType="string" resultType="com.codebook.domain.MemberProfileDTO">
+        SELECT * FROM PROFILE WHERE NICKNAME LIKE '%'||#{nickname}||'%'
+    </select>
+
 </mapper>

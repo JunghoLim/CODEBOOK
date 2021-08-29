@@ -1,41 +1,49 @@
 import Axios from "axios";
+import router from "@/router";
 
 const state = {
-  headers: [
-    {
-      text: "번호",
-      align: "start",
-      sortable: false,
-      value: "bno"
-    },
-    { text: "제목", value: "title" },
-    { text: "작성자", value: "email" },
-    { text: "조회수", value: "views" },
-    { text: "추천수", value: "recommend" },
-    { text: "댓글수", value: "comment_c" },
-    { text: "날짜", value: "writedate" }
-  ],
-  boardData: []
+    boardData: []
 };
 const getters = {
-  getHeaders: state => state.headers,
-  getBoardData: state => state.boardData
+    getHeaders: state => state.headers,
+    getBoardData: state => state.boardData
 };
 const mutations = {
-  setBoardData: function(state, result) {
-    state.boardData = result;
-  }
+    setBoardData: function(state, result) {
+        state.boardData = result;
+    }
 };
 const actions = {
-  changeBoardData({ commit }, result) {
-    commit("setBoardData", result);
-  }
+    changeBoardData({ commit }, result) {
+        commit("setBoardData", result);
+    },
+    pageNext({ dispatch }, params) {
+        if (!params.category && params.searchText) {
+            router.push("/search?searchText=" + params.searchText + "&page=" + params.page).catch(() => {});
+            axios
+                .get("/api/board/list", { params: { 'page': params.page, 'searchText': params.searchText } })
+                .then(res => {
+                    let result = res.data.board_list;
+                    dispatch("changeBoardData", result);
+                })
+                .catch(() => {});
+        } else {
+            router.push("/board-list?category=" + params.category + "&page=" + params.page);
+            axios
+                .get("/api/board/list", { params: { 'page': params.page, 'category': params.category } })
+                .then(res => {
+                    let result = res.data.board_list;
+                    dispatch("changeBoardData", result);
+                })
+                .catch(() => {});
+        }
+    }
 };
 
 export default {
-  namespaced: true,
-  state,
-  getters,
-  mutations,
-  actions
+    namespaced: true,
+    state,
+    getters,
+    mutations,
+    actions
 };

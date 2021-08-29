@@ -53,7 +53,7 @@ class CodebookApplicationTests {
     }
     @Test
     void 보드서비스리스트테스트(){
-        System.out.println(boardMapper.page_per_board(1,10));
+        System.out.println(boardMapper.page_per_board(1,10, "free"));
     }
 
     @Test

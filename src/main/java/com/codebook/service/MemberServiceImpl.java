@@ -98,4 +98,22 @@ public class MemberServiceImpl implements MemberService {
         return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);
     }
 
+    @Override
+    public Map<String, Object> findProfile(String nickname) {
+        Map<String, Object> profile = new HashMap<>();
+        profile.put("profiles",memberMapper.findProfileByNickname(nickname));
+        return profile;
+    }
+
+    @Override
+    public int followingMember(String from, String to) {
+        if(memberMapper.duplicate_following(from, to) == 0){
+            memberMapper.insert_follow(from, to);
+            return 1;
+        }else{
+            memberMapper.delete_following(from, to);
+            return 0;
+        }
+    }
+
 }

@@ -145,7 +145,7 @@ export default {
   },
   created: function() {
     //집가서 두개로 합치기
-    var bno = this.$route.query.bno;
+    let bno = this.$route.query.bno;
     this.$store.dispatch("boardDetail/changeBoardDetailData", bno);
     this.$store.dispatch("boardDetail/changeCommentData", bno);
   },

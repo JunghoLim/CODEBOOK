@@ -14,23 +14,38 @@ import java.util.Map;
 public class BoardService {
     private final BoardMapper boardMapper;
     private final CommentMapper commentMapper;
+
     public BoardService(BoardMapper boardMapper, CommentMapper commentMapper){this.boardMapper = boardMapper;
         this.commentMapper = commentMapper;
     }
-    public List<BoardDTO> board_list(int page){
-        int all_data = boardMapper.all_board();
+
+    public List<BoardDTO> board_list(int page, String category){
+        int all_data = boardMapper.all_board(category);
         int start_row= page*10-9;
         int end_row= start_row+9;
         if( end_row > all_data){
             end_row = all_data;
         }
-        return boardMapper.page_per_board(start_row,end_row);
+        return boardMapper.page_per_board(start_row,end_row, category);
     }
-    public int page_per_data(){
-
-        return boardMapper.all_board()%10==0 ? boardMapper.all_board()/10 : (boardMapper.all_board()/10)+1;
-
+    public List<BoardDTO> board_list_search(int page, String searchText){
+        int all_data = boardMapper.all_board_search(searchText);
+        int start_row= page*10-9;
+        int end_row= start_row+9;
+        if( end_row > all_data){
+            end_row = all_data;
+        }
+        return boardMapper.page_per_board_search(start_row,end_row, searchText);
     }
+
+    public int page_per_data(String category){
+        return boardMapper.all_board(category)%10==0 ? boardMapper.all_board(category)/10 : (boardMapper.all_board(category)/10)+1;
+    }
+
+    public int page_per_data_search(String searchText){
+        return boardMapper.all_board_search(searchText)%10==0 ? boardMapper.all_board_search(searchText)/10 : (boardMapper.all_board_search(searchText)/10)+1;
+    }
+
     public BoardDTO board_detail(int bno){return boardMapper.board_detail(bno);}
 
     public List<CommentDTO> comment(int bno){

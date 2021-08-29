@@ -1,6 +1,6 @@
 const state = {
     agreement: false,
-
+    drawer: false,
     public_items: [
         { title: "메인", icon: "mdi-view-dashboard", to: "/" },
         {
@@ -26,7 +26,7 @@ const state = {
                     icon: "",
                     items: [{
                         title: "일상",
-                        to: "/daily-board"
+                        to: "/board-list?category=free"
                     }]
                 },
                 {
@@ -64,7 +64,7 @@ const state = {
                     icon: "",
                     items: [{
                         title: "일상",
-                        to: "/board-list"
+                        to: "/board-list?category=free"
                     }]
                 },
                 {
@@ -102,7 +102,7 @@ const state = {
                     icon: "",
                     items: [{
                         title: "일상",
-                        to: "/board-list"
+                        to: "/board-list?category=free"
                     }]
                 },
                 {
@@ -120,11 +120,15 @@ const getters = {
     getAgreement: state => state.agreement,
     getPublicItems: state => state.public_items,
     getMemberItems: state => state.member_items,
-    getAdminItems: state => state.admin_items
+    getAdminItems: state => state.admin_items,
+    getDrawer: state => state.drawer
 };
 const mutations = {
     setAgreement(state, data) {
         state.agreement = data;
+    },
+    setDrawer(state, data) {
+        state.drawer = data;
     }
 };
 const actions = {

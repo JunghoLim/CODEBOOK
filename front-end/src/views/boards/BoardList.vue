@@ -46,7 +46,7 @@
               <td>{{ board.nickname }}</td>
               <td>{{ board.views }}</td>
               <td>{{ board.recommend }}</td>
-              <td>{{ board.comment_c }}</td>
+              <td>{{ board.comment_cnt }}</td>
               <td>{{ board.writedate }}</td>
             </tr>
           </tbody>
@@ -57,7 +57,7 @@
           <v-pagination
             v-model="page"
             :length="pagination"
-            @input="next"
+            @input="pageNext"
           />
         </div>
       </template>
@@ -66,60 +66,34 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
 export default {
   name: "BoardList",
   data() {
-    return { page: 1, pagination: 1 };
+    return { page: 1, pagination: 1, category: '' };
   },
-
-  // data() {
-  //   return {
-  //     pagination: {
-  //       page: 1,
-  //       total: 2,
-  //       perpage: 3,
-  //       visible: 10
-  //     }
-  //   };
-  // },
   computed: {
-    ...mapState("board", ["headers", "boardData"]),
-    headers: {
-      get() {
-        return this.$store.getters["board/getHeaders"];
-      }
-    },
     boardData: {
       get() {
         return this.$store.getters["board/getBoardData"];
       }
     }
   },
-  created: function() {
+  created() {
+    let category = this.$route.query.category;
     axios
-      .get("/api/board/list", { params: { page: 1 } })
+      .get("/api/board/list", { params: { 'page': 1, 'category':category } })
       .then(res => {
         let result = res.data.board_list;
-
-        let pagination = res.data.pagination;
-
-        this.pagination = pagination;
+        this.pagination = res.data.pagination;
+        this.category = res.data.category;
         this.$store.dispatch("board/changeBoardData", result);
       })
       .catch(err => {});
   },
   methods: {
-    next(page) {
-      this.$router.push("/board-list?page=" + page);
-      axios
-        .get("/api/board/list", { params: { page: this.page } })
-        .then(res => {
-          var result = res.data.board_list;
-
-          this.$store.dispatch("board/changeBoardData", result);
-        })
-        .catch(err => {});
+    pageNext(page){
+      let params = {'page': page, 'category': this.category}
+      this.$store.dispatch("board/pageNext", params);
     },
     board_detail(bno) {
       this.$router.push("/board-detail?bno=" + bno);
