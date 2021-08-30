@@ -15,5 +15,5 @@ public class BoardDTO {
     private int views;//조회수
     private int recommend;//추천수
     private int comment_cnt;
-    private int report_cnt;
+    private String picturePath;
 }
