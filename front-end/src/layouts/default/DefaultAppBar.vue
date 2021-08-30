@@ -7,17 +7,19 @@
   >
     <v-app-bar-nav-icon @click="setDrawer(!drawer)" />
 
-    <v-toolbar-title class="pl-0">
-      <v-img
-        src="@/assets/logo_codebook.png"
-        height="50"
-        min-height="50"
-        width="200"
-        min-width="200"
-        class="mb-1"
-        position="left"
-      />
-    </v-toolbar-title>
+    <router-link to="/">
+      <v-toolbar-title class="pl-0">
+        <v-img
+          src="@/assets/logo_codebook.png"
+          height="50"
+          min-height="50"
+          width="200"
+          min-width="200"
+          class="mb-1"
+          position="left"
+        />
+      </v-toolbar-title>
+    </router-link>
     <v-spacer />
     <template
       v-if="!$vuetify.breakpoint.smAndDown"
@@ -28,6 +30,7 @@
         hide-details
         style="max-width: 240px;"
         placeholder="Search"
+        @keyup.enter="searchBtn(searchText)"
       >
         <template
           v-slot:append-outer
@@ -116,7 +119,7 @@ export default {
       this.$store.dispatch("member/logout");
     },
     searchBtn(text){
-      this.$router.push('/search?searchText='+text);
+      this.$router.push('/search/'+text+"/1");
     }
   }
 };
