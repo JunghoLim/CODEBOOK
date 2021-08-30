@@ -1,24 +1,16 @@
 <template>
   <v-container>
     <div>
-      <v-card to="detail">
+      <v-card>
         <v-img
-          src="https://images.pexels.com/photos/3244513/pexels-photo-3244513.jpeg"
+          src="https://pixabay.com/get/gea888dae4b33b31a5938ac57793a0b6b2cbb2f47eec69e7e7016bf9c2d7f597e68eb27ac9ff5ba53e936451cced6cf92_1920.jpg"
           gradient="to top, rgba(25,32,72,.7), rgba(25,32,72,.0)"
           :aspect-ratio="16 / 9"
-          height="500px"
+          height="420px"
           dark
         >
           <v-card-text class="fill-height d-flex align-end">
             <v-row class="flex-column">
-              <v-col>
-                <v-btn
-                  color="accent"
-                  to="category"
-                >
-                  Travel
-                </v-btn>
-              </v-col>
               <v-col
                 cols="12"
                 md="10"
@@ -26,25 +18,11 @@
                 xl="7"
               >
                 <h2
-                  class="text-h3 py-3"
+                  class="text-h1 font-weight-medium py-3"
                   style="line-height: 1.2"
                 >
                   Great Travel Blogs From Around The World To Inspire You
                 </h2>
-              </v-col>
-              <v-col class="d-flex align-center">
-                <v-avatar
-                  class="elevation-4"
-                  color="accent"
-                >
-                  <v-icon large>
-                    mdi-feather
-                  </v-icon>
-                </v-avatar>
-
-                <div class="text-h6 pl-2">
-                  Yan Lee · 22 July 2019
-                </div>
               </v-col>
             </v-row>
           </v-card-text>
@@ -61,89 +39,94 @@
         <div>
           <div class="pt-16">
             <h2 class="text-h4 font-weight-bold pb-4">
-              Recommended For You
+              <v-icon class="pb-1">
+                mdi-crown-outline
+              </v-icon>
+              주간 인기 게시글
             </h2>
+
+            <v-divider />
 
             <v-row>
               <v-col
-                v-for="i in 6"
-                :key="i"
+                v-for="board in weeklyBestBoards"
+                :key="board.bno"
                 cols="12"
                 md="6"
                 lg="4"
               >
-                <v-hover
-                  v-slot:default="{ hover }"
-                  open-delay="50"
-                  close-delay="50"
+                <router-link
+                  :to="`/board-detail/${board.bno}`"
+                  class="text-decoration-none"
                 >
-                  <div>
-                    <v-card
-                      flat
-                      :color="hover ? 'white' : 'transparent'"
-                      :elevation="hover ? 12 : 0"
-                      hover
-                      to="/detail"
-                    >
-                      <v-img
-                        src="https://cdn.pixabay.com/photo/2020/12/23/14/41/forest-5855196_1280.jpg"
-                        :aspect-ratio="16 / 9"
-                        gradient="to top, rgba(25,32,72,.4), rgba(25,32,72,.0)"
-                        height="200px"
-                        class="elevation-2"
-                        style="border-radius: 16px"
+                  <v-hover
+                    v-slot:default="{ hover }"
+                    open-delay="50"
+                    close-delay="50"
+                  >
+                    <div>
+                      <v-card
+                        rounded="xl"
+                        flat
+                        :color="hover ? 'white' : 'transparent'"
+                        :elevation="hover ? 12 : 0"
+                        hover
                       >
+                        <v-img
+                          src="https://cdn.pixabay.com/photo/2020/12/23/14/41/forest-5855196_1280.jpg"
+                          :aspect-ratio="16 / 9"
+                          gradient="to top, rgba(25,32,72,.4), rgba(25,32,72,.0)"
+                          height="200px"
+                          class="elevation-2"
+                          style="border-radius: 16px"
+                        />
+
                         <v-card-text>
-                          <v-btn
-                            color="accent"
-                            to="category"
-                          >
-                            TIPS
-                          </v-btn>
-                        </v-card-text>
-                      </v-img>
-
-                      <v-card-text>
-                        <div class="text-h5 font-weight-bold primary--text">
-                          How to write an awesome blog post in 5 steps
-                        </div>
-
-                        <div class="text-body-1 py-4">
-                          Ultrices sagittis orci a scelerisque. Massa placerat
-                          duis ultricies lacus sed turpis
-                        </div>
-
-                        <div class="d-flex align-center">
-                          <v-avatar
-                            color="accent"
-                            size="36"
-                          >
-                            <v-icon dark>
-                              mdi-feather
-                            </v-icon>
-                          </v-avatar>
-
-                          <div class="pl-2">
-                            Yan Lee · 22 July 2019
+                          <div class="text-h5 font-weight-bold primary--text">
+                            {{ board.title }}
                           </div>
-                        </div>
-                      </v-card-text>
-                    </v-card>
-                  </div>
-                </v-hover>
+
+                          <div class="text-body-1 py-4">
+                            {{ (board.content).length >= 50 ? (board.content).substr(0,50)+"..." : board.content }}
+                          </div>
+
+                          <div class="d-flex align-center">
+                            <v-avatar
+                              color="accent"
+                              size="36"
+                            >
+                              <v-img
+                                :src="`/api/member/profile/img/${board.picturePath}`"
+                              />
+                            </v-avatar>
+
+                            <div class="pl-2">
+                              {{ board.nickname }}
+                            </div>
+                          </div>
+                        </v-card-text>
+                      </v-card>
+                    </div>
+                  </v-hover>
+                </router-link>
               </v-col>
             </v-row>
           </div>
 
           <div class="pt-16">
             <h2 class="text-h4 font-weight-bold pb-4">
-              Featured
+              <v-icon class="pb-1">
+                mdi-crown
+              </v-icon>
+              월간 인기 게시글
             </h2>
+
+            <v-divider />
 
             <v-row>
               <v-col
-                v-for="i in 3"
-                :key="i"
+                v-for="board in monthlyBestBoards"
+                :key="board.bno"
                 cols="6"
                 lg="4"
               >
@@ -162,8 +145,11 @@
                       class="d-flex flex-column justify-space-between fill-height"
                     >
                       <v-card-text>
-                        <v-btn color="accent">
-                          ANIMALS
+                        <v-btn
+                          color="accent"
+                          :to="`/board-detail/${board.bno}`"
+                        >
+                          보러가기
                         </v-btn>
                       </v-card-text>
 
@@ -172,7 +158,7 @@
                           class="text-h5 py-3 font-weight-bold"
                           style="line-height: 1.2"
                         >
-                          15 things I have always wondered about birds
+                          {{ (board.title).length >= 20 ? (board.title).substr(0,30)+"..." : board.title }}
                         </div>
 
                         <div class="d-flex align-center">
@@ -180,13 +166,13 @@
                             color="accent"
                             size="36"
                           >
-                            <v-icon dark>
-                              mdi-feather
-                            </v-icon>
+                            <v-img
+                              :src="`/api/member/profile/img/${board.picturePath}`"
+                            />
                           </v-avatar>
 
                           <div class="pl-2">
-                            Yan Lee · 03 Jan 2019
+                            {{ board.nickname }}
                           </div>
                         </div>
                       </v-card-text>
@@ -196,79 +182,114 @@
               </v-col>
             </v-row>
           </div>
-
-          <div class="pt-16">
-            <h2 class="text-h4 font-weight-bold">
-              Latest Posts
-            </h2>
-
-            <div>
-              <v-row
-                v-for="i in 6"
-                :key="i"
-                class="py-4"
-              >
-                <v-col
-                  cols="12"
-                  md="4"
-                >
-                  <v-card
-                    flat
-                    height="100%"
-                  >
-                    <v-img
-                      src="https://cdn.pixabay.com/photo/2021/01/27/06/54/nova-scotia-duck-tolling-retriever-5953883_1280.jpg"
-                      :aspect-ratio="16 / 9"
-                      height="100%"
-                    />
-                  </v-card>
-                </v-col>
-
-                <v-col>
-                  <div>
-                    <v-btn
-                      depressed
-                      color="accent"
-                    >
-                      TRAVEL
-                    </v-btn>
-
-                    <h3 class="text-h4 font-weight-bold pt-3">
-                      Ut enim blandit volutpat maecenas volutpat blandit
-                    </h3>
-
-                    <p class="text-h6 font-weight-regular pt-3 text--secondary">
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum.
-                    </p>
-
-                    <div class="d-flex align-center">
-                      <v-avatar
-                        color="accent"
-                        size="36"
-                      >
-                        <v-icon dark>
-                          mdi-feather
-                        </v-icon>
-                      </v-avatar>
-
-                      <div class="pl-2">
-                        Yan Lee · 03 Jan 2019
-                      </div>
-                    </div>
-                  </div>
-                </v-col>
-              </v-row>
-            </div>
-          </div>
         </div>
       </v-col>
 
       <v-col>
         <div class="pt-16">
-          <sidebar />
+          <h3 class="text-h4 font-weight-bold pb-4">
+            <v-icon class="pb-1">
+              mdi-bell-outline
+            </v-icon>
+            최신 게시글
+          </h3>
+
+          <v-divider />
+
+          <div>
+            <v-row
+              v-for="board in latestBoards"
+              :key="board.bno"
+              class="py-2"
+            >
+              <v-col
+                cols="12"
+                md="6"
+                lg="5"
+              >
+                <v-card
+                  height="100%"
+                  flat
+                  class="mt-0"
+                >
+                  <v-img
+                    src="https://cdn.pixabay.com/photo/2021/01/22/16/55/camera-5940588_1280.jpg"
+                    :aspect-ratio="16 / 9"
+                    height="100%"
+                  />
+                </v-card>
+              </v-col>
+
+              <v-col>
+                <div>
+                  <v-btn
+                    depressed
+                    color="accent"
+                    small
+                    :to="`/board-detail/${board.bno}`"
+                  >
+                    보러가기
+                  </v-btn>
+
+                  <h3 class="text-h5 font-weight-bold primary--text py-3">
+                    {{ (board.title).length >= 20 ? (board.title).substr(0,30)+"..." : board.title }}
+                  </h3>
+
+                  <div class="d-flex align-bottom mt-4">
+                    <v-avatar
+                      color="accent"
+                      size="24"
+                    >
+                      <v-img
+                        :src="`/api/member/profile/img/${board.picturePath}`"
+                      />
+                    </v-avatar>
+
+                    <div class="pl-2">
+                      {{ board.nickname }}
+                    </div>
+                  </div>
+                </div>
+              </v-col>
+            </v-row>
+          </div>
+        </div>
+
+        <div class="mt-10">
+          <h3 class="text-h5 font-weight-medium pb-4">
+            <v-icon class="pb-1">
+              mdi-fire
+            </v-icon>
+            Most Followed
+          </h3>
+
+          <v-divider />
+
+          <div class="pt-4">
+            <div
+              v-for="member in mostFollowedMember"
+              :key="member.nickname"
+              class="d-flex align-center mb-6"
+            >
+              <v-avatar
+                color="accent"
+                size="64"
+              >
+                <v-img
+                  :src="`/api/member/profile/img/${member.picturePath}`"
+                />
+              </v-avatar>
+
+              <div class="pl-2">
+                <div class="text-h6">
+                  {{ member.nickname }}
+                </div>
+                <div class="text-subtitle-1">
+                  {{ member.follower }}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </v-col>
     </v-row>
@@ -276,24 +297,15 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 export default {
   name: "Main",
-  components:{
-    sidebar:() => import('@/components/sidebar')
-  },
+  data:() => ({
+    weeklyBestBoards:[],
+    monthlyBestBoards:[],
+    latestBoards:[],
+    mostFollowedMember:[]
+  }),
   computed: {
-    ...mapState("board", ["headers", "boardData"]),
-    headers: {
-      get() {
-        return this.$store.getters["board/getHeaders"];
-      }
-    },
-    boardData: {
-      get() {
-        return this.$store.getters["board/getBoardData"];
-      }
-    },
     width() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
@@ -310,15 +322,23 @@ export default {
       return 0;
     }
   },
-  // created: function() {
-  //   // axios
-  //   //   .get("http://localhost:3000/board")
-  //   //   .then(res => {
-  //   //     var result = res.data.board_list;
-  //   //     this.$store.dispatch("board/changeBoardData", result);
-  //   //   })
-  //   //   .catch(err => {});
-  // }
+  created(){
+    //주간 게시물
+    axios
+        .get("/api/board/main/list")
+        .then(res => {
+          console.log(res.data);
+          this.weeklyBestBoards = res.data.weeklyBestBoards;
+          this.monthlyBestBoards = res.data.monthlyBestBoards;
+          this.latestBoards = res.data.latestBoards;
+          this.mostFollowedMember = res.data.mostFollowedMember;
+        })
+    //most followed member
+    // axios
+    //     .get()
+    //     .then()
+    //     .catch();
+  }
 };
 </script>
 
