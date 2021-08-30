@@ -19,21 +19,21 @@ const actions = {
     },
     pageNext({ dispatch }, params) {
         if (!params.category && params.searchText) {
-            router.push("/search?searchText=" + params.searchText + "&page=" + params.page).catch(() => {});
             axios
                 .get("/api/board/list", { params: { 'page': params.page, 'searchText': params.searchText } })
                 .then(res => {
                     let result = res.data.board_list;
                     dispatch("changeBoardData", result);
+                    router.push("/search/" + params.searchText + "/" + params.page).catch(() => {});
                 })
                 .catch(() => {});
         } else {
-            router.push("/board-list?category=" + params.category + "&page=" + params.page);
             axios
                 .get("/api/board/list", { params: { 'page': params.page, 'category': params.category } })
                 .then(res => {
                     let result = res.data.board_list;
                     dispatch("changeBoardData", result);
+                    router.push("/board-list/" + params.category + "/" + params.page);
                 })
                 .catch(() => {});
         }
