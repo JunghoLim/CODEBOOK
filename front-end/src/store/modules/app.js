@@ -64,7 +64,7 @@ const state = {
                     icon: "",
                     items: [{
                         title: "일상",
-                        to: "/board-list?category=free"
+                        to: "/board-list/free/1"
                     }]
                 },
                 {
