@@ -33,6 +33,10 @@
         UPDATE PROFILE SET NICKNAME = #{nickname}, ABOUTME = #{aboutMe} WHERE EMAIL = #{email}
     </update>
 
+    <update id="update_ProfileFollower" parameterType="com.codebook.domain.MemberProfileDTO">
+        UPDATE PROFILE SET FOLLOWER = (SELECT COUNT(*) FROM FOLLOW WHERE tomemberemail = #{email}) WHERE EMAIL = #{email}
+    </update>
+
     <insert id="insert_picture">
         INSERT INTO PICTURE(PICTUREPATH, EMAIL, ORIGINALFILENAME, FILESIZE) VALUES(#{storedFilePath}, #{email} ,#{originalFileName}, #{fileSize})
     </insert>
@@ -51,6 +55,9 @@
 
     <select id="findProfileByNickname" parameterType="string" resultType="com.codebook.domain.MemberProfileDTO">
         SELECT * FROM PROFILE WHERE NICKNAME LIKE '%'||#{nickname}||'%'
+    </select>
+    <select id="select_nickname" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM PROFILE WHERE NICKNAME = #{nickname}
     </select>
 
 </mapper>
