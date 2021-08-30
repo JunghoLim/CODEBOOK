@@ -48,8 +48,6 @@
               icon="mdi-star-check"
               title="Followers"
               :value="String(memberInfo.follower)"
-              sub-icon="mdi-clock"
-              sub-text="Just Updated"
             />
           </v-card-text>
         </material-card>
@@ -179,67 +177,37 @@
             </thead>
 
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Dakota Rice</td>
-                <td>Niger</td>
-                <td>Oud-Turnhout</td>
-                <td class="text-right">
-                  $36,738
+              <tr
+                v-for="board in boardData"
+                :key="board.name"
+                class="text-center"
+                @click="board_detail(board.bno)"
+              >
+                <td class="text-left">
+                  {{ board.category }}
                 </td>
-              </tr>
-
-              <tr>
-                <td>2</td>
-                <td>Minverva Hooper</td>
-                <td>Curaçao</td>
-                <td>Sinaas-Waas</td>
-                <td class="text-right">
-                  $23,789
+                <td class="text-left">
+                  {{ board.title }}
                 </td>
-              </tr>
-
-              <tr>
-                <td>3</td>
-                <td>Sage Rodriguez</td>
-                <td>Netherlands</td>
-                <td>Baileux</td>
-                <td class="text-right">
-                  $56,142
+                <td class="text-center">
+                  {{ board.recommend }}
                 </td>
-              </tr>
-
-              <tr>
-                <td>4</td>
-                <td>Philip Chaney</td>
-                <td>Korea, South</td>
-                <td>Overland Park</td>
+                <td>{{ board.comment_cnt }}</td>
                 <td class="text-right">
-                  $38,735
-                </td>
-              </tr>
-
-              <tr>
-                <td>5</td>
-                <td>Doris Greene</td>
-                <td>Malawi</td>
-                <td>Feldkirchen in Kärnten</td>
-                <td class="text-right">
-                  $63,542
-                </td>
-              </tr>
-
-              <tr>
-                <td>6</td>
-                <td>Mason Porter</td>
-                <td>Chile</td>
-                <td>Gloucester</td>
-                <td class="text-right">
-                  $78,615
+                  {{ board.writedate }}
                 </td>
               </tr>
             </tbody>
           </v-simple-table>
+          <template class="mt-10">
+            <div class="text-center">
+              <v-pagination
+                v-model="page"
+                :length="pagination"
+                @input="pageNext"
+              />
+            </div>
+          </template>
         </material-card>
       </v-col>
     </v-row>
@@ -258,7 +226,9 @@ export default {
   data: () => ({
     selectedFile: null,
     isSelecting: false,
-    aboutMe:''
+    aboutMe:'',
+    page:1,
+    pagination:1
   }),
   computed:{
     buttonText() {
@@ -268,7 +238,23 @@ export default {
       get(){
         return this.$store.getters["member/getMember"]
       }
+    },
+    boardData: {
+      get() {
+        return this.$store.getters["board/getBoardData"];
+      }
     }
+  },
+  created() {
+    let searchText = 'email_'+this.$store.getters["member/getMember"].email;
+    axios
+      .get("/api/board/list", { params: { 'page': 1, 'searchText':searchText } })
+      .then(res => {
+        let result = res.data.board_list;
+        this.pagination = res.data.pagination;
+        this.$store.dispatch("board/changeBoardData", result);
+      })
+      .catch(err => {});
   },
   beforeMount(){
       this.aboutMe = this.memberInfo.aboutMe;
@@ -276,6 +262,15 @@ export default {
       this.aboutMe = this.aboutMe.split('\n').join('<br />');
   },
   methods: {
+    pageNext(page){
+      axios
+          .get("/api/board/list", { params: { 'page': page, 'searchText': 'email_'+this.$store.getters["member/getMember"].email } })
+          .then(res => {
+              let result = res.data.board_list;
+              this.$store.dispatch("board/changeBoardData", result);
+          })
+          .catch(() => {});
+    },
     onButtonClick() {
       this.isSelecting = true
       window.addEventListener('focus', () => {
@@ -289,7 +284,18 @@ export default {
       this.$store.dispatch("member/profileImgUpdate", this.selectedFile);
     },
     profileUpdate(profileForm) {
-      this.$store.dispatch("member/profileUpdate", profileForm);
+      axios
+          .get("/api/member/duplicate", {params:{'nickname': profileForm.nickname}})
+          .then(res => {
+            if(res.data == 1){
+              alert('중복된 닉네임을 가진 유저가 있습니다.')
+            }else{
+              this.$store.dispatch("member/profileUpdate", profileForm);
+            }
+          })
+    },
+    board_detail(bno) {
+      this.$router.push("/board-detail?bno=" + bno);
     }
   }
 }
