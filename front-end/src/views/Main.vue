@@ -323,21 +323,14 @@ export default {
     }
   },
   created(){
-    //주간 게시물
     axios
         .get("/api/board/main/list")
         .then(res => {
-          console.log(res.data);
           this.weeklyBestBoards = res.data.weeklyBestBoards;
           this.monthlyBestBoards = res.data.monthlyBestBoards;
           this.latestBoards = res.data.latestBoards;
           this.mostFollowedMember = res.data.mostFollowedMember;
         })
-    //most followed member
-    // axios
-    //     .get()
-    //     .then()
-    //     .catch();
   }
 };
 </script>
