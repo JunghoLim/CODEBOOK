@@ -69,19 +69,27 @@
 export default {
   name: "BoardList",
   data() {
-    return { page: 1, pagination: 1, category: '' };
+    return { pagination: 1, category: '' };
   },
   computed: {
     boardData: {
       get() {
         return this.$store.getters["board/getBoardData"];
       }
+    },
+    page:{
+      get(){
+        return Number(this.$route.params.page);
+      },
+      set(){
+        return Number(this.$route.params.page);
+      }
     }
   },
   created() {
-    let category = this.$route.query.category;
+    let category = this.$route.params.category;
     axios
-      .get("/api/board/list", { params: { 'page': 1, 'category':category } })
+      .get("/api/board/list", { params: { 'page': this.$route.params.page, 'category':category } })
       .then(res => {
         let result = res.data.board_list;
         this.pagination = res.data.pagination;
@@ -96,7 +104,7 @@ export default {
       this.$store.dispatch("board/pageNext", params);
     },
     board_detail(bno) {
-      this.$router.push("/board-detail?bno=" + bno);
+      this.$router.push("/board-detail/"+bno);
     }
   }
 };
