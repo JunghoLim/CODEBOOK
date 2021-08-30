@@ -14,6 +14,12 @@
         INNER JOIN PROFILE ON D.email = PROFILE.email
     </select>
 
+    <select id="page_per_board_search_byEmail" resultType="com.codebook.domain.BoardDTO">
+        SELECT D.*,PROFILE.NICKNAME FROM
+        (SELECT C.* FROM (SELECT B.*,ROWNUM rnum FROM (SELECT A.* FROM BOARD A WHERE EMAIL = #{searchText} ORDER BY BNO DESC)B)C WHERE rnum BETWEEN #{start_row} AND #{end_row})D
+        INNER JOIN PROFILE ON D.email = PROFILE.email
+    </select>
+
     <select id="board_detail" resultType="com.codebook.domain.BoardDTO">
         SELECT A.*,PROFILE.NICKNAME FROM (SELECT * FROM BOARD WHERE BNO = #{bno})A INNER JOIN PROFILE ON A.EMAIL = PROFILE.EMAIL
     </select>
@@ -26,7 +32,27 @@
         SELECT COUNT(*) FROM BOARD WHERE TITLE LIKE '%'||#{searchText}||'%'
     </select>
 
+    <select id="all_board_search_byEmail" resultType="int">
+        SELECT COUNT(*) FROM BOARD WHERE EMAIL = #{searchText}
+    </select>
+
     <insert id="insert_comment">
         INSERT INTO BOARDCOMMENT(CNO,BNO,EMAIL,CONTENT) VALUES (CNO_SEQ.NEXTVAL,#{bno},#{email},#{comment})
     </insert>
+
+    <select id="select_main_termBoard" resultType="com.codebook.domain.BoardDTO">
+        SELECT C.*,PROFILE.NICKNAME, PROFILE.PICTUREPATH FROM
+        (SELECT B.* FROM (SELECT A.*, ROWNUM rnum FROM (SELECT * FROM BOARD WHERE WRITEDATE BETWEEN to_char(CURRENT_DATE-#{term}, 'YYYY-MM-DD HH24:MI:SS') AND to_char(CURRENT_DATE, 'YYYY-MM-DD HH24:MI:SS') ORDER BY RECOMMEND DESC)A)B
+        WHERE rnum BETWEEN 1 AND #{endNum})C INNER JOIN PROFILE ON C.email = PROFILE.email
+    </select>
+
+    <select id="select_main_latestBoard" resultType="com.codebook.domain.BoardDTO">
+        SELECT B.*,PROFILE.NICKNAME, PROFILE.PICTUREPATH FROM
+        (SELECT * FROM (SELECT A.*, ROWNUM rnum FROM (SELECT * FROM BOARD ORDER BY WRITEDATE DESC)A) WHERE rnum BETWEEN 1 AND 5)B
+        INNER JOIN PROFILE ON B.email = PROFILE.email
+    </select>
+
+    <select id="select_main_profile" resultType="com.codebook.domain.MemberProfileDTO">
+        SELECT * FROM (SELECT A.*, ROWNUM rnum FROM (SELECT * FROM PROFILE ORDER BY FOLLOWER DESC)A) WHERE rnum BETWEEN 1 AND 5
+    </select>
 </mapper>
