@@ -20,4 +20,5 @@ public interface MemberService {
     ResponseEntity<byte[]> getProfileImg(String imgPath) throws IOException;
     Map<String, Object> findProfile(String nickname);
     int followingMember(String from, String to);
+    int nicknameDuplicateCheck(String nickname);
 }
