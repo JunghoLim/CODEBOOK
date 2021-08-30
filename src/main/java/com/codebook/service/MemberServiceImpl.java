@@ -109,11 +109,18 @@ public class MemberServiceImpl implements MemberService {
     public int followingMember(String from, String to) {
         if(memberMapper.duplicate_following(from, to) == 0){
             memberMapper.insert_follow(from, to);
+            memberMapper.update_ProfileFollower(to);
             return 1;
         }else{
             memberMapper.delete_following(from, to);
+            memberMapper.update_ProfileFollower(to);
             return 0;
         }
+    }
+
+    @Override
+    public int nicknameDuplicateCheck(String nickname) {
+        return memberMapper.select_nickname(nickname);
     }
 
 }
