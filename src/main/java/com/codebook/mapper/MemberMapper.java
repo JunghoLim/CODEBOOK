@@ -23,4 +23,6 @@ public interface MemberMapper {
     void insert_follow(String from, String to);
     int duplicate_following(String from, String to);
     void delete_following(String from, String to);
+    void update_ProfileFollower(String email);
+    int select_nickname(String nickname);
 }
