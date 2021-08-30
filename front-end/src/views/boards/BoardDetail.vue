@@ -102,9 +102,6 @@
     </v-row>
   </v-container>
 </template>
-//
-<v-col><div><div><p>{{ comment.nickname }}</p><p>작성일 : {{ comment.writedate }}</p></div><p>{{ comment.content }}</p></div></v-col>
-
 <script>
 import { mapState } from "vuex";
 export default {
@@ -145,7 +142,7 @@ export default {
   },
   created: function() {
     //집가서 두개로 합치기
-    let bno = this.$route.query.bno;
+    let bno = this.$route.params.bno;
     this.$store.dispatch("boardDetail/changeBoardDetailData", bno);
     this.$store.dispatch("boardDetail/changeCommentData", bno);
   },
