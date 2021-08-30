@@ -295,7 +295,7 @@ export default {
           })
     },
     board_detail(bno) {
-      this.$router.push("/board-detail?bno=" + bno);
+      this.$router.push("/board-detail/" + bno);
     }
   }
 }
