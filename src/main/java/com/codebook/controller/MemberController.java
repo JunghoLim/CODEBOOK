@@ -5,6 +5,7 @@ import com.codebook.domain.MemberDTO;
 import com.codebook.domain.MemberProfileDTO;
 import com.codebook.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,9 +36,13 @@ public class MemberController {
 
     //아이디 중복 검사
     @GetMapping("/member/duplicate")
-    public int memberDuplicateCheck(@RequestParam("email") String email){
+    public int memberDuplicateCheck(@RequestParam(value = "email", required = false) String email, @RequestParam(value = "nickname", required = false) String nickname){
         //반환값이 1이라면 중복 0이면 중복 아님.
-        return memberService.duplicateCheck(email);
+        if(StringUtils.isNotEmpty(email)){
+            return memberService.duplicateCheck(email);
+        }else{
+            return memberService.nicknameDuplicateCheck(nickname);
+        }
     }
 
     //토큰을 통해 유저의 정보를 추출 후 반환
