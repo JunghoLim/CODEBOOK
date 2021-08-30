@@ -44,7 +44,7 @@ const routes = [{
         },
         {
             name: "BoardList",
-            path: "/board-list",
+            path: "/board-list/:category/:page",
             component: () =>
                 import (
                     /*webpackChunkName : "boards-board-list" */
@@ -53,7 +53,7 @@ const routes = [{
         },
         {
             name: "BoardDetail",
-            path: "/board-detail",
+            path: "/board-detail/:bno",
             component: () =>
                 import (
                     /*webpackChunkName : "boards-board-list-detail" */
@@ -81,7 +81,7 @@ const routes = [{
         },
         {
             name: "Search",
-            path: "/search",
+            path: "/search/:searchText/:page",
             component: () =>
                 import ( /* webpackChunkName : "search" */ "@/views/Search")
 
