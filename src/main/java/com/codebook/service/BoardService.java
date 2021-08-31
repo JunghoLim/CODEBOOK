@@ -81,4 +81,8 @@ public class BoardService {
         mainBoards.put("mostFollowedMember", boardMapper.select_main_profile());
         return mainBoards;
     }
+    public int deleteComment(String email,int cno){
+
+        return boardMapper.deleteComment(email,cno);
+    }
 }

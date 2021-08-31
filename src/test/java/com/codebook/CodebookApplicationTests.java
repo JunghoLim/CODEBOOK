@@ -62,19 +62,10 @@ class CodebookApplicationTests {
         List<CommentDTO> comment = commentMapper.comment(bno);
         System.out.println(comment);
     }
-    /*@Test
-    void findMemberByEmailTest(){
-        MemberDTO member = membermapper.findMemberByEmail("asd@asd.com");
-        System.out.println(member.getEmail());
-    }*/
-//
-//    @Test
-//    void board_list_test(){
-//        System.out.println(boardMapper.board_list());
-//    }
-//    @Test
-//    void 보드디테일테스트(){
-//        int bno = 1;
-//        boardService.board_detail(bno);
-//    }
+    @Test
+    void 댓글삭제(){
+        String email = "wjddustkd45@gmail.com";
+        int cno = 94;
+        boardService.deleteComment(email,cno);
+    }
 }
