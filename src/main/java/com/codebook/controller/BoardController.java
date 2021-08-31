@@ -1,6 +1,7 @@
 package com.codebook.controller;
 
 
+import com.codebook.domain.BoardDTO;
 import com.codebook.mapper.BoardMapper;
 import com.codebook.service.BoardService;
 import com.codebook.service.MemberService;
@@ -9,10 +10,12 @@ import oracle.ucp.proxy.annotation.Post;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.websocket.server.PathParam;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +26,7 @@ import java.util.Map;
 public class BoardController {//게시판 정보 가져오는....
 
     private final BoardService boardService;
-    private final MemberService memberService;
+
     @GetMapping("/board/list")
     public Map<String, Object> board_view(@PathParam("page") int page, @PathParam("category") String category, @PathParam("searchText") String searchText) {
         if (page == 0) {
@@ -90,12 +93,23 @@ public class BoardController {//게시판 정보 가져오는....
             String email  = param.get("email");
             boardService.deleteComment(email,cno);
     }
+
     @PostMapping("/comment/update")
     public int updateCommend(@RequestBody Map<String,String>param){
         String str = param.get("cno");
         int cno = Integer.parseInt(str);
         String comment = param.get("comment");
         return boardService.updateComment(cno,comment);
+    }
+
+    @PostMapping("/board/img")
+    public String uploadImgFile(HttpServletRequest req, HttpServletResponse res, @RequestParam("file") MultipartFile file) throws IOException {
+        return boardService.uploadImgFile(req, res, file);
+    }
+
+    @PostMapping("/board")
+    public void writeBoard(@RequestBody BoardDTO boardDTO){
+        boardService.writeBoard(boardDTO);
     }
 }
 
