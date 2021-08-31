@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col>
+      <v-col cols="12">
         <v-container style="width:620px">
           <v-card
             class="text-center"
