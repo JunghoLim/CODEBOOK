@@ -61,7 +61,7 @@ public class MemberController {
         memberService.updateProfileImg(req, res, file);
     }
 
-    @GetMapping("/member/profile/img/{imgName}")
+    @GetMapping(value = {"/member/profile/img/{imgName}", "/file/img/{imgName}"})
     public ResponseEntity<byte[]> getProfileImg(@PathVariable("imgName") String imgName) throws IOException {
         return memberService.getProfileImg(imgName);
     }
