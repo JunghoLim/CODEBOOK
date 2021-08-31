@@ -6,9 +6,12 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 import "./plugins";
 import './plugins/chartist'
+// Basic Use - Covers most scenarios
+import VueEditor from "vue2-editor";
 
 Vue.config.productionTip = false;
 Vue.prototype.$Axios = axios;
+Vue.use(VueEditor);
 
 new Vue({
     router,

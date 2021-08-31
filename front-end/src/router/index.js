@@ -85,6 +85,13 @@ const routes = [{
             component: () =>
                 import ( /* webpackChunkName : "search" */ "@/views/Search")
 
+        },
+        {
+            name: "BoardWrite",
+            path: "/board-write",
+            component: () =>
+                import ( /* webpackChunkName : "boards-board-write" */ "@/views/boards/BoardWrite")
+
         }
     ]
 }];
