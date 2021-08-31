@@ -36,8 +36,9 @@
             </v-container>
             <v-container>
               <v-row class="ml-2">
-                <!-- 내용 오는 곳 -->
-                {{ boardDetailData.content }}
+                <!-- eslint-disable vue/no-v-html -->
+                <div v-html="boardDetailData.content" />
+                <!--eslint-enable-->
               </v-row>
             </v-container>
           </v-card>
@@ -124,7 +125,6 @@
 import { mapState } from "vuex";
 export default {
   name: "BoardDetail",
-
   data() {
     return {
       items: [],
@@ -134,7 +134,6 @@ export default {
       correctionMessage: null
     };
   },
-
   computed: {
     ...mapState("boardDetail", ["boardDetail"]),
     boardDetailData: {
