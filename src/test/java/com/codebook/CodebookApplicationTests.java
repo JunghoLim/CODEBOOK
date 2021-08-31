@@ -68,4 +68,10 @@ class CodebookApplicationTests {
         int cno = 94;
         boardService.deleteComment(email,cno);
     }
+    @Test
+    void 댓글수정(){
+        String comment = "구구구구구구구굿";
+        int cno = 181;
+        boardMapper.updateComment(cno,comment);
+    }
 }

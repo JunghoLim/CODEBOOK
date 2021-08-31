@@ -79,9 +79,37 @@
               v-if="currentEmail == comment.email"
               class="mt-15"
             >
-              <v-btn @click="correction(comment.cno)">
-                수정
-              </v-btn>
+              <v-dialog
+                v-model="dialog"
+                width="500"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    수정
+                  </v-btn>
+                </template>
+
+                <v-card>
+                  <v-container>
+                    <v-text-field v-model="correctionMessage" />
+                  </v-container>
+                  <v-divider />
+
+                  <v-card-actions>
+                    <v-spacer />
+                    <v-btn
+                      text
+                      @click="correction(comment.cno)"
+                    >
+                      I accept
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+
               <v-btn @click="deleteComment(comment.cno)">
                 삭제
               </v-btn>
@@ -101,7 +129,9 @@ export default {
     return {
       items: [],
       message: null,
-      commentComponent: []
+      commentComponent: [],
+      dialog: false,
+      correctionMessage: null
     };
   },
 
@@ -156,7 +186,22 @@ export default {
       this.$store.dispatch("boardDetail/sendComment", commetInfo);
     },
     correction(cno) {
-      let email = this.$store.getters["member/getEmail"];
+      let token = localStorage.getItem("codebook-bearer");
+      let comment = this.correctionMessage;
+      axios
+        .post(
+          "/api/comment/update",
+          { cno: cno, comment: comment },
+          {
+            headers: { "codebook-bearer": token }
+          }
+        )
+        .then(res => {
+          this.$router.go();
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     deleteComment(cno) {
       let email = this.$store.getters["member/getEmail"];

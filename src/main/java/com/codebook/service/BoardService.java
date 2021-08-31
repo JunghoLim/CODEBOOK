@@ -85,4 +85,8 @@ public class BoardService {
 
         return boardMapper.deleteComment(email,cno);
     }
+    public int updateComment(int cno , String comment){
+
+        return boardMapper.updateComment(cno,comment);
+    }
 }
