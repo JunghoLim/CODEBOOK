@@ -104,7 +104,7 @@
                       text
                       @click="correction(comment.cno)"
                     >
-                      I accept
+                      수정
                     </v-btn>
                   </v-card-actions>
                 </v-card>
