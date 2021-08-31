@@ -88,7 +88,7 @@ const routes = [{
         },
         {
             name: "BoardWrite",
-            path: "/board-write",
+            path: "/board-write/:category",
             component: () =>
                 import ( /* webpackChunkName : "boards-board-write" */ "@/views/boards/BoardWrite")
 
