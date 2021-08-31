@@ -3,14 +3,13 @@ package com.codebook.service;
 import com.codebook.domain.MemberDTO;
 import com.codebook.domain.MemberProfileDTO;
 import com.codebook.domain.UploadImgFileDTO;
-import com.codebook.handler.ProfileImgFileHandler;
+import com.codebook.handler.AuthenticationHandler;
+import com.codebook.handler.ImgFileHandler;
 import com.codebook.mapper.MemberMapper;
 import com.codebook.repository.MemberRepository;
-import com.codebook.security.authentication.token.JwtTokenProvider;
 import com.codebook.security.user.Role;
 import com.codebook.security.user.Status;
 import com.codebook.security.user.UserDetailsImpl;
-import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpStatus;
@@ -33,20 +32,8 @@ public class MemberServiceImpl implements MemberService {
     private final MemberMapper memberMapper;
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final ProfileImgFileHandler profileImgFileHandler;
-
-    public Authentication getAuth(HttpServletRequest req, HttpServletResponse res){
-        String token = jwtTokenProvider.resolveTokenFromRequest(req);
-        Authentication auth = null;
-        try{
-            auth = jwtTokenProvider.getAuthentication(token);
-        }catch (ExpiredJwtException e){
-            token = jwtTokenProvider.resolveTokenFromResponse(res);
-            auth = jwtTokenProvider.getAuthentication(token);
-        }
-        return auth;
-    }
+    private final ImgFileHandler imgFileHandler;
+    private final AuthenticationHandler authenticationHandler;
 
     @Override
     public void signUp(MemberDTO member){
@@ -64,7 +51,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Map<String, Object> extractMemberData(HttpServletRequest req, HttpServletResponse res) {
-        Authentication auth = getAuth(req, res);
+        Authentication auth = authenticationHandler.getAuth(req, res);
         UserDetailsImpl member = (UserDetailsImpl) auth.getPrincipal();
         MemberProfileDTO profile = memberMapper.findProfileByEmail(member.getUsername());
         String[] role = member.getRole().split("_");
@@ -82,9 +69,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void updateProfileImg(HttpServletRequest req, HttpServletResponse res, MultipartFile file) throws IOException {
-        Authentication auth = getAuth(req, res);
+        Authentication auth = authenticationHandler.getAuth(req, res);
         UserDetailsImpl member = (UserDetailsImpl) auth.getPrincipal();
-        UploadImgFileDTO uploadImgFile = profileImgFileHandler.parseImgFile(member.getUsername(),file);
+        UploadImgFileDTO uploadImgFile = imgFileHandler.parseImgFile(member.getUsername(),file);
         memberRepository.updateMemberProfileImg(uploadImgFile);
     }
 
