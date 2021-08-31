@@ -176,8 +176,7 @@
       </v-col>
 
       <v-col
-        cols="10"
-        offset="1"
+        cols="12"
       >
         <material-card
           color="error"
