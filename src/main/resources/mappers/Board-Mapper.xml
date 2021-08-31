@@ -59,4 +59,7 @@
     <delete id="deleteComment">
         DELETE BOARDCOMMENT WHERE CNO = #{cno} AND EMAIL = #{email}
     </delete>
+    <update id="updateComment">
+        UPDATE BOARDCOMMENT SET CONTENT = #{comment} WHERE CNO = #{cno}
+    </update>
 </mapper>

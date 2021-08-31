@@ -7,6 +7,7 @@ import com.codebook.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import oracle.ucp.proxy.annotation.Post;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -83,13 +84,19 @@ public class BoardController {//게시판 정보 가져오는....
 
     @PostMapping("/comment/delete")
     public void deleteComment(@RequestBody Map<String,String> param){
-        
+
             String src = param.get("cno");
             int cno = Integer.parseInt(src);
             String email  = param.get("email");
             boardService.deleteComment(email,cno);
     }
-
+    @PostMapping("/comment/update")
+    public int updateCommend(@RequestBody Map<String,String>param){
+        String str = param.get("cno");
+        int cno = Integer.parseInt(str);
+        String comment = param.get("comment");
+        return boardService.updateComment(cno,comment);
+    }
 }
 
 

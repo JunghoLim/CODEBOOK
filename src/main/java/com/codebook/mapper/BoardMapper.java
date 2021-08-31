@@ -23,4 +23,5 @@ public interface BoardMapper {
     List<BoardDTO> select_main_latestBoard();
     List<MemberProfileDTO> select_main_profile();
     int deleteComment(String email,int cno);
+    int updateComment(int cno,String comment);
 }
