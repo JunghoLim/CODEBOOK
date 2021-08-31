@@ -62,4 +62,12 @@
     <update id="updateComment">
         UPDATE BOARDCOMMENT SET CONTENT = #{comment} WHERE CNO = #{cno}
     </update>
+
+    <insert id="insert_board" parameterType="com.codebook.domain.BoardDTO">
+        INSERT INTO BOARD(BNO, EMAIL, TITLE, CONTENT, CATEGORY, MAINPICTURE) VALUES (BNO_SEQ.NEXTVAL, #{email}, #{title}, #{content}, #{category}, #{mainPicture})
+    </insert>
+
+    <insert id="insert_imgfile">
+        INSERT INTO PICTURE(PICTUREPATH, EMAIL, ORIGINALFILENAME, FILESIZE) VALUES(#{storedFilePath}, #{email} ,#{originalFileName}, #{fileSize})
+    </insert>
 </mapper>
