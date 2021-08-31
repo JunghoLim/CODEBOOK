@@ -1,24 +1,30 @@
 package com.codebook.service;
-
 import com.codebook.domain.BoardDTO;
 import com.codebook.domain.CommentDTO;
+import com.codebook.domain.UploadImgFileDTO;
+import com.codebook.handler.AuthenticationHandler;
+import com.codebook.handler.ImgFileHandler;
 import com.codebook.mapper.BoardMapper;
 import com.codebook.mapper.CommentMapper;
+import com.codebook.security.user.UserDetailsImpl;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-
-import javax.xml.stream.events.Comment;
+import org.springframework.web.multipart.MultipartFile;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class BoardService {
     private final BoardMapper boardMapper;
     private final CommentMapper commentMapper;
-
-    public BoardService(BoardMapper boardMapper, CommentMapper commentMapper){this.boardMapper = boardMapper;
-        this.commentMapper = commentMapper;
-    }
+    private final ImgFileHandler imgFileHandler;
+    private final AuthenticationHandler authenticationHandler;
 
     public List<BoardDTO> board_list(int page, String category){
         int all_data = boardMapper.all_board(category);
@@ -81,12 +87,29 @@ public class BoardService {
         mainBoards.put("mostFollowedMember", boardMapper.select_main_profile());
         return mainBoards;
     }
+
     public int deleteComment(String email,int cno){
 
         return boardMapper.deleteComment(email,cno);
     }
+
     public int updateComment(int cno , String comment){
 
         return boardMapper.updateComment(cno,comment);
+    }
+
+    public String uploadImgFile(HttpServletRequest req, HttpServletResponse res, MultipartFile file) throws IOException {
+        Authentication auth = authenticationHandler.getAuth(req, res);
+        UserDetailsImpl member = (UserDetailsImpl) auth.getPrincipal();
+        UploadImgFileDTO uploadImgFile = imgFileHandler.parseImgFile(member.getUsername(),file);
+        if(boardMapper.insert_imgfile(uploadImgFile) == 1){
+            return uploadImgFile.getStoredFilePath();
+        }else{
+            return null;
+        }
+    }
+
+    public void writeBoard(BoardDTO boardDTO){
+        boardMapper.insert_board(boardDTO);
     }
 }
