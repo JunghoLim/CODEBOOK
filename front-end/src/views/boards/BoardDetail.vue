@@ -80,36 +80,9 @@
               v-if="currentEmail == comment.email"
               class="mt-15"
             >
-              <v-dialog
-                v-model="dialog"
-                width="500"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    수정
-                  </v-btn>
-                </template>
-
-                <v-card>
-                  <v-container>
-                    <v-text-field v-model="correctionMessage" />
-                  </v-container>
-                  <v-divider />
-
-                  <v-card-actions>
-                    <v-spacer />
-                    <v-btn
-                      text
-                      @click="correction(comment.cno)"
-                    >
-                      I accept
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
+              <v-btn @click="updateComment(comment.cno)">
+                수정
+              </v-btn>
 
               <v-btn @click="deleteComment(comment.cno)">
                 삭제
@@ -119,6 +92,27 @@
         </v-container>
       </v-card>
     </v-row>
+    <v-dialog
+      v-model="dialog"
+      width="500"
+    >
+      <v-card>
+        <v-container>
+          <v-text-field v-model="correctionMessage" />
+        </v-container>
+        <v-divider />
+
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            text
+            @click="correction()"
+          >
+            I accept
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 <script>
@@ -131,7 +125,8 @@ export default {
       message: null,
       commentComponent: [],
       dialog: false,
-      correctionMessage: null
+      correctionMessage: null,
+      currentCno: null
     };
   },
   computed: {
@@ -184,18 +179,25 @@ export default {
 
       this.$store.dispatch("boardDetail/sendComment", commetInfo);
     },
-    correction(cno) {
+    updateComment(cno) {
+      console.log(cno);
+      this.dialog = true;
+      this.currentCno = cno;
+    },
+    correction() {
       let token = localStorage.getItem("codebook-bearer");
       let comment = this.correctionMessage;
+      let currentCno = this.currentCno;
       axios
         .post(
           "/api/comment/update",
-          { cno: cno, comment: comment },
+          { cno: currentCno, comment: comment },
           {
             headers: { "codebook-bearer": token }
           }
         )
         .then(res => {
+          this.correctionMessage = null;
           this.$router.go();
         })
         .catch(err => {
