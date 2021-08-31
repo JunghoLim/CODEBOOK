@@ -3,7 +3,7 @@
     <div>
       <v-card>
         <v-img
-          src="https://pixabay.com/get/gea888dae4b33b31a5938ac57793a0b6b2cbb2f47eec69e7e7016bf9c2d7f597e68eb27ac9ff5ba53e936451cced6cf92_1920.jpg"
+          src="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1930&q=80"
           gradient="to top, rgba(25,32,72,.7), rgba(25,32,72,.0)"
           :aspect-ratio="16 / 9"
           height="420px"
