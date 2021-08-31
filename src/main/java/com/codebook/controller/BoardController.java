@@ -3,10 +3,15 @@ package com.codebook.controller;
 
 import com.codebook.mapper.BoardMapper;
 import com.codebook.service.BoardService;
+import com.codebook.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import oracle.ucp.proxy.annotation.Post;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.websocket.server.PathParam;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +23,7 @@ import java.util.Map;
 public class BoardController {//게시판 정보 가져오는....
 
     private final BoardService boardService;
-
+    private final MemberService memberService;
     @GetMapping("/board/list")
     public Map<String, Object> board_view(@PathParam("page") int page, @PathParam("category") String category, @PathParam("searchText") String searchText) {
         if (page == 0) {
@@ -63,15 +68,34 @@ public class BoardController {//게시판 정보 가져오는....
 
     @PostMapping("/comment")
     public int input_comment(@RequestBody Map<String, Object> param) {
-        int bno = (int) param.get("bno");
+
+        String paramBno= (String)param.get("bno");
+        int bno = Integer.parseInt(paramBno);
         String email = (String) param.get("email");
         String comment = (String) param.get("comment");
-        return boardService.insert_comment(comment, bno, email);
+        return boardService.insert_comment(comment,bno,email);
+
     }
 
     @GetMapping("/board/main/list")
     public Map<String, Object> mainBoards() {
         return boardService.getMainBoards();
+    }
+
+    @PostMapping("/comment/delete")
+    public void deleteComment(@RequestBody Map<String,String> param){
+
+            String src = param.get("cno");
+            int cno = Integer.parseInt(src);
+            String email  = param.get("email");
+            boardService.deleteComment(email,cno);
+    }
+    @PostMapping("/comment/update")
+    public int updateCommend(@RequestBody Map<String,String>param){
+        String str = param.get("cno");
+        int cno = Integer.parseInt(str);
+        String comment = param.get("comment");
+        return boardService.updateComment(cno,comment);
     }
 }
 

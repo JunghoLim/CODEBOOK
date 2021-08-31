@@ -75,28 +75,46 @@
                 </div>
               </v-col>
             </v-col>
-          </v-row>
-          <!-- <v-row
-            :is="item"
-            v-for="item in commentComponent"
-            id="my_comment"
-            :key="item"
-            v-model="commentComponent"
+            <div
+              v-if="currentEmail == comment.email"
+              class="mt-15"
+            >
+              <v-dialog
+                v-model="dialog"
+                width="500"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    수정
+                  </v-btn>
+                </template>
 
-          >
-            <v-col>
-              <div>
-                <div>
-                  <p>{{ email }}</p>
-                  <p>작성일 : 최신</p>
-                </div>
-                <p>{{ item.content }}</p>
-              </div>
-            </v-col>
+                <v-card>
+                  <v-container>
+                    <v-text-field v-model="correctionMessage" />
+                  </v-container>
+                  <v-divider />
+
+                  <v-card-actions>
+                    <v-spacer />
+                    <v-btn
+                      text
+                      @click="correction(comment.cno)"
+                    >
+                      I accept
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+
+              <v-btn @click="deleteComment(comment.cno)">
+                삭제
+              </v-btn>
+            </div>
           </v-row>
-        </v-container>
-      </v-card>
-    </v-row> -->
         </v-container>
       </v-card>
     </v-row>
@@ -111,7 +129,9 @@ export default {
     return {
       items: [],
       message: null,
-      commentComponent: []
+      commentComponent: [],
+      dialog: false,
+      correctionMessage: null
     };
   },
 
@@ -138,38 +158,57 @@ export default {
       get() {
         return this.$store.getters["boardDetail/getIsMessage"];
       }
+    },
+    currentEmail: {
+      get() {
+        return this.$store.getters["member/getEmail"];
+      }
     }
   },
   created: function() {
-    //집가서 두개로 합치기
     let bno = this.$route.params.bno;
     this.$store.dispatch("boardDetail/changeBoardDetailData", bno);
     this.$store.dispatch("boardDetail/changeCommentData", bno);
   },
   methods: {
     sendMessage() {
+      let bno = this.$route.params.bno;
+      let comment = this.message;
       let isLogin = this.$store.getters["member/getStatus"];
-
       let email = this.$store.getters["member/getEmail"];
-      if (isLogin) {
-        let bno = this.boardDetailData.bno;
-        let comment = this.message;
-        let param = { comment: comment, bno: bno, email: email };
-        if (comment == null) {
-          alert("한 글자 이상 써주세요!");
-        } else {
-          axios
-            .post("/api/comment", param)
-            .then(res => {
-              this.email = email;
-              this.commentComponent = { comment: comment };
-            })
-            .catch(err => {});
-        }
-      } else {
-        alert("로그인을 해주세요!");
-        this.$router.push("/sign-in");
-      }
+      let commetInfo = {
+        bno: bno,
+        comment: comment,
+        isLogin: isLogin,
+        email: email
+      };
+
+      this.$store.dispatch("boardDetail/sendComment", commetInfo);
+    },
+    correction(cno) {
+      let token = localStorage.getItem("codebook-bearer");
+      let comment = this.correctionMessage;
+      axios
+        .post(
+          "/api/comment/update",
+          { cno: cno, comment: comment },
+          {
+            headers: { "codebook-bearer": token }
+          }
+        )
+        .then(res => {
+          this.$router.go();
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    deleteComment(cno) {
+      let email = this.$store.getters["member/getEmail"];
+      let bno = this.$route.params.bno;
+      let param = { cno: cno, email: email, bno: bno };
+      this.$store.dispatch("boardDetail/deleteComment", param);
+      this.$router.go();
     }
   }
 };

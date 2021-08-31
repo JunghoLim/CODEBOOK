@@ -55,4 +55,11 @@
     <select id="select_main_profile" resultType="com.codebook.domain.MemberProfileDTO">
         SELECT * FROM (SELECT A.*, ROWNUM rnum FROM (SELECT * FROM PROFILE ORDER BY FOLLOWER DESC)A) WHERE rnum BETWEEN 1 AND 5
     </select>
+
+    <delete id="deleteComment">
+        DELETE BOARDCOMMENT WHERE CNO = #{cno} AND EMAIL = #{email}
+    </delete>
+    <update id="updateComment">
+        UPDATE BOARDCOMMENT SET CONTENT = #{comment} WHERE CNO = #{cno}
+    </update>
 </mapper>
