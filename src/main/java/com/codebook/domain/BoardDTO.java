@@ -16,4 +16,5 @@ public class BoardDTO {
     private int recommend;//추천수
     private int comment_cnt;
     private String picturePath;
+    private String mainPicture;
 }
