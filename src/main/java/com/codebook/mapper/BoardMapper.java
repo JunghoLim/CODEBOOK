@@ -3,6 +3,7 @@ package com.codebook.mapper;
 import com.codebook.domain.BoardDTO;
 import com.codebook.domain.CommentDTO;
 import com.codebook.domain.MemberProfileDTO;
+import com.codebook.domain.UploadImgFileDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -24,4 +25,6 @@ public interface BoardMapper {
     List<MemberProfileDTO> select_main_profile();
     int deleteComment(String email,int cno);
     int updateComment(int cno,String comment);
+    int insert_board(BoardDTO boardDTO);
+    int insert_imgfile(UploadImgFileDTO uploadImgFileDTO);
 }
