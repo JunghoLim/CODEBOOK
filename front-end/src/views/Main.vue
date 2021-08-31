@@ -18,10 +18,10 @@
                 xl="7"
               >
                 <h2
-                  class="text-h1 font-weight-medium py-3"
+                  class="text-h1 font-weight-medium py-6 pl-4"
                   style="line-height: 1.2"
                 >
-                  Great Travel Blogs From Around The World To Inspire You
+                  The CodeBook is written by us together.
                 </h2>
               </v-col>
             </v-row>
@@ -73,7 +73,7 @@
                         hover
                       >
                         <v-img
-                          src="https://cdn.pixabay.com/photo/2020/12/23/14/41/forest-5855196_1280.jpg"
+                          :src="`/api/file/img/${board.mainPicture}`"
                           :aspect-ratio="16 / 9"
                           gradient="to top, rgba(25,32,72,.4), rgba(25,32,72,.0)"
                           height="200px"
@@ -135,7 +135,7 @@
                   dark
                 >
                   <v-img
-                    src="https://cdn.pixabay.com/photo/2019/10/29/14/46/landscape-4587079_1280.jpg"
+                    :src="`/api/file/img/${board.mainPicture}`"
                     :aspect-ratio="16 / 9"
                     gradient="to top, rgba(25,32,72,.4), rgba(25,32,72,.0)"
                     height="600px"
@@ -213,7 +213,7 @@
                   class="mt-0"
                 >
                   <v-img
-                    src="https://cdn.pixabay.com/photo/2021/01/22/16/55/camera-5940588_1280.jpg"
+                    :src="`/api/file/img/${board.mainPicture}`"
                     :aspect-ratio="16 / 9"
                     height="100%"
                   />
