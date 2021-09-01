@@ -62,6 +62,9 @@
     <update id="updateComment">
         UPDATE BOARDCOMMENT SET CONTENT = #{comment} WHERE CNO = #{cno}
     </update>
+    <update id="update_views">
+        UPDATE BOARD SET VIEWS = VIEWS+1 WHERE BNO = #{bno}
+    </update>
 
     <insert id="insert_board" parameterType="com.codebook.domain.BoardDTO">
         INSERT INTO BOARD(BNO, EMAIL, TITLE, CONTENT, CATEGORY, MAINPICTURE) VALUES (BNO_SEQ.NEXTVAL, #{email}, #{title}, #{content}, #{category}, #{mainPicture})
