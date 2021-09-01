@@ -1,114 +1,136 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col cols="12">
-        <v-container style="width:620px">
-          <v-card
-            class="text-center"
-            height="1000px"
+    <v-row justify="center">
+      <v-col
+        cols="12"
+        sm="12"
+        lg="10"
+      >
+        <v-card
+          class="pa-3 fill-height"
+        >
+          <div
+            v-bind="boardDetailData"
           >
-            <v-container
-              v-bind="boardDetailData"
-              style="border-bottom:1px solid #f1f3f5;"
-              class="mb-15"
-            >
-              <div class="text-left">
-                <div>
-                  <p class="text-h5">
-                    {{ boardDetailData.title }}
-                  </p>
-                </div>
-                <div>
-                  <v-row class="text-caption">
-                    <v-col cols="auto">
-                      {{ boardDetailData.nickname }}
-                    </v-col>
-                    <v-spacer />
-                    <v-col
-                      cols="auto"
-                      style="color:#adb5bd;"
-                    >
-                      {{ boardDetailData.writedate }}
-                    </v-col>
-                  </v-row>
-                </div>
-              </div>
-            </v-container>
-            <v-container>
-              <v-row class="ml-2">
-                <!-- eslint-disable vue/no-v-html -->
-                <div v-html="boardDetailData.content" />
-                <!--eslint-enable-->
+            <div class="text-left">
+              <p class="text-h2 font-weight-black">
+                {{ boardDetailData.title }}
+              </p>
+              <v-row class="text-caption">
+                <v-col cols="auto">
+                  {{ boardDetailData.nickname }}
+                </v-col>
+                <v-spacer />
+                <v-col
+                  cols="auto"
+                  style="color:#adb5bd;"
+                >
+                  {{ boardDetailData.writedate }}
+                </v-col>
               </v-row>
-            </v-container>
-          </v-card>
-        </v-container>
+              <v-divider />
+            </div>
+          </div>
+          <!-- eslint-disable vue/no-v-html -->
+          <div
+            class="py-15"
+            v-html="boardDetailData.content"
+          />
+          <!--eslint-enable-->
+          <v-divider />
+          <v-row justify="center">
+            <v-col cols="12">
+              <v-text-field
+                v-if="currentEmail"
+                v-model="message"
+                class="mt-3"
+                filled
+                rounded
+                dense
+                single-line
+                type="text"
+                :append-outer-icon="'mdi-send'"
+                @click:append-outer="sendMessage"
+                @keyup.enter="sendMessage"
+              />
+              <div v-if="isMessage">
+                <h3 class="text-h3 font-weight-medium py-4">
+                  <v-icon large>
+                    mdi-forum
+                  </v-icon>
+                  댓글
+                </h3>
+                <v-row
+                  v-for="(comment, index) in commentData"
+                  :key="index"
+                >
+                  <v-col>
+                    <div>
+                      <v-row
+                        align="center"
+                        justify="center"
+                      >
+                        <v-col
+                          cols="12"
+                          lg="10"
+                        >
+                          <p>{{ comment.nickname }}</p>
+                          <p>작성일 : {{ comment.writedate }}</p>
+                          <p v-html="comment.content.replace(/(?:\r\n|\r|\n)/g, '<br>')" />
+                        </v-col>
+                        <v-col
+                          cols="12"
+                          lg="2"
+                        >
+                          <div
+                            v-if="currentEmail == comment.email"
+                          >
+                            <v-btn
+                              color="cyan"
+                              @click="updateComment(comment.cno)"
+                            >
+                              수정
+                            </v-btn>
+
+                            <v-btn
+                              color="error"
+                              @click="deleteComment(comment.cno)"
+                            >
+                              삭제
+                            </v-btn>
+                          </div>
+                        </v-col>
+                      </v-row>
+                    </div>
+                    <v-divider />
+                  </v-col>
+                </v-row>
+              </div>
+            </v-col>
+          </v-row>
+        </v-card>
       </v-col>
     </v-row>
 
-    <v-row justify="center">
-      <v-card width="600px">
-        <v-container style="width: 600px; float:left;">
-          <v-text-field
-            v-model="message"
-            filled
-            rounded
-            dense
-            single-line
-            type="text"
-            :append-outer-icon="'mdi-send'"
-            @click:append-outer="sendMessage"
-          />
-        </v-container>
-        <v-container v-if="isMessage">
-          <v-row
-            v-for="(comment, index) in commentData"
-            :key="index"
-          >
-            <v-col>
-              <v-col>
-                <div>
-                  <div>
-                    <p>{{ comment.nickname }}</p>
-                    <p>작성일 : {{ comment.writedate }}</p>
-                  </div>
-                  <p>{{ comment.content }}</p>
-                </div>
-              </v-col>
-            </v-col>
-            <div
-              v-if="currentEmail == comment.email"
-              class="mt-15"
-            >
-              <v-btn @click="updateComment(comment.cno)">
-                수정
-              </v-btn>
-
-              <v-btn @click="deleteComment(comment.cno)">
-                삭제
-              </v-btn>
-            </div>
-          </v-row>
-        </v-container>
-      </v-card>
-    </v-row>
     <v-dialog
       v-model="dialog"
       width="500"
     >
       <v-card>
         <v-container>
-          <v-text-field v-model="correctionMessage" />
+          <v-textarea
+            v-model="correctionMessage"
+            solo
+          />
         </v-container>
-        <v-divider />
 
         <v-card-actions>
           <v-spacer />
           <v-btn
             text
-            @click="correction()"
+            @click="correction"
           >
-            I accept
+            확인
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -177,10 +199,9 @@ export default {
         email: email
       };
 
-      this.$store.dispatch("boardDetail/sendComment", commetInfo);
+      this.$store.dispatch("boardDetail/sendComment", commetInfo).then(this.$router.go());
     },
     updateComment(cno) {
-      console.log(cno);
       this.dialog = true;
       this.currentCno = cno;
     },
