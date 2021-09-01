@@ -86,10 +86,6 @@
                             {{ board.title }}
                           </div>
 
-                          <div class="text-body-1 py-4">
-                            {{ (board.content).length >= 50 ? (board.content).substr(0,50)+"..." : board.content }}
-                          </div>
-
                           <div class="d-flex align-center">
                             <v-avatar
                               color="accent"
