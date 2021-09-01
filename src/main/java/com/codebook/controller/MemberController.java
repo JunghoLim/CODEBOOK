@@ -51,12 +51,12 @@ public class MemberController {
         return memberService.extractMemberData(req, res);
     }
 
-    @PostMapping("/member/profile")
+    @PutMapping("/member/profile")
     public void updateMemberProfile(@RequestBody MemberProfileDTO profile){
         memberService.updateProfile(profile);
     }
 
-    @PostMapping("/member/profile/img")
+    @PutMapping("/member/profile/img")
     public void updateProfileImg(HttpServletRequest req, HttpServletResponse res, @RequestParam("file") MultipartFile file) throws IOException {
         memberService.updateProfileImg(req, res, file);
     }
