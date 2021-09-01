@@ -23,18 +23,43 @@ const state = {
             icon: "mdi-google-circles-communities",
             items: [{
                     title: "자유게시판",
-                    icon: "",
+                    icon: "mdi-clipboard-list",
                     items: [{
-                        title: "일상",
-                        to: "/board-list/free/1"
-                    }]
+                            title: "일상",
+                            to: "/board-list/free/1"
+                        },
+                        {
+                            title: "정보 공유",
+                            to: "/board-list/sharing/1"
+                        },
+                        {
+                            title: "스터디/모임",
+                            to: "/board-list/gathering/1"
+                        }
+                    ]
                 },
                 {
                     title: "기술",
+                    icon: "mdi-code-tags",
                     items: [{
                         title: "Tips",
                         to: "/tip"
                     }]
+                }
+            ]
+        },
+        {
+            title: "건의/공지",
+            icon: "mdi-bullhorn",
+            items: [{
+                    title: "공지사항",
+                    icon: "mdi-account-group",
+                    to: '/board-list/notice/1'
+                },
+                {
+                    title: "건의사항",
+                    icon: "mdi-account-group-outline",
+                    to: '/board-list/suggestion/1'
                 }
             ]
         }
@@ -61,18 +86,43 @@ const state = {
             icon: "mdi-google-circles-communities",
             items: [{
                     title: "자유게시판",
-                    icon: "",
+                    icon: "mdi-clipboard-list",
                     items: [{
-                        title: "일상",
-                        to: "/board-list/free/1"
-                    }]
+                            title: "일상",
+                            to: "/board-list/free/1"
+                        },
+                        {
+                            title: "정보 공유",
+                            to: "/board-list/sharing/1"
+                        },
+                        {
+                            title: "스터디/모임",
+                            to: "/board-list/gathering/1"
+                        }
+                    ]
                 },
                 {
                     title: "기술",
+                    icon: "mdi-code-tags",
                     items: [{
                         title: "Tips",
                         to: "/tip"
                     }]
+                }
+            ]
+        },
+        {
+            title: "건의/공지",
+            icon: "mdi-bullhorn",
+            items: [{
+                    title: "공지사항",
+                    icon: "mdi-account-group",
+                    to: '/board-list/notice/1'
+                },
+                {
+                    title: "건의사항",
+                    icon: "mdi-account-group-outline",
+                    to: '/board-list/suggestion/1'
                 }
             ]
         }
@@ -99,18 +149,43 @@ const state = {
             icon: "mdi-google-circles-communities",
             items: [{
                     title: "자유게시판",
-                    icon: "",
+                    icon: "mdi-clipboard-list",
                     items: [{
-                        title: "일상",
-                        to: "/board-list/free/1"
-                    }]
+                            title: "일상",
+                            to: "/board-list/free/1"
+                        },
+                        {
+                            title: "정보 공유",
+                            to: "/board-list/sharing/1"
+                        },
+                        {
+                            title: "스터디/모임",
+                            to: "/board-list/gathering/1"
+                        }
+                    ]
                 },
                 {
                     title: "기술",
+                    icon: "mdi-code-tags",
                     items: [{
                         title: "Tips",
                         to: "/tip"
                     }]
+                }
+            ]
+        },
+        {
+            title: "건의/공지",
+            icon: "mdi-bullhorn",
+            items: [{
+                    title: "공지사항",
+                    icon: "mdi-account-group",
+                    to: '/board-list/notice/1'
+                },
+                {
+                    title: "건의사항",
+                    icon: "mdi-account-group-outline",
+                    to: '/board-list/suggestion/1'
                 }
             ]
         }
