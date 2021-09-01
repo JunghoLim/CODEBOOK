@@ -85,7 +85,7 @@ export default {
       const formData = new FormData();
       formData.append('bno', bno)
       axios
-          .post('/api/board/view',formData)
+          .put('/api/board/view',formData)
           .then(() => {
             this.$router.push("/board-detail/"+bno);
           })

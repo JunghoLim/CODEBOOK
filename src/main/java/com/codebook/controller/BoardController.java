@@ -111,6 +111,11 @@ public class BoardController {//게시판 정보 가져오는....
     public void writeBoard(@RequestBody BoardDTO boardDTO){
         boardService.writeBoard(boardDTO);
     }
+
+    @PutMapping("/board/view")
+    public void increaseBoardViews(@RequestParam("bno") int bno){
+        boardService.increaseBoardViews(bno);
+    }
 }
 
 
