@@ -85,7 +85,7 @@ export default {
           .post("/api/board", boardData, {headers:{'token': token}})
           .then(() => {
             alert('게시글이 성공적으로 저장되었습니다.');
-            this.$router.push('/board-list/'+this.$route.params.category);
+            this.$router.push('/board-list/'+this.$route.params.category+"/1");
           })
           .catch(() => {
             alert('게시글 저장에 실패하였습니다.');
