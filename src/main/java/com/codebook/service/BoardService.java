@@ -8,6 +8,7 @@ import com.codebook.mapper.BoardMapper;
 import com.codebook.mapper.CommentMapper;
 import com.codebook.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -110,6 +111,13 @@ public class BoardService {
     }
 
     public void writeBoard(BoardDTO boardDTO){
+        if(StringUtils.isEmpty(boardDTO.getMainPicture())){
+            boardDTO.setMainPicture("no-image-codebook-23485.jpg");
+        }
         boardMapper.insert_board(boardDTO);
+    }
+
+    public void increaseBoardViews(int bno){
+        boardMapper.update_views(bno);
     }
 }
