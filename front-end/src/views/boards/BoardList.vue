@@ -4,6 +4,7 @@
       <v-col cols="12">
         <div class="text-right">
           <v-btn
+            v-if="this.$route.params.category != 'notice'"
             small
             color="primary"
             :to="`/board-write/${this.$route.params.category}`"
@@ -80,7 +81,14 @@ export default {
       this.$store.dispatch("board/pageNext", params);
     },
     board_detail(row) {
-      this.$router.push("/board-detail/"+row.bno);
+      const bno = row.bno
+      const formData = new FormData();
+      formData.append('bno', bno)
+      axios
+          .post('/api/board/view',formData)
+          .then(() => {
+            this.$router.push("/board-detail/"+bno);
+          })
     }
   }
 };
