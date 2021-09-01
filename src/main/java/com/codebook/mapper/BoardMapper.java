@@ -27,4 +27,5 @@ public interface BoardMapper {
     int updateComment(int cno,String comment);
     int insert_board(BoardDTO boardDTO);
     int insert_imgfile(UploadImgFileDTO uploadImgFileDTO);
+    void update_views(int bno);
 }
