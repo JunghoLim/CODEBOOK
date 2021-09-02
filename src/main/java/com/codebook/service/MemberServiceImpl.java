@@ -1,5 +1,6 @@
 package com.codebook.service;
 
+import com.codebook.domain.BoardDTO;
 import com.codebook.domain.MemberDTO;
 import com.codebook.domain.MemberProfileDTO;
 import com.codebook.domain.UploadImgFileDTO;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -109,5 +111,15 @@ public class MemberServiceImpl implements MemberService {
     public int nicknameDuplicateCheck(String nickname) {
         return memberMapper.select_nickname(nickname);
     }
+
+    /*public List<MemberProfileDTO> member_list(int page, String category){
+        int all_data = memberMapper.all_member(category);
+        int start_row= page*10-9;
+        int end_row= start_row+9;
+        if( end_row > all_data){
+            end_row = all_data;
+        }
+        return memberMapper.page_per_member(start_row,end_row, category);
+    }*/
 
 }
