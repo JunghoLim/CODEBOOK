@@ -261,6 +261,11 @@ export default {
       this.aboutMe = this.aboutMe.replace(/(?:\r\n|\r|\n)/g, '<br />');
       this.aboutMe = this.aboutMe.split('\n').join('<br />');
   },
+  beforeUpdate(){
+    this.aboutMe = this.memberInfo.aboutMe;
+    this.aboutMe = this.aboutMe.replace(/(?:\r\n|\r|\n)/g, '<br />');
+    this.aboutMe = this.aboutMe.split('\n').join('<br />');
+  },
   methods: {
     pageNext(page){
       axios
@@ -284,10 +289,11 @@ export default {
       this.$store.dispatch("member/profileImgUpdate", this.selectedFile);
     },
     profileUpdate(profileForm) {
+      const memberNickname = this.$store.getters["member/getMember"].nickname;
       axios
           .get("/api/member/duplicate", {params:{'nickname': profileForm.nickname}})
           .then(res => {
-            if(res.data == 1){
+            if(res.data == 1 && profileForm.nickname != memberNickname){
               alert('중복된 닉네임을 가진 유저가 있습니다.')
             }else{
               this.$store.dispatch("member/profileUpdate", profileForm);
