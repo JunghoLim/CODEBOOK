@@ -12,6 +12,7 @@ public class CommentDTO {
     private String email;
     private String content;
     private String writedate;
+    private int recommend;
     private int bno;
     private int cno;
 }

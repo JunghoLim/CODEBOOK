@@ -6,12 +6,8 @@
         sm="12"
         lg="10"
       >
-        <v-card
-          class="pa-3 fill-height"
-        >
-          <div
-            v-bind="boardDetailData"
-          >
+        <v-card class="pa-3 fill-height">
+          <div v-bind="boardDetailData">
             <div class="text-left">
               <p class="text-h2 font-weight-black">
                 {{ boardDetailData.title }}
@@ -74,17 +70,44 @@
                           cols="12"
                           lg="10"
                         >
-                          <p>{{ comment.nickname }}</p>
-                          <p>작성일 : {{ comment.writedate }}</p>
-                          <p v-html="comment.content.replace(/(?:\r\n|\r|\n)/g, '<br>')" />
+                          <div>
+                            <p style="float:left;">
+                              {{ comment.nickname }}
+                            </p>
+                            <p
+                              style="float:left;"
+                              class="ml-3"
+                            >
+                              {{ comment.recommend }}
+                            </p>
+                            <v-btn
+                              icon
+                              style="background-color:white;"
+                              height="10"
+                              @click="recommendUp(comment.cno)"
+                            >
+                              <v-icon color="#BDBDBD">
+                                mdi-thumb-up
+                              </v-icon>
+                            </v-btn>
+                          </div>
+                          <p
+                            class="text-h6"
+                            style="color:#adb5bd;"
+                          >
+                            작성일 : {{ comment.writedate }}
+                          </p>
+                          <p
+                            v-html="
+                              comment.content.replace(/(?:\r\n|\r|\n)/g, '<br>')
+                            "
+                          />
                         </v-col>
                         <v-col
                           cols="12"
                           lg="2"
                         >
-                          <div
-                            v-if="currentEmail == comment.email"
-                          >
+                          <div v-if="currentEmail == comment.email">
                             <v-btn
                               color="cyan"
                               @click="updateComment(comment.cno)"
@@ -199,7 +222,9 @@ export default {
         email: email
       };
 
-      this.$store.dispatch("boardDetail/sendComment", commetInfo).then(this.$router.go());
+      this.$store
+        .dispatch("boardDetail/sendComment", commetInfo)
+        .then(this.$router.go());
     },
     updateComment(cno) {
       this.dialog = true;
@@ -231,6 +256,24 @@ export default {
       let param = { cno: cno, email: email, bno: bno };
       this.$store.dispatch("boardDetail/deleteComment", param);
       this.$router.go();
+    },
+    recommendUp(cno) {
+      let token = localStorage.getItem("codebook-bearer");
+      let bno = this.$route.params.bno;
+      let isLogin = this.$store.getters["member/getStatus"];
+      let email = this.$store.getters["member/getEmail"];
+      if (isLogin == true) {
+        axios
+          .post(
+            "/api/comment/recommend",
+            { cno: cno, email: email, bno: bno },
+            { headers: { "codebook-bearer": token } }
+          )
+          .then(res => {})
+          .catch(err => {
+            console.log(err);
+          });
+      }
     }
   }
 };

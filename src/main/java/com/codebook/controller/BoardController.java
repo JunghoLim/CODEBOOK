@@ -116,6 +116,29 @@ public class BoardController {//게시판 정보 가져오는....
     public void increaseBoardViews(@RequestParam("bno") int bno){
         boardService.increaseBoardViews(bno);
     }
+    @PostMapping("/comment/recommend")
+    public Map<String,Integer> commentRecommend(@RequestBody Map<String,String> param){
+        String email = param.get("email");
+        String str = param.get("cno");
+        String bnoStr = param.get("bno");
+        int bno = Integer.parseInt(bnoStr);
+        int cno = Integer.parseInt(str);
+
+        if(boardService.verificateRecommend(email,cno,bno)==1) {
+            boardService.deleteRecommend(email, cno, bno);
+        }else {
+            boardService.insertRecommend(email, cno, bno);
+        }
+        int countRecommend = boardService.countRecommend(cno);
+
+        boardService.updateRecommend(bno,countRecommend);
+        System.out.println("업데이트 끝");
+
+
+        Map<String,Integer> map = new HashMap<>();
+        map.put("recommendCount",countRecommend);
+        return map;
+    }
 }
 
 
