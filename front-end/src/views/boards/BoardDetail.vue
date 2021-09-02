@@ -13,7 +13,10 @@
                 {{ boardDetailData.title }}
               </p>
               <v-row class="text-caption">
-                <v-col cols="auto">
+                <v-col
+                  cols="auto"
+                  class="text-h5"
+                >
                   {{ boardDetailData.nickname }}
                 </v-col>
                 <v-spacer />
@@ -70,26 +73,8 @@
                           cols="12"
                           lg="10"
                         >
-                          <div>
-                            <p style="float:left;">
-                              {{ comment.nickname }}
-                            </p>
-                            <p
-                              style="float:left;"
-                              class="ml-3"
-                            >
-                              {{ comment.recommend }}
-                            </p>
-                            <v-btn
-                              icon
-                              style="background-color:white;"
-                              height="10"
-                              @click="recommendUp(comment.cno)"
-                            >
-                              <v-icon color="#BDBDBD">
-                                mdi-thumb-up
-                              </v-icon>
-                            </v-btn>
+                          <div class="text-h5">
+                            {{ comment.nickname }}
                           </div>
                           <p
                             class="text-h6"
@@ -102,6 +87,22 @@
                               comment.content.replace(/(?:\r\n|\r|\n)/g, '<br>')
                             "
                           />
+                          <div class="text-5 pt-5">
+                            추천: {{ comment.recommend }}
+                            <v-btn
+                              icon
+                              style="background-color:white;"
+                              @click="recommendUp(comment.cno)"
+                            >
+                              <v-icon
+                                color="#BDBDBD"
+                                size="23"
+                                class="mb-1"
+                              >
+                                mdi-thumb-up
+                              </v-icon>
+                            </v-btn>
+                          </div>
                         </v-col>
                         <v-col
                           cols="12"
