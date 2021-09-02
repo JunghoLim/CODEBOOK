@@ -78,7 +78,7 @@
                               style="float:left;"
                               class="ml-3"
                             >
-                              {{ comment.recommend }}
+                              {{ comment.commentrecommend }}
                             </p>
                             <v-btn
                               icon

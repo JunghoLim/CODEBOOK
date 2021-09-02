@@ -66,6 +66,7 @@ public class BoardController {//게시판 정보 가져오는....
     public Map<String, Object> board_comment(@PathParam("bno") int bno) {
         Map<String, Object> comment = new HashMap<>();
         comment.put("comment_list", boardService.comment(bno));
+        System.out.println(boardService.comment(bno).toString());
         return comment;
     }
 
@@ -117,7 +118,7 @@ public class BoardController {//게시판 정보 가져오는....
         boardService.increaseBoardViews(bno);
     }
     @PostMapping("/comment/recommend")
-    public Map<String,Integer> commentRecommend(@RequestBody Map<String,String> param){
+    public void commentRecommend(@RequestBody Map<String,String> param){
         String email = param.get("email");
         String str = param.get("cno");
         String bnoStr = param.get("bno");
@@ -129,15 +130,12 @@ public class BoardController {//게시판 정보 가져오는....
         }else {
             boardService.insertRecommend(email, cno, bno);
         }
-        int countRecommend = boardService.countRecommend(cno);
+        int countRecommend = boardService.countCommentRecommend(cno);
 
-        boardService.updateRecommend(bno,countRecommend);
+        boardService.updateCommentRecommend(cno,countRecommend);
         System.out.println("업데이트 끝");
 
 
-        Map<String,Integer> map = new HashMap<>();
-        map.put("recommendCount",countRecommend);
-        return map;
     }
 }
 
