@@ -41,25 +41,25 @@ export default {
   data() {
     return {
       pagination: 1,
-      category: '',
-      headers:[
-        { text: '번호', value: 'bno' },
-        { text: '제목', value: 'title' },
-        { text: '작성자', value: 'nickname' },
-        { text: '조회수', value: 'views' },
-        { text: '추천수', value: 'recommend' },
-        { text: '댓글수', value: 'comment_cnt' },
-        { text: '작성일자', value: 'writedate' },
+      category: "",
+      headers: [
+        { text: "번호", value: "bno" },
+        { text: "제목", value: "title" },
+        { text: "작성자", value: "nickname" },
+        { text: "조회수", value: "views" },
+        { text: "추천수", value: "recommend" },
+        { text: "댓글수", value: "comment_cnt" },
+        { text: "작성일자", value: "writedate" }
       ],
       boardData: []
     };
   },
   computed: {
-    page:{
-      get(){
+    page: {
+      get() {
         return Number(this.$route.params.page);
       },
-      set(){
+      set() {
         return Number(this.$route.params.page);
       }
     }
@@ -67,28 +67,29 @@ export default {
   beforeCreate() {
     let category = this.$route.params.category;
     axios
-      .get("/api/board/list", { params: { 'page': this.$route.params.page, 'category':category } })
+      .get("/api/board/list", {
+        params: { page: this.$route.params.page, category: category }
+      })
       .then(res => {
         this.boardData = res.data.board_list;
+        console.log(res.data.board_list);
         this.pagination = res.data.pagination;
         this.category = res.data.category;
       })
       .catch(() => {});
   },
   methods: {
-    pageNext(page){
-      let params = {'page': page, 'category': this.category}
+    pageNext(page) {
+      let params = { page: page, category: this.category };
       this.$store.dispatch("board/pageNext", params);
     },
     board_detail(row) {
-      const bno = row.bno
+      const bno = row.bno;
       const formData = new FormData();
-      formData.append('bno', bno)
-      axios
-          .put('/api/board/view',formData)
-          .then(() => {
-            this.$router.push("/board-detail/"+bno);
-          })
+      formData.append("bno", bno);
+      axios.put("/api/board/view", formData).then(() => {
+        this.$router.push("/board-detail/" + bno);
+      });
     }
   }
 };

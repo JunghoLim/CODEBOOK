@@ -12,6 +12,21 @@
               <p class="text-h2 font-weight-black">
                 {{ boardDetailData.title }}
               </p>
+              <p
+                style="float:left;"
+              >
+                {{ boardDetailData.recommend }}
+              </p>
+              <v-btn
+                icon
+                style="background-color:white;"
+                height="10"
+                @click="boardRecommend()"
+              >
+                <v-icon color="#BDBDBD">
+                  mdi-thumb-up
+                </v-icon>
+              </v-btn>
               <v-row class="text-caption">
                 <v-col
                   cols="auto"
@@ -275,6 +290,20 @@ export default {
             console.log(err);
           });
       }
+    },
+    boardRecommend() {
+      let bno = this.$route.params.bno;
+      let email = this.$store.getters["member/getEmail"];
+      let token = localStorage.getItem("codebook-bearer");
+
+      axios
+        .post(
+          "/api/board/recommend",
+          { bno: bno, email: email },
+          { headers: { "codebook-bearer": token } }
+        )
+        .then(res => {})
+        .catch(err => {});
     }
   }
 };

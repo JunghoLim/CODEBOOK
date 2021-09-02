@@ -65,6 +65,7 @@ public class BoardController {//게시판 정보 가져오는....
     public Map<String, Object> board_comment(@PathParam("bno") int bno) {
         Map<String, Object> comment = new HashMap<>();
         comment.put("comment_list", boardService.comment(bno));
+
         return comment;
     }
 
@@ -117,7 +118,7 @@ public class BoardController {//게시판 정보 가져오는....
     }
 
     @PostMapping("/comment/recommend")
-    public Map<String,Integer> commentRecommend(@RequestBody Map<String,String> param){
+    public void commentRecommend(@RequestBody Map<String,String> param){
         String email = param.get("email");
         String str = param.get("cno");
         String bnoStr = param.get("bno");
@@ -129,12 +130,28 @@ public class BoardController {//게시판 정보 가져오는....
         }else {
             boardService.insertRecommend(email, cno, bno);
         }
-        int countRecommend = boardService.countRecommend(cno);
+        int countRecommend = boardService.countCommentRecommend(cno);
+        boardService.updateCommentRecommend(cno,countRecommend);
+    }
+    @PostMapping("/board/recommend")
+    public void increaseBoardRecommend(@RequestBody Map<String,String> param){
+        String email = param.get("email");
+        String beforeBno = param.get("bno");
 
-        boardService.updateRecommend(bno,countRecommend);
-        Map<String,Integer> map = new HashMap<>();
-        map.put("recommendCount",countRecommend);
-        return map;
+        int bno = Integer.parseInt(beforeBno);
+        //먼저 처음 누르는 건지 확인
+        if(boardService.validateBoardRecommend(email,bno)==1){
+            //처음 누르는게 아니면 추천 취소
+
+        }else boardService.insertBoardRecommend(email,bno);    //추천 버튼 누르면 삽입
+
+
+        //게시판 추천 수 세기 countBoardRecommend
+        int boardRecommendCount = boardService.countBoardRecommend(bno);
+
+        //게시판 추천 수 업데이트(게시판 추천수 세기)
+        boardService.updateBoardRecommend(boardRecommendCount,bno);
+        //성공.
     }
 }
 
