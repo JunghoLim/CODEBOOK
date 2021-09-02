@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@CrossOrigin("http://localhost:8090")
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class BoardController {//게시판 정보 가져오는....
@@ -116,6 +115,7 @@ public class BoardController {//게시판 정보 가져오는....
     public void increaseBoardViews(@RequestParam("bno") int bno){
         boardService.increaseBoardViews(bno);
     }
+
     @PostMapping("/comment/recommend")
     public Map<String,Integer> commentRecommend(@RequestBody Map<String,String> param){
         String email = param.get("email");
@@ -132,9 +132,6 @@ public class BoardController {//게시판 정보 가져오는....
         int countRecommend = boardService.countRecommend(cno);
 
         boardService.updateRecommend(bno,countRecommend);
-        System.out.println("업데이트 끝");
-
-
         Map<String,Integer> map = new HashMap<>();
         map.put("recommendCount",countRecommend);
         return map;
