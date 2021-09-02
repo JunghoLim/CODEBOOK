@@ -43,7 +43,7 @@ const state = {
                     icon: "mdi-code-tags",
                     items: [{
                         title: "Tips",
-                        to: "/tip"
+                        to: "/board-list/tips/1"
                     }]
                 }
             ]
@@ -106,7 +106,7 @@ const state = {
                     icon: "mdi-code-tags",
                     items: [{
                         title: "Tips",
-                        to: "/tip"
+                        to: "/board-list/tips/1"
                     }]
                 }
             ]
@@ -169,7 +169,7 @@ const state = {
                     icon: "mdi-code-tags",
                     items: [{
                         title: "Tips",
-                        to: "/tip"
+                        to: "/board-list/tips/1"
                     }]
                 }
             ]
