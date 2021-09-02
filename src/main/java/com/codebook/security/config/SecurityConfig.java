@@ -33,13 +33,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] PUBLIC = new String[]{
             "/resources/**","/api/member/duplicate","/logout","/api/member/new","/api/auth/member","/api/board","/api/board/list","/api/board/comment",
-            "/api/member/profile/img/**","/api/board","/api/member/profile/**","/api/board/main/list","/api/file/img/**","/api/board/view","/","/css/**","/js/**","/favicon.ico","/img/**"
+            "/api/member/profile/img/**","/api/member/profile/**","/api/board/main/list","/api/file/img/**","/api/board/view","/","/css/**","/js/**","/favicon.ico","/img/**"
     };
     private static final String[] ADMIN = new String[]{
             "/api/admin/**"
     };
     private static final String[] USER = new String[]{
-            "/api/member/**","/api/test","/api/comment/**","/api/member/follow","/api/board/img"
+            "/api/member/**","/api/test","/api/comment/**","/api/member/follow","/api/board/img","/api/board/recommend"
     };
 
     private final UserDetailsServiceImpl userDetailsService;
