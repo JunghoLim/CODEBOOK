@@ -263,8 +263,8 @@
 
           <div class="pt-4">
             <div
-              v-for="member in mostFollowedMember"
-              :key="member.nickname"
+              v-for="(member, index) in mostFollowedMember"
+              :key="index"
               class="d-flex align-center mb-6"
             >
               <v-avatar
