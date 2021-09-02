@@ -36,3 +36,5 @@ src/main/resources/application.properties
 src/main/resources/db/
 Dockerfile
 src/main/resources/static/
+Wallet_DBcodebook/
+src/main/resources/templates/
