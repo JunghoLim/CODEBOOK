@@ -9,5 +9,7 @@ public class MemberProfileDTO {
     private String nickname;
     private int follower;
     private String aboutMe;
+    private int boardCnt;
+    private String status;
     private String picturePath;
 }
