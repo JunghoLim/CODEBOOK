@@ -28,4 +28,9 @@ public interface BoardMapper {
     int insert_board(BoardDTO boardDTO);
     int insert_imgfile(UploadImgFileDTO uploadImgFileDTO);
     void update_views(int bno);
+    int verificateEmail(String email,int cno,int bno);
+    int deleteRecommend(String email,int cno,int bno);
+    int insertRecommend(String email,int cno,int bno);
+    void updateRecommend(int bno,int countRecommend);
+    int countRecommend(int bno);
 }

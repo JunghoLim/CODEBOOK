@@ -120,4 +120,20 @@ public class BoardService {
     public void increaseBoardViews(int bno){
         boardMapper.update_views(bno);
     }
+
+    public int verificateRecommend(String email,int cno,int bno){
+        return boardMapper.verificateEmail(email,cno,bno);
+    }
+    public int deleteRecommend(String email,int cno,int bno){
+        return boardMapper.deleteRecommend(email,cno,bno);
+    }
+    public int insertRecommend(String email,int cno,int bno){
+        return boardMapper.insertRecommend(email,cno,bno);
+    }
+    public int countRecommend(int bno){
+        return boardMapper.countRecommend(bno);
+    }
+    public void updateRecommend(int bno,int countRecommend){
+         boardMapper.updateRecommend(bno,countRecommend);
+    }
 }
