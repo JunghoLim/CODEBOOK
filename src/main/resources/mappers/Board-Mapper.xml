@@ -86,11 +86,28 @@
         INSERT INTO COMMENTRECOMMEND VALUES(#{email},#{cno},#{bno})
     </insert>
 
-    <update id="updateRecommend">
-        UPDATE BOARD SET RECOMMEND = #{countRecommend} WHERE BNO = #{bno}
-    </update>
-    <select id="countRecommend" resultType="int">
-        SELECT COUNT(*) FROM BOARD WHERE bno = #{bno}
+
+    <select id="countBoardRecommend" resultType="int">
+        SELECT COUNT(*) FROM BOARDRECOMMEND WHERE bno = #{bno}
     </select>
 
+    <update id="updateCommentRecommend">
+        UPDATE BOARDCOMMENT SET COMMENTRECOMMEND = #{countRecommend} WHERE CNO = #{cno}
+    </update>
+
+    <select id="countCommentRecommend" resultType="int">
+        SELECT COUNT(*) FROM COMMENTRECOMMEND WHERE cno = #{cno}
+    </select>
+
+    <select id="validateBoardRecommend" resultType="int">
+        SELECT COUNT(*) FROM BOARDRECOMMEND WHERE email = #{email} AND BNO = #{bno}
+    </select>
+
+    <insert id="insertBoardRecommend">
+        INSERT INTO BOARDRECOMMEND(EMAIL,BNO) VALUES(#{email},#{bno})
+    </insert>
+
+    <update id="updateBoardRecommend">
+        UPDATE BOARD SET RECOMMEND = #{recommendCount} WHERE BNO = #{bno}
+    </update>
 </mapper>

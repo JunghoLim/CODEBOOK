@@ -127,13 +127,28 @@ public class BoardService {
     public int deleteRecommend(String email,int cno,int bno){
         return boardMapper.deleteRecommend(email,cno,bno);
     }
-    public int insertRecommend(String email,int cno,int bno){
-        return boardMapper.insertRecommend(email,cno,bno);
+    public void insertRecommend(String email, int cno, int bno){
+        boardMapper.insertRecommend(email, cno, bno);
     }
-    public int countRecommend(int bno){
-        return boardMapper.countRecommend(bno);
+    public int countCommentRecommend(int bno){
+        return boardMapper.countCommentRecommend(bno);
     }
-    public void updateRecommend(int bno,int countRecommend){
-         boardMapper.updateRecommend(bno,countRecommend);
+    public void updateCommentRecommend(int cno,int countRecommend){
+         boardMapper.updateCommentRecommend(cno,countRecommend);
+    }
+    public int validateBoardRecommend(String email,int bno){
+        return boardMapper.validateBoardRecommend(email,bno);
+    }
+    public void insertBoardRecommend(String email,int bno){
+
+            boardMapper.insertBoardRecommend(email,bno);
+    }
+    public int countBoardRecommend(int bno){
+
+        return boardMapper.countBoardRecommend(bno);
+    }
+
+    public void updateBoardRecommend(int recommendCount,int bno){
+        boardMapper.updateBoardRecommend(recommendCount,bno);
     }
 }

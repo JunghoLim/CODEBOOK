@@ -35,6 +35,10 @@ src/main/resources/static/uploadedfiles/images/
 src/main/resources/application.properties
 src/main/resources/db/
 Dockerfile
+<<<<<<< HEAD
+Wallet_DBcodebook/
+=======
 src/main/resources/static/
 Wallet_DBcodebook/
 src/main/resources/templates/
+>>>>>>> 3f4f8f15ba349595650c5505fa02f59e39a8337f
