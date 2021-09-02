@@ -131,15 +131,7 @@ public class BoardController {//게시판 정보 가져오는....
             boardService.insertRecommend(email, cno, bno);
         }
         int countRecommend = boardService.countCommentRecommend(cno);
-
-<<<<<<< HEAD
-        boardService.updateRecommend(bno,countRecommend);
-        Map<String,Integer> map = new HashMap<>();
-        map.put("recommendCount",countRecommend);
-        return map;
-=======
         boardService.updateCommentRecommend(cno,countRecommend);
-        System.out.println("업데이트 끝");
     }
     @PostMapping("/board/recommend")
     public void increaseBoardRecommend(@RequestBody Map<String,String> param){
@@ -160,7 +152,6 @@ public class BoardController {//게시판 정보 가져오는....
         //게시판 추천 수 업데이트(게시판 추천수 세기)
         boardService.updateBoardRecommend(boardRecommendCount,bno);
         //성공.
->>>>>>> dcf63d6a612c1fca2f9336497a742cac938845f5
     }
 }
 

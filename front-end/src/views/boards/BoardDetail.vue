@@ -23,197 +23,198 @@
                 <v-col
                   cols="auto"
                   style="color:#adb5bd;"
-=======
-              <div>
-                <p class="text-h2 font-weight-black">
-                  {{ boardDetailData.title }}
-                </p>
-
-                <p style="float:left;">
-                  {{ boardDetailData.recommend }}
-                </p>
-                <v-btn
-                  icon
-                  style="background-color:white;"
-                  height="10"
-                  @click="boardRecommend()"
->>>>>>> dcf63d6a612c1fca2f9336497a742cac938845f5
                 >
-                  <v-icon color="#BDBDBD">
-                    mdi-thumb-up
-                  </v-icon>
-                </v-btn>
+                  <p class="text-h2 font-weight-black">
+                    {{ boardDetailData.title }}
+                  </p>
 
-                <v-row class="text-caption">
-                  <v-col cols="auto">
-                    {{ boardDetailData.nickname }}
-                  </v-col>
-
-                  <v-spacer />
-
-                  <v-col
-                    cols="auto"
-                    style="color:#adb5bd;"
+                  <p style="float:left;">
+                    {{ boardDetailData.recommend }}
+                  </p>
+                  <v-btn
+                    icon
+                    style="background-color:white;"
+                    height="10"
+                    @click="boardRecommend()"
                   >
-                    {{ boardDetailData.writedate }}
-                  </v-col>
-                </v-row>
-                <v-divider />
-              </div>
-            </div>
-            <!-- eslint-disable vue/no-v-html -->
-            <div
-              class="py-15"
-              v-html="boardDetailData.content"
-            />
-            <!--eslint-enable-->
-            <v-divider />
-            <v-row justify="center">
-              <v-col cols="12">
-                <v-text-field
-                  v-if="currentEmail"
-                  v-model="message"
-                  class="mt-3"
-                  filled
-                  rounded
-                  dense
-                  single-line
-                  type="text"
-                  :append-outer-icon="'mdi-send'"
-                  @click:append-outer="sendMessage"
-                  @keyup.enter="sendMessage"
-                />
-                <div v-if="isMessage">
-                  <h3 class="text-h3 font-weight-medium py-4">
-                    <v-icon large>
-                      mdi-forum
+                    >>>>>> dcf63d6a612c1fca2f9336497a742cac938845f5
+                    >
+                    <v-icon color="#BDBDBD">
+                      mdi-thumb-up
                     </v-icon>
-                    댓글
-                  </h3>
-                  <v-row
-                    v-for="(comment, index) in commentData"
-                    :key="index"
-                  >
-                    <v-col>
-                      <div>
-                        <v-row
-                          align="center"
-                          justify="center"
-                        >
-<<<<<<< HEAD
-                          <div class="text-h5">
-                            {{ comment.nickname }}
-                          </div>
-                          <p
-                            class="text-h6"
-                            style="color:#adb5bd;"
-                          >
-                            작성일 : {{ comment.writedate }}
-                          </p>
-                          <p
-                            v-html="
-                              comment.content.replace(/(?:\r\n|\r|\n)/g, '<br>')
-                            "
-                          />
-                          <div class="text-5 pt-5">
-                            추천: {{ comment.recommend }}
-                            <v-btn
-                              icon
-                              style="background-color:white;"
-                              @click="recommendUp(comment.cno)"
-                            >
-                              <v-icon
-                                color="#BDBDBD"
-                                size="23"
-                                class="mb-1"
-                              >
-                                mdi-thumb-up
-                              </v-icon>
-                            </v-btn>
-                          </div>
-                        </v-col>
-                        <v-col
-                          cols="12"
-                          lg="2"
-                        >
-                          <div v-if="currentEmail == comment.email">
-                            <v-btn
-                              color="cyan"
-                              @click="updateComment(comment.cno)"
-                            >
-                              수정
-                            </v-btn>
-=======
-                          <v-col
-                            cols="12"
-                            lg="10"
-                          >
-                            <div>
-                              <p style="float:left;">
-                                {{ comment.nickname }}
-                              </p>
-                              <p
-                                style="float:left;"
-                                class="ml-3"
-                              >
-                                {{ comment.commentrecommend }}
-                              </p>
-                              <v-btn
-                                icon
-                                style="background-color:white;"
-                                height="10"
-                                @click="recommendUp(comment.cno)"
-                              >
-                                <v-icon color="#BDBDBD">
-                                  mdi-thumb-up
-                                </v-icon>
-                              </v-btn>
-                            </div>
-                            <p
-                              class="text-h6"
-                              style="color:#adb5bd;"
-                            >
-                              작성일 : {{ comment.writedate }}
-                            </p>
-                            <p
-                              v-html="
-                                comment.content.replace(
-                                  /(?:\r\n|\r|\n)/g,
-                                  '<br>'
-                                )
-                              "
-                            />
-                          </v-col>
-                          <v-col
-                            cols="12"
-                            lg="2"
-                          >
-                            <div v-if="currentEmail == comment.email">
-                              <v-btn
-                                color="cyan"
-                                @click="updateComment(comment.cno)"
-                              >
-                                수정
-                              </v-btn>
->>>>>>> dcf63d6a612c1fca2f9336497a742cac938845f5
+                  </v-btn>
 
-                              <v-btn
-                                color="error"
-                                @click="deleteComment(comment.cno)"
-                              >
-                                삭제
-                              </v-btn>
-                            </div>
-                          </v-col>
-                        </v-row>
-                      </div>
-                      <v-divider />
+                  <v-row class="text-caption">
+                    <v-col cols="auto">
+                      {{ boardDetailData.nickname }}
+                    </v-col>
+
+                    <v-spacer />
+
+                    <v-col
+                      cols="auto"
+                      style="color:#adb5bd;"
+                    >
+                      {{ boardDetailData.writedate }}
                     </v-col>
                   </v-row>
-                </div>
-              </v-col>
-            </v-row>
+                  <v-divider />
+                </v-col>
+              </v-row>
+            </div>
           </div>
+          <!-- eslint-disable vue/no-v-html -->
+          <div
+            class="py-15"
+            v-html="boardDetailData.content"
+          />
+          <!--eslint-enable-->
+          <v-divider />
+          <v-row justify="center">
+            <v-col cols="12">
+              <v-text-field
+                v-if="currentEmail"
+                v-model="message"
+                class="mt-3"
+                filled
+                rounded
+                dense
+                single-line
+                type="text"
+                :append-outer-icon="'mdi-send'"
+                @click:append-outer="sendMessage"
+                @keyup.enter="sendMessage"
+              />
+              <div v-if="isMessage">
+                <h3 class="text-h3 font-weight-medium py-4">
+                  <v-icon large>
+                    mdi-forum
+                  </v-icon>
+                  댓글
+                </h3>
+                <v-row
+                  v-for="(comment, index) in commentData"
+                  :key="index"
+                >
+                  <v-col>
+                    <div>
+                      <v-row
+                        align="center"
+                        justify="center"
+                      >
+                        <div class="text-h5">
+                          {{ comment.nickname }}
+                        </div>
+                        <p
+                          class="text-h6"
+                          style="color:#adb5bd;"
+                        >
+                          작성일 : {{ comment.writedate }}
+                        </p>
+                        <p
+                          v-html="
+                            comment.content.replace(/(?:\r\n|\r|\n)/g, '<br>')
+                          "
+                        />
+                        <div class="text-5 pt-5">
+                          추천: {{ comment.recommend }}
+                          <v-btn
+                            icon
+                            style="background-color:white;"
+                            @click="recommendUp(comment.cno)"
+                          >
+                            <v-icon
+                              color="#BDBDBD"
+                              size="23"
+                              class="mb-1"
+                            >
+                              mdi-thumb-up
+                            </v-icon>
+                          </v-btn>
+                        </div>
+                      </v-row>
+                    </div>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                  >
+                    <div v-if="currentEmail == comment.email">
+                      <v-btn
+                        color="cyan"
+                        @click="updateComment(comment.cno)"
+                      >
+                        수정
+                      </v-btn>
+                      =======
+                      <v-col
+                        cols="12"
+                        lg="10"
+                      >
+                        <div>
+                          <p style="float:left;">
+                            {{ comment.nickname }}
+                          </p>
+                          <p
+                            style="float:left;"
+                            class="ml-3"
+                          >
+                            {{ comment.commentrecommend }}
+                          </p>
+                          <v-btn
+                            icon
+                            style="background-color:white;"
+                            height="10"
+                            @click="recommendUp(comment.cno)"
+                          >
+                            <v-icon color="#BDBDBD">
+                              mdi-thumb-up
+                            </v-icon>
+                          </v-btn>
+                        </div>
+                        <p
+                          class="text-h6"
+                          style="color:#adb5bd;"
+                        >
+                          작성일 : {{ comment.writedate }}
+                        </p>
+                        <p
+                          v-html="
+                            comment.content.replace(
+                              /(?:\r\n|\r|\n)/g,
+                              '<br>'
+                            )
+                          "
+                        />
+                      </v-col>
+                      <v-col
+                        cols="12"
+                        lg="2"
+                      >
+                        <div v-if="currentEmail == comment.email">
+                          <v-btn
+                            color="cyan"
+                            @click="updateComment(comment.cno)"
+                          >
+                            수정
+                          </v-btn>
+                          >>>>>>> dcf63d6a612c1fca2f9336497a742cac938845f5
+
+                          <v-btn
+                            color="error"
+                            @click="deleteComment(comment.cno)"
+                          >
+                            삭제
+                          </v-btn>
+                        </div>
+                      </v-col>
+                    </div>
+                  </v-col>
+                </v-row>
+              </div>
+              <v-divider />
+            </v-col>
+          </v-row>
         </v-card>
       </v-col>
     </v-row>
