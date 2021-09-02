@@ -9,128 +9,150 @@
         <v-card class="pa-3 fill-height">
           <div v-bind="boardDetailData">
             <div class="text-left">
-              <p class="text-h2 font-weight-black">
-                {{ boardDetailData.title }}
-              </p>
-              <v-row class="text-caption">
-                <v-col cols="auto">
-                  {{ boardDetailData.nickname }}
-                </v-col>
-                <v-spacer />
-                <v-col
-                  cols="auto"
-                  style="color:#adb5bd;"
-                >
-                  {{ boardDetailData.writedate }}
-                </v-col>
-              </v-row>
-              <v-divider />
-            </div>
-          </div>
-          <!-- eslint-disable vue/no-v-html -->
-          <div
-            class="py-15"
-            v-html="boardDetailData.content"
-          />
-          <!--eslint-enable-->
-          <v-divider />
-          <v-row justify="center">
-            <v-col cols="12">
-              <v-text-field
-                v-if="currentEmail"
-                v-model="message"
-                class="mt-3"
-                filled
-                rounded
-                dense
-                single-line
-                type="text"
-                :append-outer-icon="'mdi-send'"
-                @click:append-outer="sendMessage"
-                @keyup.enter="sendMessage"
-              />
-              <div v-if="isMessage">
-                <h3 class="text-h3 font-weight-medium py-4">
-                  <v-icon large>
-                    mdi-forum
-                  </v-icon>
-                  댓글
-                </h3>
-                <v-row
-                  v-for="(comment, index) in commentData"
-                  :key="index"
-                >
-                  <v-col>
-                    <div>
-                      <v-row
-                        align="center"
-                        justify="center"
-                      >
-                        <v-col
-                          cols="12"
-                          lg="10"
-                        >
-                          <div>
-                            <p style="float:left;">
-                              {{ comment.nickname }}
-                            </p>
-                            <p
-                              style="float:left;"
-                              class="ml-3"
-                            >
-                              {{ comment.commentrecommend }}
-                            </p>
-                            <v-btn
-                              icon
-                              style="background-color:white;"
-                              height="10"
-                              @click="recommendUp(comment.cno)"
-                            >
-                              <v-icon color="#BDBDBD">
-                                mdi-thumb-up
-                              </v-icon>
-                            </v-btn>
-                          </div>
-                          <p
-                            class="text-h6"
-                            style="color:#adb5bd;"
-                          >
-                            작성일 : {{ comment.writedate }}
-                          </p>
-                          <p
-                            v-html="
-                              comment.content.replace(/(?:\r\n|\r|\n)/g, '<br>')
-                            "
-                          />
-                        </v-col>
-                        <v-col
-                          cols="12"
-                          lg="2"
-                        >
-                          <div v-if="currentEmail == comment.email">
-                            <v-btn
-                              color="cyan"
-                              @click="updateComment(comment.cno)"
-                            >
-                              수정
-                            </v-btn>
+              <div>
+                <p class="text-h2 font-weight-black">
+                  {{ boardDetailData.title }}
+                </p>
 
-                            <v-btn
-                              color="error"
-                              @click="deleteComment(comment.cno)"
-                            >
-                              삭제
-                            </v-btn>
-                          </div>
-                        </v-col>
-                      </v-row>
-                    </div>
-                    <v-divider />
+                <p style="float:left;">
+                  {{ boardDetailData.recommend }}
+                </p>
+                <v-btn
+                  icon
+                  style="background-color:white;"
+                  height="10"
+                  @click="boardRecommend()"
+                >
+                  <v-icon color="#BDBDBD">
+                    mdi-thumb-up
+                  </v-icon>
+                </v-btn>
+
+                <v-row class="text-caption">
+                  <v-col cols="auto">
+                    {{ boardDetailData.nickname }}
+                  </v-col>
+
+                  <v-spacer />
+
+                  <v-col
+                    cols="auto"
+                    style="color:#adb5bd;"
+                  >
+                    {{ boardDetailData.writedate }}
                   </v-col>
                 </v-row>
+                <v-divider />
               </div>
-            </v-col>
-          </v-row>
+            </div>
+            <!-- eslint-disable vue/no-v-html -->
+            <div
+              class="py-15"
+              v-html="boardDetailData.content"
+            />
+            <!--eslint-enable-->
+            <v-divider />
+            <v-row justify="center">
+              <v-col cols="12">
+                <v-text-field
+                  v-if="currentEmail"
+                  v-model="message"
+                  class="mt-3"
+                  filled
+                  rounded
+                  dense
+                  single-line
+                  type="text"
+                  :append-outer-icon="'mdi-send'"
+                  @click:append-outer="sendMessage"
+                  @keyup.enter="sendMessage"
+                />
+                <div v-if="isMessage">
+                  <h3 class="text-h3 font-weight-medium py-4">
+                    <v-icon large>
+                      mdi-forum
+                    </v-icon>
+                    댓글
+                  </h3>
+                  <v-row
+                    v-for="(comment, index) in commentData"
+                    :key="index"
+                  >
+                    <v-col>
+                      <div>
+                        <v-row
+                          align="center"
+                          justify="center"
+                        >
+                          <v-col
+                            cols="12"
+                            lg="10"
+                          >
+                            <div>
+                              <p style="float:left;">
+                                {{ comment.nickname }}
+                              </p>
+                              <p
+                                style="float:left;"
+                                class="ml-3"
+                              >
+                                {{ comment.commentrecommend }}
+                              </p>
+                              <v-btn
+                                icon
+                                style="background-color:white;"
+                                height="10"
+                                @click="recommendUp(comment.cno)"
+                              >
+                                <v-icon color="#BDBDBD">
+                                  mdi-thumb-up
+                                </v-icon>
+                              </v-btn>
+                            </div>
+                            <p
+                              class="text-h6"
+                              style="color:#adb5bd;"
+                            >
+                              작성일 : {{ comment.writedate }}
+                            </p>
+                            <p
+                              v-html="
+                                comment.content.replace(
+                                  /(?:\r\n|\r|\n)/g,
+                                  '<br>'
+                                )
+                              "
+                            />
+                          </v-col>
+                          <v-col
+                            cols="12"
+                            lg="2"
+                          >
+                            <div v-if="currentEmail == comment.email">
+                              <v-btn
+                                color="cyan"
+                                @click="updateComment(comment.cno)"
+                              >
+                                수정
+                              </v-btn>
+
+                              <v-btn
+                                color="error"
+                                @click="deleteComment(comment.cno)"
+                              >
+                                삭제
+                              </v-btn>
+                            </div>
+                          </v-col>
+                        </v-row>
+                      </div>
+                      <v-divider />
+                    </v-col>
+                  </v-row>
+                </div>
+              </v-col>
+            </v-row>
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -258,8 +280,8 @@ export default {
       this.$router.go();
     },
     recommendUp(cno) {
-      let token = localStorage.getItem("codebook-bearer");
       let bno = this.$route.params.bno;
+      let token = localStorage.getItem("codebook-bearer");
       let isLogin = this.$store.getters["member/getStatus"];
       let email = this.$store.getters["member/getEmail"];
       if (isLogin == true) {
@@ -274,6 +296,20 @@ export default {
             console.log(err);
           });
       }
+    },
+    boardRecommend() {
+      let bno = this.$route.params.bno;
+      let email = this.$store.getters["member/getEmail"];
+      let token = localStorage.getItem("codebook-bearer");
+
+      axios
+        .post(
+          "/api/board/recommend",
+          { bno: bno, email: email },
+          { headers: { "codebook-bearer": token } }
+        )
+        .then(res => {})
+        .catch(err => {});
     }
   }
 };

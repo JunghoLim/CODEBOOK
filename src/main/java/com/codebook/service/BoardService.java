@@ -136,4 +136,19 @@ public class BoardService {
     public void updateCommentRecommend(int cno,int countRecommend){
          boardMapper.updateCommentRecommend(cno,countRecommend);
     }
+    public int validateBoardRecommend(String email,int bno){
+        return boardMapper.validateBoardRecommend(email,bno);
+    }
+    public void insertBoardRecommend(String email,int bno){
+
+            boardMapper.insertBoardRecommend(email,bno);
+    }
+    public int countBoardRecommend(int bno){
+
+        return boardMapper.countBoardRecommend(bno);
+    }
+
+    public void updateBoardRecommend(int recommendCount,int bno){
+        boardMapper.updateBoardRecommend(recommendCount,bno);
+    }
 }

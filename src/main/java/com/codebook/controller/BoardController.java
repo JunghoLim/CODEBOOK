@@ -66,7 +66,7 @@ public class BoardController {//게시판 정보 가져오는....
     public Map<String, Object> board_comment(@PathParam("bno") int bno) {
         Map<String, Object> comment = new HashMap<>();
         comment.put("comment_list", boardService.comment(bno));
-        System.out.println(boardService.comment(bno).toString());
+
         return comment;
     }
 
@@ -134,8 +134,26 @@ public class BoardController {//게시판 정보 가져오는....
 
         boardService.updateCommentRecommend(cno,countRecommend);
         System.out.println("업데이트 끝");
+    }
+    @PostMapping("/board/recommend")
+    public void increaseBoardRecommend(@RequestBody Map<String,String> param){
+        String email = param.get("email");
+        String beforeBno = param.get("bno");
+
+        int bno = Integer.parseInt(beforeBno);
+        //먼저 처음 누르는 건지 확인
+        if(boardService.validateBoardRecommend(email,bno)==1){
+            //처음 누르는게 아니면 추천 취소
+
+        }else boardService.insertBoardRecommend(email,bno);    //추천 버튼 누르면 삽입
 
 
+        //게시판 추천 수 세기 countBoardRecommend
+        int boardRecommendCount = boardService.countBoardRecommend(bno);
+
+        //게시판 추천 수 업데이트(게시판 추천수 세기)
+        boardService.updateBoardRecommend(boardRecommendCount,bno);
+        //성공.
     }
 }
 
