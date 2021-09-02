@@ -32,3 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 src/main/resources/static/uploadedfiles/images/
+src/main/resources/application.properties
+src/main/resources/db/
+Dockerfile
